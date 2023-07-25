@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "jquery": "^3.6.4"
+  },
+  "dependencies": {
+    "less": "^4.1.3"
+  }
+}

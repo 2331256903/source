@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	/* 全局环境 */
+	let  title = "后盾人"
+	function show() {
+		let url = "houdunren.com"
+		// 又创建了一个函数hd, 其中变量site只属于hd环境中, 作用域只在函数里面
+		/* 函数定义的数据作用域范围是函数及其子函数当中, 定义的数据不会向父级传递(否则变量相互覆盖容易造成逻辑混乱)  */
+		function hd() {
+			let site = "hdcms"
+			// 访问外部变量是可行的, 子函数可以访问父级变量
+			console.log(url)
+		}
+	}
+	show()
+	show()
+	/* 上述调用了两次函数会开辟两个作用域(多个内存地址, 不会共享),每一次都是不同的 */
+	console.log(url) // 无法读取
+	/* 调用函数执行后计算机会开辟一个函数环境(新的内存地址)
+	* show()函数的作用范围里定义了数据url, 这个数据的作用范围默认只在函数体内可以使用
+	* 	由于这样的特性, 函数调用完成后变量不再使用了, 就会被清理掉
+	* */
+</script>
+</body>
+</html>

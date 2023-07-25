@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <!--
+  CSS网格布局:
+    网格:一组相交的水平线和垂直线,定义了网格的列和行
+
+    定义:
+      grid line:分隔网格结构的分界线,列网格线和行网格线
+      grid cell:网格单元,指四条网格线之间的空间,最小的单位
+      grid track:网格轨道,任意两条线之间的空间,grid-template-column和grid-template-row来定义网格中的行列
+      grid area:多个网格线包围的总空间,网格区域内可以包含任意数量的网络单元
+
+    网格布局由一个父元素和多个子元素组成
+    .grid-container{display:grid}  或inline-grid后,其变成网格容器,这个元素的所有直系子元素将成为网格元素
+
+    .grid-container{
+      display:grid;
+      grid-template-columns: auto auto auto; 在网格中创建三个列
+      grid-template-rows: 100px 300px; 在网格容器中设置行的高度
+    }
+    定义多行多列可以使用repeat()函数
+    grid-template-columns: repeat(3,20px 50px) 创建六列宽分别为 20px 50px 20px 50px 20px 50px
+
+    fr单位 网格轨道,按比例等分网格容器
+
+    grid-gap:20px 100px; 调整网格行列之间的间距
+
+    网格区域跨行跨列:网格由几条行线和几条列线相交形成,grid-column|row-start|end用于设置网格区域
+    第一个单元格从第一列开始第三列结束
+    .item1 {
+      grid-column-start:1;
+      grid-column-end;
+    }
+  CSS网格容器:
+    justify-content(水平位置)用于对齐容器内的网格,设置如何分配顺着弹性容器主轴(或网格行轴)的元素之间及其周围的空间
+    align-content:(垂直位置)
+      start:对齐容器的起始边框
+      end:对齐容器的结束边框
+      center:容器内部居中
+      stretch:项目大小没有指定时,拉伸整个网格容器
+      space-around:每个项目两侧的间隔相等,所以项目之间的间隔比容器边框的间隔大一倍
+      space-between:项目与项目之间间隔相等,项目与容器边框之间没有间隔
+      space-evenly:项目与项目的间隔相等,项目与容器边框之间也是同样长度的间隔
+    place-content时上述属性的合并简写形式
+    grid-auto-flow:控制自动布局算法怎么运作,默认先行后列,先填满第一行再开始放入第二行
+      row | column | dense | row dense | column dense
+      row | column 填充每一行|列来放置网格元素,必要时增加新行|列
+      dense:若后方出现稍小的元素,则会试图填充网格中前面部分留下的空白,但可能会导致原来出现的次序被打乱
+      row dense|column dense 按行|按列并且填充前面的空白
+  CSS网格元素
+    grid-column 定义网格元素列的开始和结束位置 grid-column-start,grid-column-end两个属性的简写
+      item1{grid-column: 1 / 5} item1在第1列开始,第5列之前结束(横跨4列)
+      item1{grid-column: 1 / span3} 设置item1跨越3列
+    grid-row 略
+    grid-area
+      grid-row-start,grid-row-end,grid-column-start,grid-column-end 四个属性的简写
+      grid-area可以对网格元素命名,命名后的网格元素可以使用容器的grid-template-areas属性引用
+        eg:item1命名为"myArea"并跨越四列
+          .item1{grid-area:myArea}
+          .grid-container{grid-template-areas: 'myArea myArea myArea myArea'}
+      每行由单引号内''定义,以空格分隔, . 号表示没有名称的网格项
+        eg:item1命名为myArea并横跨两列,一列共5个网格元素
+          .grid-container:{grid-template-areas:'myArea myArea . . .'}
+      定义两行,要在另一组单引号内定义第二行的列
+        eg:item1跨两行两列
+          .grid-container:{grid-template-areas:'myArea myArea . . .''myArea myArea . . .'}
+     justify-items和align-items属性设置单元格内容的水平和垂直位置,默认为stretch
+  -->
+</body>
+</html>

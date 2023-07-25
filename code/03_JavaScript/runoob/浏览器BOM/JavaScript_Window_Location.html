@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<input type="button" value="加载新文档" onclick="newDoc()">
+</body>
+<script>
+// Window Location用于获取当前页面的URL,并把浏览器重新定向到新的页面
+/*
+*   location.hostname返回web主机的域名
+*   location.pathname返回当前页面的路径和文件名
+*   location.port返回web主机的端口 80或443
+*   location.protocol返回所使用的web协议(http:或https:)
+* */
+
+// Window Location href 返回当前页面的URL
+document.write(location.href)
+//Window Location pathname 返回URL的路径名
+document.write(location.pathname)
+//Window Location assign
+/*window.location.assign(url)加载URL到指定的新的HTML文档,相当于超链接
+* widow.location.replace(url)通过加载URL指定的文档来替换当前文档,前后两个页面共用一个窗口,没有后退返回上一页
+* */
+function newDoc(){
+  window.location.assign("https://www.runoob/com")
+}
+
+</script>
+</html>

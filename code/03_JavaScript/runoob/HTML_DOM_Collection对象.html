@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p id="p1">1</p>
+  <p id="p2">2</p>
+  <p id="p3">3</p>
+  <p id="p4">4</p>
+  <p id="demo"></p>
+</body>
+<script>
+/*HTML DOM集合(Collection)*/
+/*
+* HTML Collection对象
+*   getElementByTagName()返回HTML Collection对象
+*   HTML Collection对象类似包含HTML元素的一个数组
+* */
+let x = document.getElementsByTagName("p") //获取文档所有的p元素
+/*集合中的元素可以通过索引(以0为起始位置)来访问*/
+y = x[1] //访问第二个元素
+
+/*
+* HTMLCollection对象length属性
+* HTMlCollection对象的length属性定义了集合中元素的数量
+* length可用于循环遍历和修改元素
+* */
+document.getElementById("demo").innerHTML = x.length + "个"
+/*HTML Collection不是一个数组,只是看起来像一个数组,虽然可以像数组一样用索引来获取元素,但无法使用数组的方法,valueOf(),pop()等*/
+</script>
+</html>

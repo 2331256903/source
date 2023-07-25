@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script src="../js/jquery.js"></script>
+<script>
+/*
+* load方法从服务器加载数据,并把返回的数据放入被选元素中
+*   $(selector).load(URL,data,callback)
+*     必须的URL参数规定希望加载的URL
+*     可选的data参数规定与请求一同发送的查询字符串键值对集合
+*     可选的callback参数的load()方法完成后所执行的函数名称
+* */
+
+/*
+* 也可以把jQuery选择器添加到URL参数
+*   eg:将demo_text.txt文件中的id="p1"的元素的内筒,加载到指定的<div>元素当中
+*     $("#div1").load("demo_text.txt #p1")
+* */
+
+/*
+* 可选的callback函规定当load()方法完成后所要允许的回调函数,回调函数可以设置不同的参数
+*   responseTxt: 包含调用成功时的结果内容
+*   statusTxt: 包含调用的状态
+*   xhr: 包含XMLHttpRequest对象
+* */
+
+/*
+* 为了避免多页面情形下的代码重复,可以利用load()方法,将重复的部分(如导航栏)放入单独的文件,使用下列方法进行导入
+*   //当前文件要插入的地方:
+*     <div class="include" file="***"></div>
+*   // ***中放入内容
+*   //代码:
+*     $(".include").each(function(){
+*       if(!!$(this)).attr("file"){ //!!的逻辑是非非.通过!或!!可以将很多类型转换成bool类型从而做其他判断,两个!将变量转化为对应布尔值
+*         let $includeObj = $(this)
+*         $(this).load($(this).attr("file"),function(html){
+*           $includeObj.after(html).remove() //加载的文件内容写入到当前标签后面并移除当前标签
+*         })
+*       }
+*     })
+* */
+</script>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* 编写JS代码时要时刻牢记, JS引擎是一个事件驱动的引擎, 代码总是以单线程执行, 而回调函数的执行需要等到下一个满足条件的事件出现后,才会被执行 */
+  // 例如 setTimeout() 函数可以传入回调函数, 并在指定若干秒后执行
+  function printTime() {
+    console.log('It id time!')
+  }
+  setTimeout(printTime, 1000)
+  console.log('done')
+  /* 上面的代码会先打印done, 1秒后才会打印It is time!
+  *   如果printTime() 的函数内部发生了错误, 我们试图用try包裹setTimeout() 是无效的
+  * */
+  /* 原因在于: 调用setTimeout() 函数时, 传入的printTime函数并未立即执行, 紧接着JS引擎会继续执行log语句, 而此时并没有错误发生
+  * , 直到1s后执行PrintTime函数时才发生错误, 但此时除了在printTime函数内部捕获错误外, 外层代码并无法捕获
+  *   所以涉及到异步代码, 无法在调用时捕获, 原因就是在捕获的当时回调函数并未执行
+  *   类似的, 我们在处理一个事件时, 在绑定事件的代码处, 无法捕获事件处理函数的错误, 例如表单等, 需要把捕获放进事件里
+  */
+</script>
+</body>
+</html>

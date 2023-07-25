@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 选中div的最后一个儿子p元素 结构1*/
+        /* div>p:last-child{
+            color:red;
+        } */
+
+        /* 选中div的第n个儿子p元素 结构1*/
+        /* div>p:nth-child(3){
+            color: red;
+        } */
+
+        /* 选中div的偶数个儿子p元素 结构2*/
+        /* 
+            关于n的取值:
+                1.0或不写:什么都选不中
+                2.n:选中所有子元素
+                3.1~正无穷的整数:选中对应序号的单个子元素
+                4.2n或even:选中序号为偶数的子元素
+                5.2n+1或odd:选中序号为奇数的子元素
+                6.-n+3:选中前三个子元素
+        */
+        /* div>p:nth-child(2n){
+            color: red;
+        } */
+
+        /* 选中div的第一个儿子p元素(按照所有同类型兄弟计算)同理有last-of-type 结构3*/
+        /* div>p:first-of-type{
+            color: red;
+        } */
+
+        /* 选中div的第n个儿子p元素(按照所有同类型兄弟计算) */
+        div>p:nth-of-type(){
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 结构1 -->
+    <!-- <div>
+		<p>赵六:99分</p>
+		<p>张三:98分</p>
+		<p>李四:88分</p>
+		<p>王五:78分</p>
+        <p>孙七:58分</p>
+        <p>老八:48分</p>
+	</div> -->
+
+    <!-- 结构2 -->
+    <!-- <div>
+		<p>第一个</p>
+		<p>第二个</p>
+		<p>第三个</p>
+		<p>第四个</p>
+		<p>第五个</p>
+		<p>第六个</p>
+		<p>第七个</p>
+		<p>第八个</p>
+		<p>第九个</p>
+		<p>第十个</p>	
+	</div> -->
+
+    <!-- 结构3 -->
+    <div>
+        <span>测试</span>
+        <p>赵六:99分</p>
+        <p>张三:98分</p>
+        <p>李四:88分</p>
+        <span>测试</span>
+        <p>王五:78分</p>
+        <p>孙七:58分</p>
+        <p>老八:48分</p>
+        <span>测试</span>
+    </div>
+</body>
+</html>

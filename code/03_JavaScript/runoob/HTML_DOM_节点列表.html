@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p id="p1">1</p>
+  <p id="p2">2</p>
+  <p id="p3">3</p>
+</body>
+<script>
+/*
+* HTML DOM 节点列表
+*   NodeList对象是一个从文档中获取的节点列表集合
+*   NodeList对象类似HTML Collection对象
+*     一些旧版本的浏览器中方法(getElementByClassname()返回的是NodeList对象,而不是HTMLCollection对象)
+*     所有浏览器的childNodes属性返回的是NodeList对象
+*     大部分浏览器的querySelectorAll()返回NodeList对象
+* */
+let myNodeList = document.querySelectorAll("p")
+y = myNodeList[1]
+/*
+* NodeList元素可以通过索引来访问
+* */
+/*NodeList对象也有length属性*/
+
+/*
+* NodeList与HTMLCollection的区别
+*   主要区别为NodeList集合为一个静态集合,不受DOM树元素变化的影响,而HTML Collection是动态集合,会随着DOM树的改变而改变
+*   使用getElementsByTagName方法得到的结果就像一个对象的索引,而querySelectorAll方法得到的结果类似一个对象的克隆,当数据量非常大时<
+* 克隆所需代价也很大
+* */
+</script>
+</html>

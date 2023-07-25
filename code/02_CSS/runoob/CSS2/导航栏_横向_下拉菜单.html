@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    background-color: #2E2E2E;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  li {
+    float: left;
+  }
+  li a {
+    width: 60px;
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    padding: 12px 12px;
+    text-align: center;
+    border-right: 1px solid #fff;
+  }
+  li a:hover {
+    background-color: black;
+  }
+  li a.active{
+    background-color: black;
+  }
+
+  ul li .aboutContent {
+    display: none;
+    position: relative;
+    background-color: #2E2E2E;
+  }
+  .dropDown:hover .aboutContent {
+    display: block;
+    position: absolute;
+  }
+  ul li .aboutContent a {
+    border-top: 1px solid #fff;
+  }
+</style>
+<body>
+<ul>
+  <li><a class="active" href="">首页</a></li>
+  <li><a href="">新闻</a></li>
+  <li><a href="">tongzhi</a></li>
+  <li class="dropDown" style="float: right;border-left: 1px solid #fff">
+    <a href="">关于</a>
+    <div class="aboutContent">
+      <a href="">1</a>
+      <a href="">2</a>
+      <a href="">3</a>
+    </div>
+  </li>
+</ul>
+</body>
+</html>

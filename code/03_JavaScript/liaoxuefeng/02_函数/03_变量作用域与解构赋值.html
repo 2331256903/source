@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* JS中用let声明的变量实际上有作用域,如果一个变量在函数体内部声明,则该变量的作用域为整个函数体,函数外不可引用该变量*/
+    /* 如果两个不同函数各自声明了用同一个变量,那么该变量只在各自的函数体内起作用,不同函数内部的同名变量相互独立 */
+    function foo() {
+      let x = 1
+      x = x + 1
+    }
+    x = x + 2 // 无法在函数体外引用变量x
+    function bar() {
+      let x = 'A'
+      x = x + 'B'
+    }
+
+    /* 由于JS函数可以嵌套,此时内部函数可以访问外部函数定义的变量,但反过来不行 */
+    function foo2() {
+      let x = 1
+      function bar() {
+        let y = x + 1 // bar可以访问foo的变量x
+      }
+      let z = y + 1 // foo不可以访问bar的变量y
+    }
+
+    /* 如果内部函数和外部函数的变量重名,内部函数的变量将直接屏蔽外部函数的变量, JS的函数在查找变量是从自身函数定义开始,从内向外查找 */
+
+    /* 变量提升: JS会先扫描整个函数体的语句,然后把所有声明的变量提升到函数顶部
+    *   因此在函数内部定义变量时,应当严格遵守 在函数内部首先声明所有变量 这一规则,最常见的做法是用一个let声明函数内部用到的所有变量
+    *  */
+
+    /* 全局作用域: JS默认有一个全局对象window,全局作用域的变量实际上会被绑定到window对象上 */
+    let course = 'Learn JS'
+    alert(course) // 'Learn JS'
+    alert(window.course) // 'Learn JS'
+    /* 因此,直接访问全局变量course和访问window.course是完全一样的 */
+    /* 由于函数的定义有两种方式,以变量方式 let foo = function(){} 定义的函数实际上也是一个全局变量,因此顶层的函数定义也被视为一个全局变量并绑定到window对象 */
+    /* 经常使用的alert()函数也是window上的一个变量 */
+    /* 这说明JS实际山只有一个全局作用域,任何变量(函数也视为变量)如果没有在当前函数的作用域中找到,就会继续向上查找,最后如果在全局作用域中也没有找到则报ReferenceError错误 */
+
+    /*命名空间: 全局变量会绑定到window上,不同的JS文件如果使用了相同的全局变量或者定义了相同名字的顶层函数,都会造成命名冲突,减少冲突的方法之一是把所有变量和函数全部绑定到一个全局变量中 */
+    let MYAPP = {} // 唯一的全局变量MYAPP
+    // 其他变量
+    MYAPP.name = 'myapp'
+    MYAPP.version = 1.0
+    // 其他函数
+    MYAPP.foo = function () {
+      return 'foo'
+    }
+    /* 把自己的代码全部放入唯一的命名空间MYAPP中萌萌大大减少变量冲突的可能,许多著名的JS库都是这么干的,JQuery,YUI,underscore等 */
+
+    /* 局部作用域: 由于JS的变量作用域实际上是函数内部,我们在for等循环语句块中是无法定义具有局部作用域的变量的 */
+    function foo3() {
+      for(let i = 0; i < 100; i++) {}
+      i += 100 // 仍然可以使用变量
+    }
+    /* 为了解决块级作用域ES6引入了一个新的关键字let,用let代替let可以申明一个块级作用域的变量 */
+
+    /* ES6后使用关键字const来定义常量,和let一样都具有块级作用域 */
+
+    /* 解构赋值: 从ES6开始,JS引入了解构赋值,可以对同一组变量进行赋值 */
+    // 传统做法
+    let array = ['hello', 'JS', 'ES6']
+    let x = array[0]
+    let y = array[1]
+    let z = array[2]
+    // 现在在ES6中可以使用解构赋值,直接对多个变量同时赋值
+    let [x1, y1, z1] = ['hello', 'JS', 'ES6']
+    /* 对数组元素进行结构赋值时, 多个变量要用[...]括起来, 如果数组本身还有嵌套,解构赋值的嵌套层次和位置要保持一致 */
+    /* 解构赋值还可以忽略某些元素 */
+    let [, , z2] = ['hello', 'JS', 'ES6'] // 忽略前两个元素只对第三个元素z2赋值
+    /* 如果要从某一个对象中取出若干属性,也可以使用解构赋值,便于快速获取对象的指定属性,同理嵌套部分对用层次和位置要保持一致 */
+    let person = {
+      name: 'xiaoming',
+      age: 20,
+      gender: 'male',
+      passport: 'G-12345678',
+      school: 'N0.4 middle school'
+    }
+    let {name, age, passport} = person
+    /* 使用解构赋值对对象属性进行赋值时,如果对应的属性不存在,变量将被赋值为undefined,和引用一个不存在的属性获得undefined是一致的,如果要使用的变量名和属性名不一致,使用下列语法获取 */
+    let {name, passport:id} = person
+    console.log(name) // 'xiaoming'
+    console.log(id) // 'G-12345678'
+    console.log(passport) // passport is not defined
+    /* 解构赋值还可以使用默认值,这样就避免了不存在的属性返回undefined的问题 */
+    let {name, single = true} = person
+    console.log(single) // true
+    /* 有些时候如果变量已经被声明了,再次赋值的时候,正确的写法也会报语法错误 */
+    // 声明变量
+    let x4, y4
+    // {x4, y4} = {name: 'xiaoming', x: 100, y: 200}
+    /* 这是因为JS引擎把{开头的语句当作了块处理,{}在JS中除了表示对象直接量之外还表示语句块,如果一个语句以{开头,JS引擎会将其解析为语句块,本例中{x4, y4}并未被解析成对象,而是语句x4,y4,于是=不再合法,解决方法是用小括号括起来*/
+    ({x4, y4} = {name: 'xiaoming', x: 100, y: 200})
+    /* 使用场景 */
+    // 交换变量的值
+    [x, y] = [y, x]
+    // 快速获取当前页面的域名和路径
+    let {hostname: domain, pathname: path} = location
+    // 如果一个函数接收一个对象作为参数,可以使用解构直接把对象的属性绑定到变量中
+    function buildData({year, month, day, hour = 0, minute = 0, second = 0}) {
+      return new Date(year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second)
+    } // 它的方便之处在于传入的对象只需要year,month和day这三个属性,也可以传入hour,minute和second属性
+  </script>
+</head>
+<body>
+
+</body>
+</html>

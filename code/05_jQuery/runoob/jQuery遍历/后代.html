@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .descendants *
+    {
+      display: block;
+      border: 2px solid lightgrey;
+      color: lightgrey;
+      padding: 5px;
+      margin: 15px;
+    }
+  </style>
+  <script src="../js/jquery.js"></script>
+  <script>
+/*
+* 用于向下遍历DOM数
+*   children()
+*   find()
+* */
+  /*jQuery children()方法
+  *   children()方法返回被选元素的所有子元素
+  *   该方法只会向下一级DOM树进行遍历
+  * */
+  $(document).ready(function (){
+    // 返回每个div的所有直接子元素
+    $("div").children().css({"color" : "red", "border" : "2px solid red"})
+    // p.1 返回所有类名为1的所有p元素 过滤器
+    $("div").children("p.1").css({"color" : "yellow", "border" : "2px solid yellow"})
+  })
+  /*jQuery find()方法
+  *   find()方法返回被选元素的后代元素,一路向下直到最后一个后代
+  * */
+  $(document).ready(function (){
+    // 返回div后代的所有span元素
+    $("div").find("span").css({"color" : "blue", "border" : "2px solid blue"})
+    // 返回div的所有后代
+    $("div").find("*").css({"color" : "orange", "border" : "2px solid orange"})
+  })
+  </script>
+</head>
+<body>
+  <div class="descendants" style="width:500px;">div (当前元素)
+    <p class="1">p (儿子元素)
+      <span>span (孙子元素)</span>
+    </p>
+    <p>p (儿子元素)
+      <span>span (孙子元素)</span>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	let arr = []
+	for (let i; i <= 3; i++) {
+		arr.push(function() {
+			return i
+		})
+	}
+	console.log(arr[0]()) // i
+	/* 此时函数被保留在arr数组中, 不会被清理, i也就保留了下来, 此时打印结果就是 0 1 2 */
+	/* 使用var定义i的时候, i的值不会放在块里, 此时i相当于全局变量, 函数return i的时候在块域内找不到, 就向上一级找到全局作用域里的i, 此时的值均为4
+	* 		此时如果想要保留i的值同理, 包一层立即执行函数即可, 此时虽然块级作用域中没有i, 但是在上一层的立即执行函数的函数作用域里保留了i, 此时各个i之间也独立
+	*  */
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p id="demo"></p>
+<hr>
+<p id="demo2"></p>
+</body>
+<script>
+/*
+*   JS类继承使用extend关键字
+*   继承允许依据另一个类来定义一个类,super()方法用于调用父类的构造函数
+* */
+//基类
+class Animal{
+  eat(){}
+  sleep(){}
+}
+//派生类
+class Dog extends Animal {
+  bark(){}
+}
+
+/*实例*/
+class Site{
+  constructor(name){
+    this.sitename = name
+  }
+  present(){
+    return'我喜欢' + this.sitename
+  }
+}
+
+class Runoob extends Site {
+  constructor(name,age){
+    /*super方法引用父类的构造方法 继承对于代码的可复用性很有用*/
+    super(name)
+    this.age = age
+  }
+  show(){
+    return this.present() + ',他创建了' + this.age + '年'
+  }
+}
+
+let runoob = new Runoob("菜鸟教程", 5)
+document.getElementById("demo").innerHTML = runoob.show()
+
+/*getter和setter*/
+/*
+* 类中可以使用getter()和setter()来获取和设置值,getter和setter都需要在严格模式下执行
+* getter和setter可以使对属性的操作变得灵活
+* 类中添加getter和setter使用get和set关键字
+* */
+/*
+* getter是一种获得属性指的方法,setter是一种设置属性值的方法
+* getter负责查询值,不带任何参数,setter负责设置键值,值以参数的形式传递,在这两者的函数体中一切return均无效
+* get/set访问器不是对象的属性,而是属性的特性,特性只有内部才使用,因此在JS中不能直接访问,为了表示特性是内部值用[[value]]表示
+* */
+class Runoob2{
+  constructor(name) {
+    this.sitename = name
+  }
+  /*getter和setter方法的名称不能与属性名相同*/
+  get s_name(){
+    return this.sitename
+  }
+  set s_name(x){
+    this.sitename = x
+  }
+}
+
+let runoob2 = new Runoob2("菜鸟教程")
+/*调用set方法时无需使用括号*/
+runoob2.sitename = "Runoob"
+document.getElementById("demo2").innerHTML = runoob2.s_name
+
+/*类声明没有提升,需要先声明再使用*/
+</script>
+</html>

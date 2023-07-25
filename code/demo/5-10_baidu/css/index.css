@@ -1,0 +1,146 @@
+.left-fix {
+    float: left
+}
+.left-right {
+    float: right
+}
+
+
+.top-bar {
+    width: 100%;
+    min-width: 1000px;
+    position: absolute;
+    z-index:99;
+    left:0
+}
+.top-bar-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    padding-left: 24px;
+    height: 60px;
+    font-size: 0
+}
+.top-bar-left a:hover {
+    color: #315EFB
+}
+.top-bar-left a {
+    margin-right: 24px;
+    margin-top: 19px;
+    display: inline-block;
+    position: relative;
+    color: #222;
+    font: 13px/23px Arial, sans-serif
+}
+
+
+.top-bar-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    height: 60px;
+    padding-right: 24px;
+    padding-left: 200px
+}
+.top-bar-right span:hover {
+    color: #315EFB
+}
+.top-bar-right span {
+    display: inline-block;
+    margin-left: 24px;
+    margin-top: 19px;
+    position: relative;
+    vertical-align: top;
+    color: #222;
+    font: 13px/23px Arial, sans-serif;
+    cursor: pointer
+}
+.top-bar-right a:hover {background-color: #315EFB}
+.top-bar-right a {
+    display: inline-block;
+    margin-left: 32px;
+    margin-top: 18px;
+    position: relative;
+    overflow: visible;
+    font-size: 13px;
+    cursor: pointer;
+    height: 24px;
+    width: 48px;
+    line-height: 24px;
+    background-color: #4E6EF2;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 5px;
+}
+
+
+/* 中间样式 */
+.main{
+    clear:both;
+}
+#lg{
+    position:absolute;
+    left:50%;
+    top:45px;
+    margin-left:-135px;
+    width: 270px;
+    height: 129px;
+}
+.search{
+    position:relative;
+    left:30%;
+    top:185px;
+}
+.search_l{
+    font-size:16px;
+    width: 546px;
+    height: 39px;
+    vertical-align: top;
+    border:2px solid #c4c7ce;
+    border-radius:10px 0 0 10px;
+    background-color: #fff;
+    color:#222;
+    overflow: hidden;
+}
+.search_r {
+    cursor: pointer;
+    width: 100px;
+    height:44px;
+    line-height: 45px;
+    background-color: #4e6ef2;
+    border-radius:0 10px 10px 0;
+    font-size:14px;
+    color:#fff;
+    text-align: center;
+}
+.main table{
+    margin:200px 610px;
+    width: 670px;
+    height: 180px;
+    font-size:15px;
+}
+
+/* 尾部样式 */
+.footer{
+    width: 100%;
+    height: 40px;
+    position:fixed;
+    bottom:0;
+    background-color: #fbfbfb;
+    line-height: 40px;
+    font-size:12px;
+}
+.footer li a{
+    float:left;
+    padding-left:14px;
+    color:#9195a3;
+}
+.footer li a:hover{
+    color:#222;
+}
+
+li{
+    list-style: none;
+}

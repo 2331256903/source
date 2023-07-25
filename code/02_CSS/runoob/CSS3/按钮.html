@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .btn {
+      width: 150px;
+      height: 60px;
+      display: inline-block;
+      background-color: #f4511e;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: all 0.5s;
+      text-align: center;
+      margin: 5px;
+      vertical-align: baseline;
+    }
+
+    span {
+      color: #f9f9f9;
+      display: inline-block;
+      font-size: 25px;
+      transition: 0.5s;
+      position: relative;
+    }
+
+    .btn span:after{
+      content: '>';
+      opacity: 0;
+      top: 0;
+      right: -20px;
+      transition: 0.5s;
+      position: absolute;
+    }
+
+    .btn:hover span {
+      padding-right:25px;
+    }
+    .btn:hover span:after {
+      opacity: 1;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>按钮动画</h2>
+  <button class="btn"><span>Hover </span></button>
+</body>
+</html>

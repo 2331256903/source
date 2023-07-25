@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+图片:
+  width设置为100%,则图片根据上下范围实现响应式功能
+    用max-width控制图片不超过原始图片大小
+背景:
+  background-size: contain; 背景图片按比例自适应内容区域,图片保持其比例不变,容易留白
+  background-size: 100% 100%; 背景图片将延展并覆盖整个区域
+  background-size: cover; 背景图像扩展至足够大以至于完全覆盖背景区域,保持图片比例,会导致背景显示不全
+  可以增加断点控制不同设备显示不同背景图片:
+    /* For width smaller than 400px: */
+    body {
+        background-image: url('img_smallflower.jpg');
+    }
+
+    /* For width 400px and larger: */
+    @media only screen and (min-width: 400px) {
+        body {
+            background-image: url('img_flowers.jpg');
+        }
+    }
+HTML5 picture元素,略
+视频:略
+-->
+</body>
+</html>

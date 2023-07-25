@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  在设计稿中间添加断点
+    为桌面端优先设计:
+      /* For desktop: */
+      .col-1 {width: 8.33%;}
+      .col-2 {width: 16.66%;}
+      .col-3 {width: 25%;}
+      .col-4 {width: 33.33%;}
+      .col-5 {width: 41.66%;}
+      .col-6 {width: 50%;}
+      .col-7 {width: 58.33%;}
+      .col-8 {width: 66.66%;}
+      .col-9 {width: 75%;}
+      .col-10 {width: 83.33%;}
+      .col-11 {width: 91.66%;}
+      .col-12 {width: 100%;}
+
+      当浏览器窗口小于768px,每一列的宽度是100%,使桌面布局过渡到手机布局
+      @media only screen and(max-width: 768px){
+        /* For mobile phones: */
+        [class = "col-"] {
+          width:100%
+        }
+      }
+    为移动端优先设计只需要调换位置即可
+    同时为平板设计添加断点:
+      @media only screen and (min-width: 600px) {
+        /* For tablets: */
+        .col-m-1 {width: 8.33%;}
+        .col-m-2 {width: 16.66%;}
+        .col-m-3 {width: 25%;}
+        .col-m-4 {width: 33.33%;}
+        .col-m-5 {width: 41.66%;}
+        .col-m-6 {width: 50%;}
+        .col-m-7 {width: 58.33%;}
+        .col-m-8 {width: 66.66%;}
+        .col-m-9 {width: 75%;}
+        .col-m-10 {width: 83.33%;}
+        .col-m-11 {width: 91.66%;}
+        .col-m-12 {width: 100%;}
+     }
+    平板时组件使用不同样式,可以根据屏幕大小自动设置不同的样式:
+      针对桌面设备:第一和第三部分跨3列,中间部分跨6列
+      针对平板设备:第一部分跨3列,第二部分跨9列,第三部分跨12列
+  方向:横屏|竖屏
+    orientation: portrait | landscape
+      portrait:指定输出设备中的页面可见区域高度大于或等于宽度 (竖屏)
+      landscape:除portrait情况外都是landscape (横屏)
+    eg:如果横屏背景将是浅蓝色
+      @media only screen and (orientation: landscape) {
+        body {
+          background-color: lightblue;
+        }
+      }
+-->
+</body>
+</html>

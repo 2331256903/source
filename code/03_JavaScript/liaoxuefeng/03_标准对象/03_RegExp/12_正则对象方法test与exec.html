@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <main>
+    后盾人不断分享视频教程,后盾人网址是houdunren.com
+    <input type = "text" name="email">
+  </main>
+</body>
+<script>
+  // test用于正则验证
+  const mail = document.querySelector(`[name="email"]`)
+  mail.addEventListener('keyup', (e) => {
+    let value = e.target.value
+    let flag = (/^[\w-]+@(\w+\.)+(com|cn|cc)$/i).test(value)
+    console.log(flag)
+  })
+  let reg = /后盾人/g
+  const main = document.querySelector("body main")
+  console.log(main.innerHTML.match(reg)) // 使用g查询的时候 这种方法会把匹配到的全部拿下来,但是细节就看不到了
+  console.log(reg.exec(main.innerHTML)) // 这个在g查询的时候 细节还在,但需要循环遍历
+  console.log(reg.lastIndex) // exec连续执行,执行到lastIndex会暂停,继续执行会继续搜索,利用这个特性使用循环接收
+  let count = 0 // 计数器
+  while (res = reg.exec(main.innerHTML)) {
+    count++ // 用于统计出现次数等
+  }
+</script>
+</html>

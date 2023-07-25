@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+  /*JavaScript文档对象模型*/
+  /*
+  * 网页被加载时,浏览器会创建页面的文档对象模型
+  * 通过可编程的对象模型JS可以创建动态HTML
+  *   JS可以改变页面中的所有HTML元素,HTML属性,CSS样式和对所有事件做出反应
+  * */
+
+  /*查找HTML元素(三种):
+  * 通过id: let x = document.getElementById() 如果未找到元素,x将包含null
+  * 通过签名:
+  *   let x = document.getElementById("main")
+  *   let y = x.getElementsByTagName("p")
+  *   查找id = "main"的元素,然后查找id = "main"元素中所有<p>元素
+  * 通过类名: let x = document.getElementsByClassName("intro")
+  * */
+
+  /*  getElementsByTagName和getElementsByClassName这两个方法查找多个dom元素,返回的是htmlcollection类型
+  * 是伪数组而不是真数组,故不能使用数组的方法
+  *   使用数组原型配合slice方法,利用call,apply,bind方法将伪数组转为真数组
+  * */
+  let x = document.getElementById("main")
+  let y = x.getElementsByTagName("p")
+  console.log(y) //原型proto为htmlcollection,是伪数组
+  //伪数组转换为真数组方法
+  console.log(Array.prototype.slice.call(y)) //控制台看到原型proto为Array(0)是数组
+  /*原型:每个函数具有的prototype属性,称之为原型 因为该属性的值是个对象,也称之为原型对象
+  *   作用:1.存放一些属性和方法,将方法挂载到原型上
+  *       2.在JavaScript中实现继承
+  * */
+  const arr = new Array(1,2,3)
+  /*Array构造函数(具有Array.prototype原型,在JS中原型上已经挂载了许多方法)创建一个数组,由于原型的存在,原型上的reverse等方法可以直接使用*/
+  /*通过构造函数生成了一个实例arr,arr就可以使用prototype原型身上的方法了,这些方法可以共享给所有数组实例使用*/
+  arr.reverse() //翻转
+  arr.sort() //排序
+  /*每个对象身上都有__proto__属性 这个属性指向它的原型对象*/
+  /*原型链:
+  *   对象都有__proto__属性,这个属性指向它的原型对象,原型对象也是对象,也有__proto__属性,指向原型对象的原型对象,这样以来形成的链式结构称为原型链
+  * ,最顶层找不到则返回null
+  * */
+</script>
+</html>
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* HTML中可以上传文件的唯一控件就是<input type="file">
+  *   当一个表单包含<input type="file">时, 表单的enctype必须指定为multipart/form-data(指表单数据中由多个部分构成,既有文本数据,又有文件等二进制数据
+  * ,默认情况下enctype的值是application/x-www.form-urlencoded,只能上传文本格式文件,不能用于文件上传;而multipart/form-data是将文件以二进制的形式上传
+  * ,这样可以实现多种类型的文件上传),method必须指定为post,浏览器才能正确编码并以multipart/form-data格式发送表单的数据
+  *   出于安全考虑, 浏览器只允许用户点击<input type="file">来选择本地文件, 用JS对<input type="file">的value赋值是没有任何效果的, 当用户选择上传了某个文件
+  * ,JS也无法获得该文件的真实路径
+  *  */
+  /* 通常, 上传的文件都由后台服务器处理, JS可以在提交表单时对文件扩展名做检查, 以防止用户上传无效格式的文件 */
+  function imageCheck() {
+    let f = document.getElementById('test-file-upload')
+    let filename = f.value
+    if (!filename || !(filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif'))) {
+      alert('Can only upload image file')
+      return false
+    }
+  }
+
+  /*  File API  由于JS对用户上传的操作非常有限, 尤其是无法读取文件内容, 是的很多需要操作文件的网页不得不用flash这样的第三方插件来实现
+  * 随着H5的普及, 新增的FileAPI允许JS读取文件内容, 获得更多的文件信息
+  *   H5的FileAPI提供了File和FileReader两个主要对象, 可以获得文件信息并读取文件
+  * */
+  // 演示如何读取用户选取的图片文件, 并在一个div中预览图像
+  let
+    fileInput = document.getElementById('test-image-file')
+    info = document.getElementById('test-file-info')
+    preview = document.getElementById('test-image-preview')
+  // 监听change事件
+  fileInput.addEventListener('change', function () {
+    // 清除背景图片
+    preview.style.backgroundImage = ''
+    // 检查是否选择
+    if (!fileInput.value) {
+      info.innerHTML = '没有选择文件'
+      return
+    }
+    // 获取file引用
+    let file = fileInput.files[0]
+    // 获取file信息
+    info.innerHTML = '文件:' + file.name + '<br>' +
+                     '大小:' + file.size + '<br>' +
+                     '修改:' + file.lastModified
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/git') {
+      alert('不是有效的图片文件!')
+      return
+    }
+    // 读取文件
+    let reader = new FileReader()
+    reader.onload = function(e) { // 这里onchange,onload等事件是通过回调的方式执行的, 首先是HTML DOM Event对象分发事件句柄(event handler)
+      // 给可能需要执行的函数, 当某个事件被触发(fire)时, 句柄执行对应元素的onload等事件定义函数, 但是如果需要获得event对象所存储的状态(比如获取调用onload事件的元素)
+      // , 那么可以通过event.target(例子中的e.target) 来获得, 这个event就是回调参数, 实际上引用的是DOM Event对象, 处在DOM树的顶层
+      //   而依照程序执行状况来看, 这个回调参数Event是在addListener函数处理中传入, 所以onchange事件被触发时也已经一并传入了Event对象实例,change事件中参数列表为空表示没有用户自定义参数
+      let
+        data = e.target.result  // 'data:image/jpeg;base64,/9j/4AAQ....(base64编码)'
+        // 由于事件冒泡, 一个元素触发事件时,会逐层上报给父元素,祖父元素乃至document, 也就是说这些元素都会同时触发事件,event.target指最初触发事件的那个元素
+        // 而event.currentTarget才是被冒泡后触发事件的当前元素比如li, 也就是说, 当你点击li时如果点击的是li的子元素img,那么event.target获取到的则是img,
+        // event.currentTarget则获取到的是li
+      preview.style.backgroundImage = 'url(' + data + ')'
+    }
+    // 以DataURL的形式读取文件
+    reader.readAsDataURL(file)
+  })
+  /* 上例演示了如何通过H5的FileAPI读取文件内容, 以DataURL的形式读取到的文件是一个字符串, 类似'data:image/jpeg;base64,/9j/4AAQ....(base64编码)'
+  * ,常用于设置图像, 如果需要服务器端处理, 把字符串base64, 后面的字符发送给服务器并用base64解码就可以得到原始文件的二进制内容 */
+
+  /* 回调  上面的代码还演示了JS的一个重要的特征就是单线程执行模式, 在JS中, 浏览器的JS执行引擎在执行JS代码时, 总是单线程执行, 也就是说, 任何时候
+  * ,JS代码都不可能同时有多于一个线程在执行
+  *   而单线程模式执行的JS如何处理多任务?
+  *  在JS中执行多任务实际上都是异步调用, 比如上述代码 reader.readAsDataURL(file), 就会发起一个异步操作来读取文件内容, 由于是异步操作
+  * ,所以我们在JS代码中就不知道什么时候操作结束, 因此需要先设置一个回调函数: reader.onload = function(e) { // 当文件读取完成后, 自动调用此函数 }
+  * 当文件读取完成后, JS引擎自动调用设置的回调函数, 文件已经读取完毕, 所以我们可以在回调函数内部安全地获得文件内容
+  * */
+</script>
+</body>
+</html>

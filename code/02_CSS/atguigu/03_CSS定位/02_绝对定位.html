@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    /*绝对定位作用:让一个元素盖在另一个元素上*/
+    .outer {
+      width: 500px;
+      background-color: skyblue;
+      border: 1px solid black;
+      padding: 20px;
+      position: relative;
+    }
+    .box {
+      width: 200px;
+      height: 200px;
+      font-size: 20px;
+    }
+
+    .box1 {
+      background-color: #888;
+    }
+    .box2 {
+      background-color: orange;
+      /*绝对定位脱离文档流*/
+      position: absolute;
+      /*
+        绝对定位参考点是它的包含块
+        1.没有脱离文档流的元素,他的父元素就是他的包含块
+        2.脱离文档流的元素,第一个开启定位的祖先元素,就是他的包含块
+
+        因此子元素开启绝对定位时父元素要开启相对定位
+      */
+      /*top: 0;
+      left: 0;*/
+      /*right: -50px;
+      bottom: -50px;*/
+      /*绝对定位未使用left时,margin-left不生效,其他方向同理*/
+      /*margin-left: 100px;*/
+
+      /*绝对定位元素和浮动不能共存 两者同时出现遵循绝对定位*/
+
+      /*
+        绝对定位后,元素转变为定位元素
+        定位元素特点:默认宽高由内容撑开,但宽高可以单独设置
+      */
+
+      top: 220px;
+      left: 20px;
+      transition: 1s all linear;
+    }
+    .box3 {
+      background-color: green;
+    }
+
+    /*鼠标进入蓝色区域,box2移动漏出box3*/
+    .outer:hover .box2{
+       left: 220px;
+    }
+  </style>
+</head>
+<body>
+  <div class="outer">
+    <div class="box box1">1</div>
+    <div class="box box2">2</div>
+    <div class="box box3">3</div>
+  </div>
+</body>
+</html>

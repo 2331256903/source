@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  JSON使用JS语法,但JSON格式仅仅是一个文本.文本可以被任何编程语言读取以及作为数据格式传递
+  语法规则:
+    数据为键值对,数据由,分隔,大括号保存对象,方括号保存数组
+  JSON数据:
+    "name":"Runoob"
+  JSON对象:
+    {"name":"Runoob","url":"www.runoob.com"}
+  JSON数组:
+    "sites":[
+      {"name":"Runoob","url":"www.runoob.com"}
+      {"name":"Google","url":"www.google.com"}
+      {"name":"BAIDU","url":"www.baidu.com"}
+    ]
+  JSOn字符串转换为JavaScript对象:
+    let txt = '{
+      "sites":[
+        {"name":"Runoob","url":"www.runoob.com"}
+        {"name":"Google","url":"www.google.com"}
+        {"name":"BAIDU","url":"www.baidu.com"}]
+    }'
+    let Obj = JSON.parse(txt)
+
+    JSON.parse():用于将一个JSON字符串转换为JavaScript对象
+    JSON.stringify():用于将JavaScript值转换为JSON字符串
+-->
+</body>
+</html>

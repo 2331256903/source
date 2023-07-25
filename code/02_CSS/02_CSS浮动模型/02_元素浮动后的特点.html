@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    /*
+      浮动特点:
+        元素浮动后脱离文档流()
+    */
+    .outer {
+      width: 800px;
+      height: 400px;
+      padding: 10px;
+      background-color: gray;
+      text-align: center;
+    }
+    .box {
+      font-size: 20px;
+      padding: 10px;
+    }
+    .box1 {
+      background-color: skyblue;
+    }
+    .box2 {
+      background-color: orange;
+      float: left;
+      /*设置浮动后默认宽和高都是被内容撑开(尽可能小)且可以设置宽高*/
+      /*width: 200px;
+      height: 200px;*/
+      /*设置浮动后不会独占一行,可以和其他元素共用一行*/
+
+      /*设置浮动后不会margin合并margin塌陷 四个方向margin和padding均可以完美设置*/
+      /*margin: 20px 20px 20px 20px;*/
+
+      /*设置浮动后不会像行内块一样当成文本处理(没有行内块的空白问题)*/
+    }
+    .box3 {
+      background-color: green;
+      float:left;
+    }
+  </style>
+</head>
+<body>
+  <div class="outer">
+    <div class="box box1">盒子1</div>
+    <div class="box box2">盒子2</div>
+    <div class="box box3">盒子3</div>
+  </div>
+</body>
+</html>

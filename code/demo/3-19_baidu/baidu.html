@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度一下,你就知道</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /* 顶部样式 */
+        .header{
+            height: 60px;
+            line-height:60px;
+            text-align: center;
+        }
+        .header .left{
+            float:left;
+        }
+        .header .left .list{
+            font-size:14px;
+            color:#222;
+            position:relative;
+            margin-right:31px;
+            margin-top:0px;
+            display:inline-block;
+        }
+        .header .right{
+            float:right;
+            padding-right:24px;
+            float:right;
+        }
+        .header .right .btn1{
+            display:inline-block;
+            font-size:14px;
+            height:24px;
+            width:48px;
+            margin-right:31px;
+            vertical-align:top;cursor:pointer;
+        }
+        .header .right .btn2{
+            display:inline-block;
+            margin-top:19px;
+            background-color: #4e71f2;
+            padding-left:2px;
+            font-size:14px;
+            height:24px;
+            width:48px;
+            color:#fff;
+            line-height: 24px;
+            border-radius: 6px;
+        }
+
+        /* 中间样式 */
+        .main{
+            clear:both;
+        }
+        #lg{
+            position:absolute;
+            left:50%;
+            top:45px;
+            margin-left:-135px;
+            width: 270px;
+            height: 129px;
+        }
+        .search{
+            position:relative;
+            left:30%;
+            top:185px;
+        }
+        .search_l{
+            font-size:16px;
+            width: 546px;
+            height: 39px;
+            vertical-align: top;
+            border:2px solid #c4c7ce;
+            border-radius:10px 0 0 10px;
+            background-color: #fff;
+            color:#222;
+            overflow: hidden;
+        }
+        .search_r {
+            cursor: pointer;
+            width: 100px;
+            height:44px;
+            line-height: 45px;
+            background-color: #4e6ef2;
+            border-radius:0 10px 10px 0;
+            font-size:14px;
+            color:#fff;
+            text-align: center;
+        }
+        .main table{
+            margin:200px 610px;
+            width: 670px;
+            height: 180px;
+            font-size:15px;
+        }
+
+        /* 尾部样式 */
+        .footer{
+            width: 100%;
+            height: 40px;
+            position:fixed;
+            bottom:0;
+            background-color: #fbfbfb;
+            line-height: 40px;
+            font-size:12px;
+        }
+        .footer li a{
+            float:left;
+            padding-left:14px;
+            color:#9195a3;
+        }
+        .footer li a:hover{
+            color:#222;
+        }
+
+        li{
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <!-- 头部左边 -->
+        <ul class="left">
+            <li class="list"><a>新闻</a></li>
+            <li class="list"><a>hao123</a></li>
+            <li class="list"><a>地图</a></li>
+            <li class="list"><a>视频</a></li>
+            <li class="list"><a>贴吧</a></li>
+            <li class="list"><a>学术</a></li>
+            <li class="list"><a>更多</a></li>
+        </ul>
+        <!-- 头部右边 -->
+        <div class="right" >
+            <a class="btn1">设置</a>
+            <a class="btn2">登录</a>
+        </div>
+    </div>
+
+    <!--中间-->
+    <div class="main">
+        <div>
+            <img id="lg" src="images/baidu_logo.png">
+        </div>
+
+        <div class="search">
+            <input class="search_l">
+            <div class="search_r">百度一下</div>
+        </div>
+        
+        <table>
+            <tr>
+                <td style="padding-left:14px;padding-top:3px;">百度热搜</td>
+                <td style="width: 300px;"><a id="hyh">换一换</a></td>
+            </tr>
+                <td><span style="color:#fe2d46;">1</span>&nbsp&nbsp一次世界瞩目的和平之旅&nbsp&nbsp</td>
+                <td><span style="color:#9b9fac;">4</span>&nbsp&nbsp全国各地古镇相似度高达99%</td>
+            <tr>
+                <td><span style="color:#ff6600">2</span>&nbsp&nbsp中国和洪都拉斯建立外交关系</td>
+                <td><span style="color:#9b9fac;">5</span>&nbsp&nbsp成龙哽咽市场不需要动作演员了</td>
+            </tr>
+            <tr>
+                <td><span style="color:#faa90e;">3</span>&nbsp&nbsp普京:将在白俄罗斯部署战术核武器&nbsp&nbsp</td>
+                <td><span style="color:#9b9fac;">6</span>&nbsp&nbsp医生称马原儿子微创手术3天即可出院</td>
+            </tr>
+        </table>
+    </div>
+
+    <!--尾部-->
+    <div class="footer">
+        <ul >
+            <li><a>关于百度</a></li>
+            <li><a>About Baidu</a></li>
+            <li><a>使用百度前必读</a></li>
+            <li><a>帮助中心</a></li>
+            <li><a>企业推广</a></li>
+            <li><a>京公网安备11000002000001号</a></li>
+            <li><a>京ICP证030173号</a></li>
+            <li><a>信息网络传播视听节目许可证 0110516</a></li>
+            <li><a>互联网宗教信息服务许可证编号：京（2022）0000043</a></li>     
+            <li><a>药品医疗器械网络信息服务备案（京）网药械信息备字（2021）第00159号</a></li>     
+        </ul>
+    </div>
+</body>
+</html>

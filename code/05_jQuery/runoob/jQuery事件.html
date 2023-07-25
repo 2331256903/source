@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../../../node_modules/jquery/dist/jquery.js"></script>
+  <script>
+/*
+* 页面对不同访问者的响应叫事件(在元素上移动鼠标 选取单选按钮 点击元素等)
+*   事件处理程序是当HTML中发生事件时调用的方法
+*   常见DOM事件:
+*     鼠标(5个): click(单击) dblclick(双击) mouseenter(移入鼠标) mouseleave(移出鼠标) hover(鼠标悬停)
+*     键盘(3个): keypress(键被按下 不会触发所有的键,ALT,CTRL,SHIFT,ESC等,此时请使用keydown触发) keydown(键按下的过程 使用event.which属性来返回哪个键被按下)
+*          keyup(键被松开)
+*     表单(4个): submit(提交) change(表单字段元素的值发生改变) focus(input字段获得焦点时 鼠标点击选中或者通过tab键定位到元素) blur(input字段失去焦点)
+*     文档/窗口(4个): load(已废弃) resize(调整浏览器窗口大小时) scroll(滚动指定元素时 用于所有可滚动元素和window对象) unload(已废弃)
+* */
+
+/*JQuery事件方法语法*/
+/*
+* JQuery中大多数事件都有等效JQuery方法
+*   $("p").click(function(){
+*     //动作触发后执行的代码
+*   })
+* */
+
+/*常用JQuery事件方法*/
+  // $(document).ready() 允许在文档完全加载后执行函数
+  // click() 当按钮点击事件被触发时会调用一个函数 该函数在用户点击HTML元素时被执行
+  // mouseenter() 鼠标指针穿过元素时发生
+  // hover() hover方法用于模拟光标悬停事件,鼠标移动到元素上时,触发指定的第一个函数(mouseenter),鼠标移除这个元素时触发指定第二个函数(mouseleave)
+  $(document).ready(function(){
+    $("#p1").hover(
+      function(){
+        alert("你进入了p1")
+      },
+      function(){
+        alert("你离开了p1")
+      }
+    )
+  })
+  /*
+  * keydown(): 在键盘上一直按下某键会一直触发.返回的是键盘代码
+  * keypress(): 按下一个按键并产生一个字符时发生(只有按下能在屏幕上输出字符的按键时才能触发),并返回ASCII码,一直按着会不断重复触发
+  * keyup(): 与keydown相反
+  * */
+  /*常用键盘案例1 获取按键代码或字符的ASCII码*/
+  $(window).keydown(function(event){
+    //通过event.which可拿到按键代码,如果是keypress事件中则拿到ASCII码
+  })
+  /*键盘案例2 传递数据给事件处理函数*/
+  // jQueryObject.keypress([[ data ,], handler])
+    //data:通过event.dat传递给事件处理函数的任意数据
+    //handler:指定的事件处理函数
+  let validKeys = {start:65, end:90} //65-99是所有大写字母代码 此例为只允许按下大写的字母键生效
+  $("#keys").keypress( validKeys, function (event){
+    let keys = event.data //拿到validKeys对象
+    return event.which >= keys.start && event.which <= keys.end
+  })
+
+/*触发事件对象说明*/
+  // 获取事件对象
+  $(document).ready(function(){
+    $(window).keypress(function (event){
+      // 获取事件对象,里面包含有用的信息 此返回为JQuery.event对象
+      console.log(event)
+    })
+  })
+  // keypress事件获取键入字符
+  $(window).keypress(function(event){
+    // event.which是获取ASCII码,前面的函数是将ASCII码转换成字符,空格键和键输出均为空白
+    console.log(String.fromCharCode(event.which))
+    // 从event对象中key属性获取字符,但是enter键的key值为"Enter",空白键还是空白" "
+    console.log(event.key)
+  })
+  </script>
+</head>
+<body>
+ <p id="p1">这是一个段落</p>
+</body>
+</html>

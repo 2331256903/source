@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    /*
+      1.顶部:无需任何属性,默认在垂直方向上就是顶部对齐
+      2.居中:对于单行文字,让height=line-height
+      3.底部:对于单行文字,目前一个临时的方式:
+        让line-height = (height * 2) - font-size - x
+          (x是根据字体族动态决定的一个值)
+    */
+    div {
+      font-size: 40px;
+      height: 400px;
+      background-color: skyblue;
+      line-height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div>百度</div>
+</body>
+</html>

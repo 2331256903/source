@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    姓:<input type="text" v-model="firstName"> <br/><br/>
+    名:<input type="text" v-model="lastName"> <br/><br/>
+    <!--模板中表达式应当相对简单-->
+    <!--数据发生变化,模板重新解析  若模板中调用了方法,则方法也重新调用(效率低)-->
+    全名:<span>{{fullName()}}</span>
+  </div>
+  <script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el:'#root',
+      data:{
+        firstName:'张',
+        lastName:'三'
+      },
+      methods:{
+        fullName(){
+          console.log('@')
+          return this.firstName + '-' + this.lastName
+        }
+      }
+    })
+  </script>
+</body>
+</html>

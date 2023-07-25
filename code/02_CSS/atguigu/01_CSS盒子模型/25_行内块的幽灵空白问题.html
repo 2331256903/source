@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div {
+      width: 600px;
+      background-color: skyblue;
+      /*第三种解决方案 父元素文字大小设置为0 若有文字还需要单独选中并设置font-size*/
+      font-size: 0;
+    }
+    img {
+      height: 200px;
+      /*第一种解决方案*/
+      /*vertical-align: bottom;*/
+      /*第二种解决方案 改为block独占一行 但只能用于一行仅存在图片的情况*/
+      /*display: block;*/
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <img src="../../../study/images/audio.png" alt="喇叭">
+  </div>
+</body>
+</html>

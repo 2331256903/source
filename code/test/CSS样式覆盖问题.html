@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div class="class1"></div>
+</body>
+<style>
+  #navigator {
+    height: 100%;
+    width: 200px;
+    position: absolute;
+    left: 0;
+    border: 2px solid #EEE;
+  }
+  .current_block {
+    border: 2px solid #AE0;
+  }
+  .class1 {
+    color: #000;
+  }
+  .class2 {
+    color: #fff;
+  }
+  /*
+    1. 样式表的元素选择器越精确, 其中样式优先级越高
+      id选择器>类选择器>元素类型选择器制定样式 具体权重看shangguigu的css部分
+    2. 对于相同类型选择器样式, 越靠后优先级越高, 因此通过增加class来覆盖样式时新的放后面
+    3. 想使得某个样式的优先级变高直接使用!important来指定即可
+  */
+</style>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.js"></script>
+  <script type="text/javascript">
+/*
+* JQuery是通过选取HTML元素并对选取的元素执行某些操作
+*   基础语法: $(selector).action()
+*     $符号定义JQuery,选择符(selector)查询和查找HTML元素,JQuery的action()执行对元素的操作
+* */
+    $(document).ready(function(){
+      $("button").click(function(){
+        $("p").hide()
+      })
+    })
+/*文档就绪事件
+*   实例中所有JQuery函数位于一个document ready函数中
+*   $(document).ready(function(){
+*     //JQuery代码
+*   )}
+*   相当于: $(function(){ ... }) 此为入口函数 不同于window.onload事件时等到所有内容包括外部图片等资源加载完成,JQuery的入口函数在DOM加载
+* 后就执行
+*
+*   此举为了避免在DOM加载完成之前就对DOM进行操作
+* */
+  </script>
+</head>
+<body>
+  <h2>This is a heading</h2>
+  <p>This is a paragraph</p>
+  <p>This is another paragraph</p>
+  <button type="button">Click me</button>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .ancestors *
+    {
+      display: block;
+      border: 2px solid lightgrey;
+      color: lightgrey;
+      padding: 5px;
+      margin: 15px;
+    }
+  </style>
+  <script src="../js/jquery.js"></script>
+  <script>
+/*
+* 向上遍历DOM树,以查找元素的祖先
+*   parent() 返回被选元素的直接父元素
+*   parents() 返回被选元素的所有祖先元素,一路向上直到文档的根元素,可以使用可选参数来过滤对祖先元素的搜索
+*   parentsUntil() 返回介于两个给定元素之间的所有祖先元素
+* */
+
+  $(document).ready(function(){
+    // 返回所有span元素的直接父元素
+    $("span").parent().css({"color" : "red", "borderColor" : "red"})
+    // 返回所有span元素的所有祖先
+    $("span").parents().css({"color" : "yellow", "borderColor" : "yellow"})
+    // 返回介于span和div之间的所有祖先元素
+    $("span").parentsUntil("div").css({"color" : "blue", "borderColor" : "blue"})
+  })
+  </script>
+</head>
+<body>
+  <div class="ancestors">
+    <div style="width:500px;">div (曾祖父元素)
+      <ul>ul (祖父元素)
+        <li>li (父元素)
+          <span>span</span>
+        </li>
+      </ul>
+    </div>
+
+    <div style="width:500px;">div (祖父元素)
+      <p>p (父元素)
+        <span>span</span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

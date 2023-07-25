@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div id="div1">
+    <p id="p1">这是一个段落</p>
+    <p id="p2">这是另外一个段落</p>
+  </div>
+</body>
+<script>
+/*
+* 创建新的HTML元素(节点) - appendChild()  用于添加新元素到尾部
+* */
+let para = document.createElement("p") //创建一个<p>元素
+let node = document.createTextNode("这是一个新的段落") //创建一个新的文本节点
+para.appendChild(node) //将文本节点添加到<p>元素中
+//在一个已存在的元素中添加p元素
+var element = document.getElementById("div1")
+element.appendChild(para)
+/*
+* 创建新的HTML元素(节点) - insertBefore() 用于将新元素添加到开始位置
+* */
+let para2 = document.createElement("p")
+let node2 = document.createTextNode("这是insertBefore的新元素")
+let child = document.getElementById("p1")
+para2.appendChild(node2)
+element.insertBefore(para2,child)
+
+/*移除已存在的元素 需要知道该元素的父元素*/
+let parent = document.getElementById("div1")
+let child2 = document.getElementById("p2")
+parent.removeChild(child2)
+
+/*替换HTML元素 -replaceChild() 也需要知道该元素的父元素*/
+</script>
+</html>

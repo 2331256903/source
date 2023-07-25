@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* 传统的基于class的语言如Java和C++中, 继承的本质是扩展一个已有的class, 并生成新的Subclass, 这类语言严格区分类和实例,继承实际上是类型的扩展
+    * 但由于JS使用原型链继承, 我们无法直接扩展一个class, 因为根本不存在class这个类型, 但办法还是有的 */
+    // Student构造函数
+    function Student(props) {
+      this.name = props.name || 'Unnamed'
+    }
+    Student.prototype.hello = function() {
+      alert('Hello, ' + this.name + '!')
+    }
+    // Student的原型链 略
+    /* 现在基于Student扩展出PrimaryStudent, 可以先定义出PrimaryStudent */
+    function PrimaryStudent(props) {
+      // 调用Student构造函数,绑定this变量
+      Student.call(this, props)
+      this.grade = props.grade || 1
+    }
+    // 但是调用了Student构造函数不等于继承了Student,PrimaryStudent创建的对象的原型是:
+    // new PrimaryStudent() --> PrimaryStudent.prototype --> Object.prototype --> null
+    // 必须想办法将原型链修改为: new PrimaryStudent() --> PrimaryStudent.prototype --> student.prototype --> Object.prototype --> null
+    // 此时原型链对了,继承关系也对了,新的基于PrimaryStudent创建的对象不但能调用PrimaryStudent.prototype定义的方法,也可以调用Student.prototype定义的方法
+
+    //PrimaryStudent.prototype = Student.prototype
+    // 这样是不行的,这样会导致PrimaStudent和Student共享一个原型对象,那就没有定义PrimaryStudent的意义了
+
+    // 必须借助一个中间对象来实现正确的原型链,这个中间对象的原型要指向Student.prototype,参考JSON创始人道格拉斯,中间对象可以用一个函数f来实现
+    // 空函数F
+    function F() {}
+    // 把F的原型指向Student.prototype
+    F.prototype = Student.prototype
+    // 把PrimaryStudent的原型指向一个新的F对象,F对象的原型正好指向Student.prototype
+    PrimaryStudent.prototype = new F()
+    // 把PrimaryStudent原型的构造函数修复为PrimaryStudent
+    PrimaryStudent.prototype.constructor = PrimaryStudent
+    // 继续在PrimaryStudent原型(就是new F()对象)上定义方法
+    PrimaryStudent.prototype.getGrade = function () {
+      return this.grade
+    }
+
+    let xiaoming = new PrimaryStudent({
+      name: '小明',
+      grade: 2
+    })
+    console.log(xiaoming.name) // '小明'
+    console.log(xiaoming.grade) // 2
+
+    // 验证原型
+    console.log(xiaoming.__proto__ === PrimaryStudent.prototype) // true
+    console.log(xiaoming.__proto__.__proto__ === Student.prototype) // true
+
+    /*
+    *   新原型链中 xiaoming的__proto__指向 new F(), 而new F()对象的constructor指向PrimaryStudent构造函数, PrimaryStudent的prototype
+    * 指向new F()对象, F的构造函数的prototype指向Student的原型对象,其余不变
+    * */
+    // 此处F函数仅用于桥接,我们仅创建了一个new F()实例,而且没有改变原有的Student定义的原型链
+    // 如果把继承这个动作用一个inherits()函数封装起来,还可以隐藏F的定义,并简化代码:
+    function inherits(Child, Parent) {
+      let F= function() {
+        F.prototype = Parent.prototype
+        Child.prototype = new F()
+        Child.prototype.constructor = Child
+      }
+    }
+    // 该函数可以复用
+    inherits(PrimaryStudent, Student) // 实现原型链继承
+
+    /* 总结: JS的原型链继承实现方式是:
+    *    1.定义新的构造函数, 并在内部用call()调用希望继承的构造函数, 并绑定this
+    *    2.借助中间函数F来实现原型链继承, 最好通过封装的inherits函数完成
+    *    3.继续在新的构造函数的原型上定义新方法
+    * */
+  </script>
+</head>
+</html>

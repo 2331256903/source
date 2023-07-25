@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  1.当两种情况相同时,switch语句的使用,只在第二种情况中写执行的代码即可
+    eg: switch(number){
+          case 1:alert(1);
+          break;
+          case 10:
+          case 11:alert("10或11") //number=10或number=11时执行相同的操作
+        }
+  2.若不写break,代码会执行后面所有case分支里的代码,在这之前的case会跳过:
+    switch (number){
+      case 1:document.write(number)
+      case 2:document.write(number)
+      case 3:document.write(number)
+      case 4:document.write(number)
+      case 5:document.write(number)
+    }
+    此时输入4 输出为:44,输入2,输出为:2222
+  3.switch中的case判断是===的判断,即数据类型和值的双重判断
+  4.case后如有多行语句,可带可不带{},因为case一直执行到下一个break
+-->
+</body>
+</html>

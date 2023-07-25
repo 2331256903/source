@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  JavaScript中this表示当前对象的一个引用,他会随着执行环境的改变而改变
+  在方法中:this表示该方法所属的对象
+  单独使用时:this表示全局变量
+  在函数中:this表示全局变量
+  在事件中:this表示接收事件的元素
+  类似call()和apply()方法可以将this引用到任何对象
+
+  简单理解来看,this指向的是this所在的最里层的object对象,函数等不是object对象的调用this会指向window
+-->
+
+  <!--HTML事件句柄中,this指向了接收事件的HTML元素-->
+  <button onclick="this.style.display='none'">点我按键消失</button>
+</body>
+<script>
+  /*对象方法中this指向调用它所在方法的对象  此处this表示person对象 fullName方法所属对象就是person*/
+  let person = {
+    firstName:"John",
+    lastName:"Doe",
+    id:5566,
+    fullName:function(){
+      return this.firstName + " " + this.lastName
+    }
+  }
+  console.log(person.fullName())
+
+  /*单独使用this,指向全局Global对象 浏览器中window就是该全局对象 为[object Window]*/
+  const x = this;
+  console.log(x)
+
+  /*函数中,函数的所有者默认绑定到this上,在浏览器中windows就是该全局对象 [object Window]*/
+  /*但在严格模式下,函数没有绑定到this上,这时候this是undefined*/
+  let x2 = function myFunction(){
+    return this
+  }
+  console.log(x2)
+
+  /*显式函数绑定*/
+  /*JS中函数也是对象,有方法,apply和call方法允许切换函数执行的上下文环境(context),即this绑定的对象*/
+  /*下例中使用了person2作为参数调用person1.fullName方法*/
+  let person1 = {
+    fullName: function(){
+      return this.firstName + " " +this.lastName
+    }
+  }
+  let person2 = {
+    firstName:"John",
+    lastName:"Doe"
+  }
+  person1.fullName.call(person2) //返回"John Doe"
+</script>
+</html>

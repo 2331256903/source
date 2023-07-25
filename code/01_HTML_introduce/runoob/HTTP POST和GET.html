@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <form action="demo_form.php" method="get">
+    FirstName: <input type="text" name="fname"><br>
+    LastName: <input type="text" name="lname"><br>
+    <input type="submit" value="提交">
+  </form>
+<!--
+      GET从目标主机请求指定资源,请求参数以键值对的形式在URL中发送到目标主机(数据量小,参数明文
+   请求会被浏览器缓存,可以保留在浏览记录,通常有长度限制,不要处理敏感数据,刷新页面无影响.)GET发
+   送一个数据tcp数据包,会一次将header和data发送出去
+      POST目的是向目标主机提交数据(可能是表单或其他文件,数据量可能会很大),可能新建资源或修改现
+   有资源,请求的参数通常也是以键值对形式(列表,字典等形式通常被保存在请求体body中),数据量没有要
+   求,请求不会被保存也不会被缓存,不能存在历史记录,因此可以处理敏感数据,但刷新页面数据会被重复提
+   交,POST提交的body是URI的从属物,POST请求发送两个TCP数据包,第一个为请求头,若返回100 continue
+   后会再次发送data数据
+-->
+</body>
+</html>

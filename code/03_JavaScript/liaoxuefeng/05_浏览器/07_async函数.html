@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*JS异步通过Promise实现,但一堆then(),catch()写起来麻烦看起来也乱
+    * 更简单的方法:
+    *   使用关键字async配合await调用Promise实现异步操作,但代码和同步写法类似
+    * */
+    async function get(url) {
+      let resp = await fetch(url)
+      return resp.json
+    }
+    /* 使用async function可以定义一个异步函数,异步函数和Promise可以看做是等价的,在async function内部,用await调用另一个异步函数,写起来和同步代码没啥区别
+    * ,但执行起来时异步的,即 let resp = await fetch(url) 自动实现了异步调用,与下面Promise代码等价*/
+    let promise = fetch(url)
+      promise.then((resp) => {
+        // 拿到resp
+      }).catch( 额=> {
+        // 出错了
+      })
+    /*实现catch*/
+    async function get2(url) {
+      try {
+        let resp = await fetch(url)
+        return resp.json
+      } catch (e) {
+        // 出错了
+      }
+    }
+    /* 使用async定义异步函数,await调用异步函数,写起来和同步代码差不多,但可读性大大提高*/
+    /* 但await调用必须在async function中, 不能在传统的同步代码中调用 */
+    async function get(url) {
+      let resp = await fetch(url);
+      return resp.json();
+    }
+
+    function doGet() {
+      let promise = get('/api/categories');
+      console.log(promise);
+      promise.then(data => {
+        document.getElementById('test-response-text').value = JSON.stringify(data)
+      })
+    }
+
+    doGet();
+    /* 因此,在普通function中调用async function,不能使用await,但可以直接调用async function拿到Promise对象,后面加上then()和catch()就可以拿到结果或错误了 */
+    /* 因此,定义异步任务时,使用async function比Promise简单,调用异步任务时使用await比Promise简单.捕获错误时,按照传统的try...catch写法也比Promise简单,只要浏览器支持即可使用 */
+  </script>
+</head>
+<body>
+
+</body>
+</html>

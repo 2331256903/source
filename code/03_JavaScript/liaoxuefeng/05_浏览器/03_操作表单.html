@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* 使用JS操作表单和操作DOM是类似的, 因为表单本身也是DOM树, 不过表单的输入框,下拉框等可以接收用户的输入,所以使用JS来操作表单可以获得用户的输入内容
+  * 或者对一个输入框设置新的内容 */
+  /*
+  * HTML的表单的输入控件主要有以下几种:
+  *   1. 文本框, 对应 <input type="text"> , 用于输入文本
+  *   2. 口令框, 对应 <input type="password"> , 用于输入口令
+  *   3. 单选框, 对应 <input type="radio"> , 用于选择一项
+  *   4. 复选框, 对应 <input type="checkbox"> , 用于选择多项
+  *   5. 下拉框, 对应 <select> , 用于选择一项
+  *   6. 隐藏文本, 对应的 <input type="hidden"> ,用户不可见, 但表单提交时会把隐藏文本发送到服务器
+  * */
+  /* 如果我们获取了一个input节点的引用, 就可以直接调用value获取对应的用户输入值, 这种方式可以应用于text, password, hidden以及select,但是对于单选框
+  * 和复选框, value属性返回的永远是HTML的预设值, 我们需要获得的是实际用户是否勾选上了选项, 所以应当使用checked判断
+  * <label><input type="radio" name="weekday" id="monday" value="1"> Monday</label>
+  * <label><input type="radio" name="weekday" id="tuesday" value="2"> Tuesday</label>
+  * let mon = document.getElementById('monday')
+  * mon.checked // true或false
+  * */
+
+  /* 设置值, 对于text, password, hidden和select, 直接设置value即可, 对于单选框和复选框,直接设置checked为true或false即可*/
+
+  /* H5控件 新增控件包括date,datetime,datetime-local,color等, 它们都使用input标签*/
+</script>
+<input type="date" value="2021-12-02">
+<input type="datetime-local" value="2021-12-02T20:21:12">
+<input type="color" value="#ff0000">
+<!-- 不支持H5的浏览器无法识别新的控件, 会把它们当做type="text"来显示, 支持H5的浏览器将获得格式化的字符串, 例如type="date"类型的input的value将保证是一个
+ 有效的YYYY-MM-DD格式的日期或者空字符串-->
+<script>
+  /*提交表单  JS可以以两种方式处理表单的提交:
+  *  第一种方式是通过form元素的submit()方法提交一个表单, 例如响应一个button的click事件, 在JS代码中提交表单
+  *     这种方式的缺点是扰乱了浏览器对form的正常提交, 浏览器默认点击<button type="submit"时提交表单, 或者用户在最后一个输入框按回车键,
+  *  因此第二种方式是响应firm本身的onsubmit事件, 在提交form时作修改
+  *     需要return true来告诉浏览器继续提交, 如果return false浏览器将不会继续提交form, 这种情况通常对应用户输入有无,提示用户错误信息后终止提交form
+  * */
+  /*
+  * 在检查和修改input时, 要充分利用<input type="hidden">来传递数据
+  *   例如很多登录表单希望用户输入用户名和口令, 但是出于安全考虑, 提交表单时不传输明文口令, 而是口令的md5, 普通JS开发人员会直接修改input
+  * */
+</script>
+<form id="login-form" method="post" onsubmit="return checkForm()">
+  <input type="text" id="username" name="username">
+  <input type="password" id="password" name="password">
+  <button type="submit">Submit</button>
+</form>
+<script>
+  function checkForm() {
+    let pwd = document.getElementById('password')
+    // 把用户输入的明文变为MD5
+    pwd.value = toMD5(pwd.value)
+    // 继续下一步
+    return true
+  }
+  /* 这个做法看上去没有什么问题, 但用户输入了口令提交时, 口令框的显示会突然从几个*变成32个*(因为MD5有32个字符)*/
+  // 想要不改变用户的输入, 可以利用<input type="hidden">来实现
+</script>
+<form id="login-form2" method="post" onsubmit="return checkForm()">
+  <input type="text" id="username2" name="username2">
+  <input type="password" id="input-password">
+  <input type="hidden" id="md5-password" name="password2">
+  <button type="submit">Submit</button>
+</form>
+<script>
+  function checkForm() {
+    let input_pwd = document.getElementById('input-password')
+    let md5_pwd = document.getElementById('md5-password')
+    // 把用户输入的明文变为MD5
+    md5_pwd.value = toMD5(input_pwd.value)
+    // 继续下一步
+    return true
+  }
+  /* 注意到id为md5-password的input标记了name="password", 而用户输入的id为input-password的input没有name属性, 没有name属性的input的数据不会被提交 */
+</script>
+</body>
+</html>

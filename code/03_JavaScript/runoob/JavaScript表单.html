@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*用于验证判断表单字段值是否存在,不存在则弹出信息并阻止表单提交*/
+    function validateForm() {
+      let x = document.forms["myForm"]["fname"].value
+      if(x == null || x == "") {
+        alert("需要输入名字")
+        return false
+      }
+    }
+    /*正则表达实现表单验证*/
+    function validateForm2() {
+      let x = document.forms["myForm2"]["lname"].value
+      let pattern = /\S+/  //正则匹配一个及以上空格等空白内容
+      if (x == null || !pattern.text(x)){
+        alert('请输入名字')
+        return false
+      }
+    }
+  </script>
+</head>
+<body>
+  <!--通过HTML代码调用-->
+  <!--
+    此处使用onsubmit = "return validateForm()"而非 onsubmit = "validateForm()"
+  因为后者虽能验证但不能阻止表单提交,前者当验证不通过时,返回false,可以阻止表单提交
+  -->
+  <form name="myForm" action="" onsubmit="return validateForm()">
+    名字:<input type="text" name="fname">
+    <input type="submit" value="提交">
+  </form>
+  <!--
+    也可通过浏览器自动完成,fname为空则required属性会自动阻止提交表单
+    但html属性设置required属性有缺陷:
+      一个input设置为required时,当其初始化时值也是空的,此时invalid伪类会对它起作用
+
+    可以统一在这些伪类前加上父选择器.invalid,这时只有父元素具有invalid类时,这些伪类才会起作用
+  ,可以设置一个submit事件给form添加invalid类:
+    form.addEventListener('invalid',function() {this.className = 'invalid'},true)
+    因为invalid是input的事件而不是form的事件,因此这里设置第三个参数为true以采用事件捕获的方式处理
+  ,另外CSS选择器的使用对this.className的影响需要提前处理
+  -->
+  <hr>
+  <form name="myForm2" action="" onsubmit="return validateForm2()" method="post">
+    名字:<input type="text" name="fname">
+    <input type="submit" value="提交">
+  </form>
+</body>
+</html>

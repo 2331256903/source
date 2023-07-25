@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* map()方法定义在JS的Array中,我们调用Array的map()方法传入我们自己的函数,就得到了一个新的Array作为结果 */
+    let arr = [1,2,3,4,5,6,7,8,9]
+    function pow(x) { return x * x }
+    let result = arr.map(pow) // [1,4,9,16,25,36,49,64,81]
+    /* 注意: map() 传入的参数是pow,即函数对象本身, 使用一个循环也可以实现同样功能,但map函数更具语义化,所以map()作为高阶函数,事实上它把运算规则
+    *     抽象了,因此可以计算任意复杂的函数和操作而只需要一行代码
+    * */
+
+    /* reduce() Array的reduce()把一个函数作用在这个Array的[x1,x2,x3...]上,这个函数必须接受两个参数,reduce()把结果继续和序列的下一个元素做累积计算,其效果就是
+    *     [x1, x2, x3, x4].reduce(f) = f(f(f(x1,x2),x3),x4)
+    * */
+    // 比方说对一个Array求和
+    arr.reduce(function (x,y) {
+      return x + y
+    }) // 25
+    // 如果数组元素只有1个,那么还需要提供一个额外的初始参数以便至少凑够两个
+    let arr2 = [233]
+    arr.reduce(function (x,y) {
+      return x + y
+    },0) // 233
+
+    /* 注意: map()方法会调用callbackFn方法,给map里的函数传入三个参数:
+    *     currentValue:数组中正在处理的当前元素
+    *     index:数组中正在处理的当前元素的索引
+    *     array:map方法调用的数组
+    *
+    *     parseInt方法接收两个参数,parseInt(string,radix)解析一个字符串并返回指定技术的十进制整数,radix是2-36之间的整数,表示被解析字符串的基数
+    *  */
+  </script>
+</head>
+<body>
+
+</body>
+</html>

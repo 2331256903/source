@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*要取得数组Array的长度,直接访问length属性
+    *   但注意,修改Array.length会改变Array大小的变化
+    * */
+    let arr = [1, 2, 3.14, 'Hello', null, true]
+    console.log(arr.length) //6
+    arr.length = 8
+    console.log(arr) // arr变为[1, 2, 3.14, 'Hello', null, true, undefined, undefined]
+    arr.length = 2
+    console.log(arr) // arr变为[1, 2]
+
+    /* Array可以通过索引把对应的元素修改为新的值,因此对Array的索引进行赋值会直接修改这个Array*/
+    /* 注意:如果通过索引赋值时,索引超过了范围,同样会引起Array大小的变化*/
+    let arr2 = [1, 2, 3]
+    arr2[5] = 'x'
+    console.log(arr2) // arr2变为[1, 2, 3, undefined, undefined, 'x']
+    /*大多数其他编程语言不允许直接改变数组的大小,越界访问会报错,然而JS中的Array不会有任何错误,然而编写代码时不建议直接修改Array的大小,访问索引要确保索引不会越界*/
+
+    /*与String类似,Array也可以通过indexOf()来搜索一个指定元素的位置*/
+
+    /*slice就是对应String的substring,它截取部分Array元素饭后返回一个新的Array*/
+    let arr3 = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    arr3.slice(0,3) // 从索引0开始时到索引3结束,但不包括索引3 ['A', 'B', 'C']
+    console.log(arr3.slice(3)) // 从索引3到结束
+    console.log(arr3) // slice()不会改变原数组
+    /*push和pop push向Array的末尾添加若干元素, pop()则把Array的最后一个元素删除掉*/
+
+    /*相对的,向Array的头部添加若干元素,使用unshift()方法, 而shift()方法则把Array的第一个元素删除*/
+
+    /*sort()函数对当前Array进行排序,它会直接修改当前Array的元素位置,直接调用时他会按照默认顺序排序*/
+
+    /*reverse()把整个Array的元素倒置(反转)*/
+
+    /*splice()方法是修改Array的万能方法,它可以从指定的索引开始删除若干元素,然后再从该位置添加若干元素*/
+    let arr4 = ['Microsoft', 'Apple', 'Yahoo', 'AOL', 'Excite', 'Oracle']
+    arr4.splice(1, 2, 'Google', 'Facebook') // 从索引2开始删除3个元素,然后再添加两个元素
+    console.log(arr4) // ['Microsoft', 'Apple', 'Google', 'Facebook', 'Oracle']
+    arr4.splice(2, 2) // 只删除,不添加
+    arr4.splice(2, 0, 'Google', 'Facebook') // 返回[],因为没有删除任何元素 ['Microsoft', 'Apple', 'Google', 'Facebook', 'Oracle']
+
+    /*concat()把当前Array和另一个Array连接起来,并返回一个新的Array*/
+    let arr5 = ['A', 'B', 'C']
+    let added = arr5.concat([1, 2, 3])
+    console.log(added) // ['A', 'B', 'C', 1, 2, 3]
+    console.log(arr5) // concat()方法并没有修改当前Array,而是返回了一个新的Array ['A', 'B', 'C']
+    /*实际上,concat()方法可以接收任意个元素和Array,并且自动把Array拆开,然后添加到新的Array里*/
+    let added2 = arr5.concat(1, 2, [3, '4'])
+    console.log(added2) // ['A', 'B', 'C', 1, 2, 3, '4']
+
+    /*join()方法非常实用,把当前Array的每个元素都用指定的字符串连接起来,然后返回连接后的字符串*/
+    let arr6 = ['A', 'B', 'C', 1, 2, 3]
+    arr6.join('-') // 'A-B-C-1-2-3'  如果数组的元素不是字符串,将自动转换为字符串后再连接诶
+
+    /*多维数组
+    *   如果数组的元素又是一个Array,则可以形成多维数组
+    * */
+    let arr7 = [[1, 2, 3], [400, 500, 600], '-']
+    /*上述arr7包含3个元素,其中头两个元素本身也是Array*/
+
+    /*案例:在新生欢迎会上,你已经拿到了新同学的名单,请排序后显示:欢迎xxx,xxx,xxx和xxx同学!*/
+    'use strict'
+    let arr8 = ['小明', '小红', '大军', '阿黄']
+    arr8 = arr8.sort()
+    let first = arr8.slice(0,3)/*.join(',')*/
+    let last = arr8.slice(3)
+    console.log(`欢迎${first}和${last}同学!`)
+  </script>
+</head>
+<body>
+
+</body>
+</html>

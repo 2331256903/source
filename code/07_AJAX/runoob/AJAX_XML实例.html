@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--AJAX可用来与XML文件进行交互式通信-->
+  <script>
+    function loadXMLDoc() {
+      let xhttp = new XMLHttpRequest()
+      xhttp.onreadystatechange = function() {
+        if(xhttp.readyState == 4 && xhttp.status == 200){
+          myFunction(this)
+        }
+      }
+      xhttp.open("GET","cd_catalog.xml",true)
+      xhttp.send()
+    }
+
+    function myFunction(xml){
+      let i
+      let xmlDoc = xml.responseXML
+      let table = "<tr><th>Artist</th><th>Title</th></tr>"
+      let x = xmlDoc.getElementsByTagName("CD")
+      for(i = 0; i < x; i++){
+        table += "<tr><td>" +
+          x[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue +
+          "</td><td>" +
+          x[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue +
+          "</td></tr>"
+      }
+      document.getElementById("demo").innerHTML = table
+    }
+    /*上述例子使用的服务器页面实际上是一个名为"cd_catalog.xml"的XML文件*/
+  </script>
+</head>
+<body>
+
+</body>
+</html>

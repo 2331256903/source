@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            background-color: gray;
+            height: 300px;
+        }
+        /* :target选中锚点指向的元素 */
+        div:target{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <a href="#one">去看第一个</a>
+    <a href="#two">去看第二个</a>
+    <a href="#three">去看第三个</a>
+    <a href="#four">去看第四个</a>
+    <a href="#five">去看第五个</a>
+    <a href="#six">去看第六个</a>
+    <div id="one">第一个</div><br>
+    <div id="two">第二个</div><br>
+    <div id="three">第三个</div><br>
+    <div id="four">第四个</div><br>
+    <div id="five">第五个</div><br>
+    <div id="six">第六个</div><br>
+</body>
+</html>

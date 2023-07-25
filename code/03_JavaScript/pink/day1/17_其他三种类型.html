@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <script>
+    //true false是布尔型自变量
+    let isCool = true
+    console.log(isCool)
+    //undefined  弱数据类型  声明一个变量未赋值就是undefined
+    //如果检测变量是undefined就说明值没有传递过来
+    let num
+    console.log(num)
+    //null 空值 null与undefined的区别  undefined未赋值 null赋了一个空值
+    //开发中把null作为尚未创建的对象  如果一个变量里面确定存放的是对象,如果还没准备好对象,可以放个null
+    let obj = null
+    console.log(obj)
+    //计算有区别
+    console.log(undefined + 1)// NaN
+    console.log(null + 1)// 1
+
+    //检测数据类型
+    typeof isCool //常用写法 作为运算法
+    typeof(isCool) //函数形式
+  </script>
+</body>
+</html>

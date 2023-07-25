@@ -1,0 +1,301 @@
+.panelBorder {
+  margin: 20px auto;
+  width: 600px;
+  box-shadow: 0 1px 10px #aaa;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.panelBorder .title {
+  margin-top: 20px;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+}
+.panelBorder .title .arrow {
+  background-color: #AB3D1F;
+  border-radius: 5px 0 0 0;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 20px;
+  width: 80%;
+  position: relative;
+}
+.panelBorder .title .arrow h2 {
+  font-size: 18px;
+  color: #fff;
+}
+.panelBorder .title .arrow:after {
+  border: 15px solid transparent;
+  border-right-color: #fff;
+  content: "";
+  height: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.panelBorder .sep {
+  width: 100%;
+  height: 4px;
+  background-image: radial-gradient(#AB3D1F, #fff);
+  margin: 5px auto;
+}
+.panelBorder form {
+  padding: 10px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.panelBorder form > div {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+.panelBorder form > div em {
+  color: red;
+  margin-right: 3px;
+}
+.panelBorder form > div span {
+  color: #333333;
+  font-size: 14px;
+}
+.panelBorder form > div:first-child {
+  display: flex;
+  justify-content: flex-start;
+}
+.panelBorder form > div:first-child div {
+  width: 32%;
+  display: flex;
+  align-items: center;
+}
+.panelBorder form > div:first-child div select {
+  height: 20px;
+  margin-left: 10px;
+  width: 60%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+}
+.panelBorder form > div:first-child div select:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(2) {
+  width: 90%;
+  height: 10px;
+  line-height: 10px;
+  color: red;
+  display: flex;
+  justify-content: space-between;
+}
+.panelBorder form > div:nth-child(2) div {
+  width: 32%;
+  display: flex;
+  justify-content: flex-end;
+}
+.panelBorder form > div:nth-child(4),
+.panelBorder form > div:nth-child(6),
+.panelBorder form > div:nth-child(8),
+.panelBorder form > div:nth-child(10),
+.panelBorder form > div:nth-child(12),
+.panelBorder form > div:nth-child(15) {
+  width: 90%;
+  height: 10px;
+  line-height: 10px;
+  color: red;
+  display: flex;
+  justify-content: space-between;
+}
+.panelBorder form > div:nth-child(4) div,
+.panelBorder form > div:nth-child(6) div,
+.panelBorder form > div:nth-child(8) div,
+.panelBorder form > div:nth-child(10) div,
+.panelBorder form > div:nth-child(12) div,
+.panelBorder form > div:nth-child(15) div {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+.panelBorder form > div:nth-child(3) div,
+.panelBorder form > div:nth-child(5) div,
+.panelBorder form > div:nth-child(7) div {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.panelBorder form > div:nth-child(3) div select,
+.panelBorder form > div:nth-child(5) div select,
+.panelBorder form > div:nth-child(7) div select {
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  width: 60%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+}
+.panelBorder form > div:nth-child(3) div select:hover,
+.panelBorder form > div:nth-child(5) div select:hover,
+.panelBorder form > div:nth-child(7) div select:hover {
+  border: 1px solid gray;
+}
+.panelBorder form > div:nth-child(3) div select:focus,
+.panelBorder form > div:nth-child(5) div select:focus,
+.panelBorder form > div:nth-child(7) div select:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(3) div input,
+.panelBorder form > div:nth-child(5) div input,
+.panelBorder form > div:nth-child(7) div input {
+  box-sizing: border-box;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  width: 60%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+  padding-left: 5px;
+}
+.panelBorder form > div:nth-child(3) div input:hover,
+.panelBorder form > div:nth-child(5) div input:hover,
+.panelBorder form > div:nth-child(7) div input:hover {
+  border: 1px solid gray;
+}
+.panelBorder form > div:nth-child(3) div input:focus,
+.panelBorder form > div:nth-child(5) div input:focus,
+.panelBorder form > div:nth-child(7) div input:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(9) div {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.panelBorder form > div:nth-child(9) div select {
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  width: 20%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+}
+.panelBorder form > div:nth-child(9) div select:hover {
+  border: 1px solid gray;
+}
+.panelBorder form > div:nth-child(9) div select:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(9) div input {
+  box-sizing: border-box;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  width: 30%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+  padding-left: 5px;
+}
+.panelBorder form > div:nth-child(9) div input:hover {
+  border: 1px solid gray;
+}
+.panelBorder form > div:nth-child(9) div input:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(11) {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.panelBorder form > div:nth-child(11) textarea {
+  box-sizing: border-box;
+  height: 150px;
+  width: 464px;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 16px;
+  padding: 5px;
+}
+.panelBorder form > div:nth-child(11) textarea:hover {
+  border: 1px solid gray;
+}
+.panelBorder form > div:nth-child(11) textarea:focus {
+  border: 1px solid #AB3D1F;
+  outline: none;
+}
+.panelBorder form > div:nth-child(13) {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.panelBorder form > div:nth-child(16) {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.panelBorder form > div:nth-child(16) button {
+  box-sizing: border-box;
+  height: 20px;
+  line-height: 20px;
+  width: 10%;
+  margin-right: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-size: 8px;
+  color: #FFFFFF;
+  background-color: #AB3D1F;
+}
+.panelBorder form > div:nth-child(16) button:hover {
+  background-color: #C15231;
+}
+.panelBorder form .carImages {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 10px 15px;
+}
+.panelBorder form .carImages img {
+  height: 100px;
+  width: 100px;
+  border: 2px solid #ccc;
+  background-color: #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 2px #ccc;
+}
+.panelBorder .error {
+  color: red;
+  font-size: 8px;
+}
+/*# sourceMappingURL=styles.css.map */

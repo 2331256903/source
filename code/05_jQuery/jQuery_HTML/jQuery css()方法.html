@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/jquery.js"></script>
+  <script>
+/*
+* jQuery css()方法
+*   该方法设置或返回被选元素的一个或多个样式属性
+* */
+  // 返回指定的CSS属性的值 语法: css("propertyname")
+  $(document).ready(function (){
+    $("#btn1").click(function (){
+      alert("背景颜色是: " + $("div>p:last-child").css("background-color"))
+    })
+    // 改变指定的css属性的值
+    $("#btn2").click(function (){
+      $("p:first-child").css("background-color","yellow")
+    })
+    // 改变多个元素的多个css属性
+    $("#btn3").click(function (){
+      $("p").css({
+        "background-color":"gray","font-size" : "200%"
+      })
+    })
+    /*
+      此处若使用p:nth-child()属性,选择器默认以body作为标签,所以:nth-child(1)是h2
+      使用 $("p").eq(N) N是索引号,从0开始更方便,详见后续遍历-过滤章节
+    */
+  })
+  </script>
+</head>
+<body>
+<h2>这是一个标题</h2>
+<div>
+  <p style="background-color: red">这是一个段落</p>
+  <p style="background-color: green">这是一个段落</p>
+  <p style="background-color: blue">这是一个段落</p>
+</div>
+  <button id="btn1">返回最后一个p元素的background-color</button>
+  <button id="btn2">改变第一个p元素的background-color</button>
+  <button id="btn3">改变所有p元素的多个style</button>
+</body>
+</html>

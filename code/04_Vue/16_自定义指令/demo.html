@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .demo{
+    background-color: orange;
+  }
+</style>
+<body>
+  <button id="btn">点我创建一个输入框</button>
+  <script type="text/javascript">
+      const btn = document.getElementById('btn')
+      btn.onclick = ()=>{
+        const input = document.creatElement('input')
+
+        input.className = 'demo'
+        input.value = 99
+        input.onclick = ()=>{alert(1)}
+
+        document.body.appendChild(input)
+
+        input.focus()
+        input.parentElement.style.backgroundColor = 'skyblue'
+      }
+  </script>
+</body>
+</html>

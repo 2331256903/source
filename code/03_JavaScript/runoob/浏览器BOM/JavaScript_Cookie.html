@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+/*
+* Cookie用于存储web页面的用户信息
+*   Cookie是一些数据,存储在电脑上的文本文件中
+*   当web服务器向浏览器发送web页面时,链接关闭后,服务端不会记录用户信息,Cookie的作用就是解决如何记录客户端信息
+* Cookie以键值对形式存储: username = John Doe
+*   当浏览器从服务器上请求web页面时,属于该页面的cookie会被添加到该请求中,服务端通过这种方式来获取用户的信息
+* */
+
+/*
+* 使用JavaScript来创建Cookie
+*   document.cookie = "username = John Doe"
+* 可以为cookie添加一个过期时间(UTC或GMT时间),默认情况下cookie在浏览器关闭时删除
+*   document.cookie = "username = John Doe; expires = Thu, 18 Dec 2043 12:00:00 GMT"
+* 可以使用path参数告诉浏览器cookie的路径,默认情况下,cookie属于当前页面
+*   document.cookie = "username = John Doe; expires = Thu, 18 Dec 2043 12:00:00 GMT;  path =/"
+* */
+
+/*
+* 使用JavaScript读取Cookie
+*   let x = document.cookie
+*   document.cookie将以字符串的方式返回所有的cookie,类型格式: cookie1 = value; cookie2 = value
+* */
+
+/*
+* 使用JavaScript修改和删除cookie
+*   修改:等同于创建cookie
+*   删除:document.cookie = "username = ; expires = "Thu, 01 Jan 1970 00:00:00 GMT"
+*     删除只需要设置expires属性为以前的时间即可
+* */
+
+/*
+* cookie字符串
+*   document.cookie属性看起来像一个普通的文本字符串,但其实不是
+*   读取信息时,cookie以名值对的形式展示
+*   设置新的cookie时,旧的cookie不会被覆盖,新cookie将添加到document.cookie中
+*   如需查找一个指定的cookie值.必须创建一个JavaScript函数在cookie字符串中查找cookie值
+* */
+
+// 设置cookie值的函数
+function setCookie(cname,cvalue,exdays){
+  let d = new Date()
+  d.setTime(d.getTime() + (exdays*24*60*60*1000))
+  let expires = "expires = " + d.toGMTString()
+  document.cookie = cname + "=" + cvalue + ";" + expires
+}
+
+//获取cookie值的函数
+function getCookie(cname){
+  let name = cname + "="
+  let ca = document.cookie.split(';')
+  for(let i = 0; i < ca.length; i++){
+    let c = ca[i].trim()
+    if(c.indexOf(name)==0) return c.substring(name.length,c.length)
+  }
+  return ""
+}
+
+//检测cookie是否创建:
+function checkCookie(){
+  let username = getCookie("username")
+  if(username != ""){
+    alert("hello again " + usernama)
+  }
+  else{
+    username = prompt("Please enter your name: ","")
+    if(username!=="" && username!=null)
+    {
+      setCookie("username", username,365)
+    }
+  }
+}
+</script>
+</html>

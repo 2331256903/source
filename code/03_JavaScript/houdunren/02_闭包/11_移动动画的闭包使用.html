@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<button message="后盾人">houdunren</button>
+<button message="hdcmsm ">hdcms</button>
+<script>
+	/* 此处每次点按钮都会产生一个环境 */
+	let btns = document.querySelectorAll('button')
+	btns.forEach(function(item) {
+		// let left = 1
+		let interval = false
+		item.addEventListener('click', function() { // parent
+			if (!interval) {
+				interval = true
+				let left = 1
+				setInterval(function() {
+					/* 此时该函数中找不到item, 就会向上层找item */
+					item.style.left = left++ + "px"
+				}, 100)
+			}
+			/*
+			* 但此时如果在按钮移动过程中再次点击就会产生抖动
+			*		因为每次点击都产生一个parent函数的环境, 每次都给left赋值为1, 同时之前的环境中的setInterval函数依然在执行, 就会产生抖动
+			* 	解决方法: left=1放到function的外面
+			* 		但此时多次点击会导致按钮移动越来越快
+			* 		解决方法: 父级增加interval变量进行控制, 此时多次点击只会在第一次生效, 后续会被if判断挡住, 此时left也可以放入定时器, 不会造成外部环境的污染
+			* */
+		})
+	})
+</script>
+</body>
+<style>
+	button {
+		position: absolute;
+	}
+</style>
+</html>

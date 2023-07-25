@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  function f4() {
+    var a = []
+    for (let i = 0; i < 2; i++) {
+      var ff = function () {
+        console.log(i)
+      }
+      a.push(ff)
+    }
+    return a
+  }
+  const [f5, f6] = f4()
+  f5()
+  f6()
+
+  function f() {
+    var a = [];
+    for(var i = 0; i < 2; i++) {
+      var ff = function () {
+        console.log(i)
+      };
+      a.push(ff);
+    }
+    a.push(function () {
+      i++;
+    });
+    return a;
+  }
+
+  const [f1, f2, f3] = f();
+  f1();
+  f3();
+  f2();
+</script>
+</body>
+</html>

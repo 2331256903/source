@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="./index.css">
+  <style>
+    /*
+      会继承的文本属性:
+        字体属性,文本属性(除了vertical-align),文字颜色等
+      不会继承的文本属性:
+        边框,背景,内边距,外边距,宽高,溢出方式 等
+
+      能继承的属性,都是不影响布局的,即都不与盒子模型有关
+    */
+    body {
+      font-size: 40px;
+      color: yellow;
+      font-weight: bold;
+    }
+    #d1 {
+      height: 600px;
+      padding: 50px;
+      background-color: gray;
+      /*font-size: 40px;
+      color: yellow;
+      font-weight: bold;*/
+    }
+    #d2 {
+      height: 400px;
+      padding: 50px;
+      background-color: orange;
+    }
+    #d3 {
+      height: 200px;
+      background-color: green;
+      /*font-size: 40px;
+      color: yellow;
+      font-weight: bold;*/
+    }
+  </style>
+</head>
+<body>
+  <div id="d1">
+    <div id="d2">
+      <div id="d3" style="font-family: 隶书">你好啊</div>
+    </div>
+  </div>
+</body>
+</html>

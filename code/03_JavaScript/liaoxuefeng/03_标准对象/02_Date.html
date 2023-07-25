@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+  <script>
+    /* JS中Date对象用来表示日期和时间 */
+    // 获取当前时间
+    let now = new Date()
+    now
+    now.getFullYear()
+    now.getMonth()
+    now.getDate()
+    now.getDay()
+    now.getHours()
+    now.getMinutes()
+    now.getSeconds()
+    now.getMilliseconds()
+    now.getTime()
+    /* 注意,当前时间是浏览器从本机操作系统获取的时间, 所以不一定准确, 因为用户可以把当前时间设定为任何值 */
+    // 创建一个指定日期和时间的Date对象,可以用
+    let d = new Date(2015, 5, 19, 20, 15, 30,123)
+    console.log(d)
+    /* 注意: JS中的月份范围用整数表示是0-11, 0表示1月, 所以要表示6月, 需要传入的值是5 */
+    // 第二种创建指定日期的方式是解析一个符合ISO 8601格式的字符串
+    let d2 = Date.parse('2015-06-24T19:49:22.875+08:00')
+    console.log(d2)
+    /* 但它返回的不是字符串,而是一个时间戳,不过时间戳很容易就可以把他转换成一个Date */
+    let d3 = new Date(1435146562875)
+    console.log(d3)
+    /* 使用Date.parse()传入的字符串使用实际月份01-12, 转换为Date对象后getMonth()获取的月份值为0-11 */
+
+    /* 时区
+    * Date对象表示的时间总是按照浏览器所在的时区显示的,不过我们既可以显示本地时间,也可以显示调整后的UTC时间; */
+    d.toUTCString()
+    /* 那么如何在JS中进行时区转换呢,实际上,只要我们传递的是一个number类型的时间戳,我们就不用关心时区转换,任何浏览器都可以把一个时间戳正确的转换为本地时间 */
+    /* 时间戳是一个自增的整数,它表示从1970年1月1日零时整的GMT时区开始的那一刻到现在的毫秒数,假设浏览器所在的电脑是精确的,那么世界上无论拿个时区的电脑,
+    * 它们产生的时间戳是一致的,所以时间戳可以精准地表示一个时刻,并且与时区无关
+    * 所以我们只要传递时间戳,或者把时间戳从数据库里读出来,再让JS自动转换为当地时间即可
+    *  */
+    // 想要获取当前时间或,使用
+    if (Date.now()) {
+      console.log(Date.now())
+    } else {
+      console.log(new Date().getTime())
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>

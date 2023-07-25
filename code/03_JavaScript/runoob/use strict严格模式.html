@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  在脚本或函数的头部添加 use strict 表达式来声明严格模式
+
+  在函数内部声明是局部作用域(只在函数内使用严格模式)
+
+  严格模式的限制:
+    1.不允许使用未声明的变量
+    2.不允许删除变量或对象
+      "use strict"
+      let x = 3.14
+      delete x
+    3.不允许删除函数
+    4.不允许变量重名
+    5.不允许使用八进制
+    6.不允许使用转义字符:
+      "use strict"
+      let x = \010  //报错
+    7.不允许对只读属性赋值
+    8.不允许对一个使用getter方法读取的属性进行赋值
+    9.不允许删除一个不允许删除的属性
+    10.变量名不能使用eval或arguments字符串
+    11.不允许使用以下语句:
+      "use strict"
+      with (Math){x = cos(2)} //报错
+    12.由于安全原因,在作用域eval()创建的变量不能被调用
+    13.禁止this关键字指向全局对象 因此使用构造函数时如果忘了使用new this不再指向全局对象而是报错
+    14.新增保留关键字implements interface let package private protected public static yield
+-->
+<script>
+
+</script>
+</body>
+</html>

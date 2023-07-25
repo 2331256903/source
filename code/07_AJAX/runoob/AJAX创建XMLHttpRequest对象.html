@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--所有现代浏览器均支持XMLHttpRequest对象,用于在后台与服务器交换数据-->
+  <script>
+    let xmlhttp
+    if(window.XMLHttpRequest){
+      // IE7+. Firefox, Chrome, Opera, Safari
+      xmlhttp = new XMLHttpRequest()
+    }
+    else{
+      // IE6, IE5
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>

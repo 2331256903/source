@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	// 创建构造函数Hd() 构造函数的内存的使用场景
+	function Hd() {
+		let n = 1
+		this.sum = function() {
+			console.log(++n)
+		}
+	}
+	let a = new Hd() // 实例化出对象a
+	console.log(a) //打印出的Hd()的实例化对象中有函数sum(), sum在被外部使用, 因此同个作用域下的n就会被保留
+	a.sum() // 2
+	a.sum() // 3
+	
+	// 另一个例子
+	function Hd2() {
+		let n = 1
+		function sum() {
+			console.log(++n)
+		}
+		// 返回一个包含sum的对象
+		return {
+			sum: sum // 也可简写为sum
+		}
+	}
+	let b = new Hd2()
+	console.log(b) // 此时b中也有属性sum, n被保留
+	b.sum()
+	b.sum()
+	let c = new Hd2() // 同理, 开辟新的空间, 与之前的n无关
+</script>
+</body>
+</html>

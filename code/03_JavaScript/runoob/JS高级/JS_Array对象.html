@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<select id="a1" onchange="addOption()"></select>
+<select id="a2"></select>
+</body>
+<script>
+/*数组对象的作用:使用单独的变量名来存储一系列的值*/
+
+// 创建一个数组
+  let myCars = new Array()  //常规方式
+  myCars[0] = "Saab"
+  myCars[1] = "Volvo"
+
+  let mCars = new Array("Saab","Volvo")
+
+  let mCars2 = ["Saab","Volvo"]
+
+/*数组元素可以是对象,也可以是函数*/
+/*
+* 数组方法:
+*   合并:concat()
+*   数组元素组成字符串:join()
+*   删除数组最后一个元素:pop()
+*   数组末尾添加新元素:push()
+*   将一个数组中的元素顺序翻转排序:reserve()
+*   删除数组的第一个元素:shift()
+*   从一个数组中选择元素:slice()
+*   排序:sort()
+*   在数组中间添加元素:splice()
+*   数组开头添加元素:unshift()
+* */
+
+/*使用数组对象结合select对象实现二级级联菜单*/
+let city = new Array;
+city['江苏'] = ['南京', '连云港', '苏州', '镇江'];
+city['山东'] = ['青岛', '烟台', '济南'];
+function allCity() {
+  let select1 = document.getElementById("a1");
+  for(let i in city) {  //这里注意遍历数组的写法
+    console.log(i) //输出 江苏 山东
+    select1.add(new Option(i, i), null);
+    /*
+      selectObject.add(option,before)
+      option:要添加选项元素,必须是option或optgroup元素
+      before:在选项数组的该元素之前增加新的元素,若该参数是null,元素添加到选项数组的末尾
+    */
+  }
+  addOption(); // 初始化选项
+}
+function addOption() {
+  let select2 = document.getElementById("a2");
+  let select1 = document.getElementById("a1").value;
+  select2.length = 0; //每次都先清空一下市级菜单
+  if(select1 != '请选择省份') {
+    for(let i in city[select1]) {
+      select2.add(new Option(city[select1][i], city[select1][i]), null);
+    }
+  }else if (sheng == '请选择省份'){
+    select2.length = 0;
+    select2.add(new Option("请选择城市", "请选择城市"), null);
+  }
+}
+window.onload = allCity();
+
+/*
+* JS数组只支持数字索引,非数字索引指的是对象的属性
+* JS数组可以看作是特殊的对象(Object),对象的属性有两种表示方法
+*   let a = Object()
+*   a.myattr = "runoob"
+*   a["myattr"] = "runoob"
+* */
+</script>
+</html>

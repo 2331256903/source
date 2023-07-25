@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+for (var i = 1; i <= 3; i++) {
+	console.log(i) // 1 2 3
+}
+console.log(i) // 4
+/* var具有函数作用域而不具有块作用域, 可以跨块访问, 不能跨函数访问, 因此var在for循环直接穿透到外层作用域, 此处i相当于定义为了全局变量*/
+
+/* let和const具有块级作用域, 因此for循环外访问不到 */
+/* 另外for循环每次都是一个新环境 */
+for (let a = 1; a <= 3; a++) {
+	console.log(a) // 1 2 3
+}
+console.log(a) // 报错, 访问不到
+</script>
+</body>
+</html>

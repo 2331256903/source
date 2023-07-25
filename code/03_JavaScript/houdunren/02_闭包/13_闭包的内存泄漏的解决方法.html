@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<div desc="houdunren">在线学习</div>
+	<div desc="hdcms">开源产品</div>
+	<script>
+		let divs = document.querySelectorAll('div')
+		divs.forEach(function(item) {
+			let desc = item.getAttribute("desc")
+			item.addEventListener('click', function(){
+				// console.log(item.getAttribute('desc'))
+				// 此时addEventListener中添加的是事件处理函数, 函数一直存在, 因此父级作用域下的item也一直存在, 此时造成内存浪费
+				console.log(desc)
+				console.log(item) // 此时打印不出来
+			})
+			item = null // 清除元素. 这样就不会造成内存泄漏了
+		})
+	</script>
+</body>
+</html>

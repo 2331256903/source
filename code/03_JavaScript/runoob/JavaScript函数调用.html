@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+  /*作为一个函数调用*/
+  function myFunction(a,b) {
+    return a*b
+  }
+  myFunction(10,2) //返回20
+
+  /*全局对象*/
+  function myFunction2(){
+    return this
+  }
+  myFunction2() //返回window对象
+  /*使用window对象作为一个变量很容易导致程序崩溃*/
+
+  /*函数作为方法调用*/
+  let myObject = {
+    firstName:'John',
+    lastName:'Doe',
+    fullName:function (){
+      return this
+    }
+  }
+  myObject.fullName() //返回[Object Object]
+
+  /*作为构造函数调用函数*/
+  /*
+  * 如果函数调用前使用了new关键字,则是调用了构造函数
+  * 看起来像新的函数,实际上JS函数是重新创建的对象
+  * */
+  function myFunction3(arg1,arg2){
+    this.firstName = arg1
+    this.lastName = arg2
+  }
+  let x = new myFunction3("John","Doe")
+  x.firstName
+
+  /*作为函数方法调用函数*/
+  /*JS中函数是对象,有他的属性和方法*/
+  /*call和apply是预定义的函数方法,两个方法可用于调用函数,两个方法的第一个参数必须是对象本身*/
+  function myFunction4(a,b){
+    return a*b
+  }
+  myObject = myFunction4.call(myObject,10,2) //返回20
+
+  function myFunction5(a,b){
+    return a*b
+  }
+  myArray = [10,2]
+  myObject = myFunction5.apply(myObject,myArray)
+  /*
+  *   两个方法都使用了对象本身作为第一个参数,区别在于第二个参数 apply传入的是一个参数数组,也就是将多个参数组合成一个数字传入
+  * 而call则作为call的参数传入
+  *   在JS严格模式下,调用第一个参数会成为this的值,即使该参数不是一个对象
+  *   Js非严格模式下,如果第一个参数的值是null或undefined,将使用全局对象替代
+  * 通过call和apply方法可以设置this的值且作为已存在对象的新方法调用
+  * */
+</script>
+</html>

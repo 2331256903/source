@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--函数显式参数Parameters和隐式参数Arguments-->
+</body>
+<script>
+  /*函数显式参数在函数定义时列出,函数隐式参数在函数调用时传递给函数真正的值*/
+  /*参数规则
+  * JS函数定义显示参数时没有指定数据类型
+  * JS函数对隐式参数没有进行类型检测
+  * JS函数对隐式参数的个数没有进行检测
+  * */
+  /*ES5中函数在调用时未提供隐式参数,参数会默认设置为undefined*/
+  function myFunction(x,y){
+    if(y === undefined){
+      y = 0;
+    }
+    /*或者 y = y || 0*/
+    /*如果y已经定义,y||0返回y,因为y为true,否则返回0,因为undefined为false*/
+  }
+  /*ES6支持函数带有默认参数,旧判断undefined和||的操作*/
+  function myFunction2(x,y = 10){
+    return x + y
+  }
+  myFunction2(0,2) //2
+  myFunction2(5) //15 y参数的默认值
+
+  /*arguments对象*/
+  /*
+  JS函数有个内置的对象arguments对象
+  arguments对象包含了函数调用的参数数组,通过这种方式可以很容易的找到最大的一个参数的值
+  * */
+  k = findMax(1,123,500,115,44,88)
+  function findMax(){
+    let i , max = arguments[0]
+    if(arguments.length < 2) return max
+    for(i = 0; i < arguments.length; i++){
+      if(arguments[i] > max) {
+        max = arguments[i]
+      }
+    }
+    return max
+  }
+  /*通过值传递参数*/
+  /*
+  * 在函数中调用的参数是函数的隐式参数
+  * JS隐式参数通过值来传递:函数仅仅只是获取值
+  * 如果函数修改参数的值,不会修改显示函数的初始值(在函数外定义)
+  * 隐式参数的改变在函数外是不可见的
+  * */
+
+  /*通过对象传递参数*/
+  /*
+  * 在JS中 可以引用对象的值
+  * 因此我们在函数内部修改对象的属性就会修改其初始的值
+  * 修改对象属性可作用于函数外部(全局变量)
+  * 修改对象属性在函数外是可见的
+  * */
+</script>
+</html>

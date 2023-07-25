@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div {
+      width: 300px;
+      height: 200px;
+      background-color: #9198e5;
+      transform: translate(50px,100px);
+    }
+  </style>
+</head>
+<body>
+<div></div>
+<!--
+  translate方法:根据左(x轴)和顶部(y轴)位置给定参数从当前元素位置移动
+    transform:translate(50px,100px);
+  rotate方法:给定一个定度数顺时针旋转的元素
+  scale方法:该元素增加或减少的大小,取决于宽度和高度给的参数
+    transform:scale(2,3); //宽两倍,高三倍
+  skew方法:transform:skew(<angle>,<angle>)
+    包含两个参数,分别表示x轴和y轴的倾斜角度,第二个参数为空则默认为0
+  matrix方法:六个参数: 旋转,缩放,平移和倾斜
+   transform:matrix(0.866,0.5,-0.5,0.866,0,0)
+   transform:matrix(scaleX,scaleY,skewY,translateX,skewX,translateY)
+   旋转对应(cosθ,-sinθ,sinθ,cosθ,0,0)
+-->
+</body>
+</html>

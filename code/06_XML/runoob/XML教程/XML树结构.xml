@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--XML声明,定义XML的版本1.0和所使用的编码万国码-->
+<!--描述文档根元素-->
+<note>
+  <!--下4行描述4个子元素-->
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>Reminder</heading>
+  <body>Don't forget me this weekend!</body>
+<!--定义文档结尾-->
+</note>
+
+
+<!--
+  XML文档必须包含根元素,该元素是所有其他元素的父元素,
+  XML文档中的元素形成了一颗文档树,所有的元素都可以有子元素,所有元素都可以有文本内容和属性
+-->
+<!--
+    XML将数据组织称为一棵树,DOM通过解析XML文档,为XML文档在逻辑上简历一个树模型,树的节点是一个个的对象,由此通过操作这棵树和这些对象就能完成
+  对XML文档的操作,为处理文档的所有方面提供了一个完美的概念性框架
+    DOM一切都是节点,XML数的每个Document,Element,Text,Attr和Comment都是DOM Node
+
+-->

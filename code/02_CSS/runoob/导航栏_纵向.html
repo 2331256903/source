@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      background-color: #dddddd;
+      width: 200px;
+      height: 100%;
+      position: fixed;
+      overflow: auto;
+    }
+    li a {
+      display: block;
+      text-decoration: none;
+      padding: 8px 16px;
+      color: #000;
+    }
+    li a:hover {
+      background-color: #555;
+      color: white;
+    }
+    li a.active{
+      background-color: #555;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <ul class="topBar">
+    <li><a class="active" href="">首页</a></li>
+    <li><a href="">新闻</a></li>
+    <li><a href="">通知</a></li>
+    <li><a href="">关于</a></li>
+  </ul>
+</body>
+</html>

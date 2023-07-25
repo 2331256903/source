@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #div1 {
+      width: 200px;
+      height: 130px;
+      background-color: orange;
+      border: 1px solid black;
+    }
+  </style>
+  <script src="../js/jquery.js"></script>
+  <script>
+/*
+* jQuery删除元素
+*   remove() 删除被选元素及其子元素
+*   empty() 从被选元素中删除子元素
+* */
+  // jQuery remove()方法
+  $(document).ready(function(){
+    $("#btn1").click(function (){
+      $("#div1").remove()
+    })
+    $("#btn2").click(function(){
+      $("#div1").empty()
+    })
+    $("#btn3").click(function(){
+      $("p").remove(".italic")
+    })
+  })
+/*jQuery remove()可以接收一个参数,允许对被删元素进行过滤,该参数可以是任何jQuery选择器语法*/
+
+  </script>
+</head>
+<body>
+  <div id="div1">
+    <p>这是div中的一些文本</p>
+    <p>这是div中的一个段落</p>
+    <p>这是div中的另外一个段落</p>
+  </div>
+  <p><i>这是div外的一个段落</i></p>
+  <p class="italic"><i>这是div外的另一个段落</i></p>
+  <p class="italic"><i>这是div外的另一个段落</i></p>
+  <button id="btn1">移除div元素</button>
+  <button id="btn2">移除div元素的子元素</button>
+  <button id="btn3">移除div元素外的class为italic的元素</button>
+</body>
+</html>

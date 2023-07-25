@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: Arial, sans-serif;
+      }
+
+      .w1240 {
+          width: 1240px;
+          margin: 0 auto;
+      }
+
+      .header {
+          color: #222;
+          font-size: 13px;
+          position: relative;
+      }
+
+      .header .leftArea {
+          height: 60px;
+          line-height: 60px;
+          font-size: 0;
+      }
+
+      .header .leftArea .navItem {
+          display: inline-block;
+          padding: 0 12px;
+          font-size: 13px;
+      }
+
+      .header .leftArea .navItem:nth-of-type(1) {
+          padding-left: 24px;
+      }
+
+      .header .rightArea {
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 60px;
+          line-height: 60px;
+      }
+
+      .header .rightArea > div {
+          display: inline-block;
+      }
+
+      .header .rightArea .region > i {
+          margin-left: 8px;
+          margin-right: 4px;
+          display: inline-block;
+          width: 23px;
+          height: 23px;
+          background: url(https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/weather/icons/a0.png) no-repeat;
+          background-size: cover;
+          vertical-align: top;
+          margin-top: 18.5px;
+      }
+
+      .header .rightArea .region > span {
+          margin-right: 8px;
+          font-size: 12px;
+      }
+
+      .header .region > u {
+          font-style: normal;
+          background: #40c057;
+          border-radius: 9px;
+          padding: 0 6px;
+          margin-right: 24px;
+          color: #fff;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+          line-height: 13.6px;
+      }
+
+      .header .setBtn {
+          margin-right: 24px;
+      }
+
+      .header .userInfo {
+          padding-right: 24px;
+      }
+
+      .header .userInfo > span {
+          padding: 2px;
+          border-radius: 50%;
+          border: 1px solid #4e71f2;
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          margin-right: 6px;
+          vertical-align: top;
+          margin-top: 15px;
+      }
+
+      .header .userInfo > span > i {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background: url(https://himg.bdimg.com/sys/portraitn/item/public.1.bc3e471d.AY7bQ3ZGhP3288jb-ypJ9g) no-repeat;
+          background-size: cover;
+          border-radius: 50%;
+      }
+
+      .logo {
+          width: 270px;
+          height: 128.991px;
+          background: url(https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png) no-repeat;
+          background-size: cover;
+          margin: -6.5px auto 15px;
+      }
+
+      .search {
+          font-size: 0;
+          text-align: center;
+          margin-bottom: 88.76px;
+      }
+
+      .search > div {
+          display: inline-block;
+          vertical-align: top;
+      }
+
+      .search .leftArea {
+          /*padding-right: 87px;*/
+          color: #333;
+          position: relative;
+      }
+
+      .search .leftArea > input {
+          padding: 12px 87px 12px 16px;
+          border-radius: 10px 0 0 10px;
+          border: 2px solid #c4c7ce;
+          border-right: none;
+          height: 16px;
+          box-sizing: content-box;
+          /*line-height: 16px;*/
+          font-size: 16px;
+          outline: none;
+          /*display: block;*/
+          width: 443px;
+
+          text-align: left;
+      }
+
+      .search .leftArea > input:hover {
+          border-color: #4e6ef2;
+      }
+
+      .search .leftArea > i {
+          position: absolute;
+          right: 16px;
+          top: 9px;
+          display: inline-block;
+          width: 23.99px;
+          height: 20px;
+          background: url(https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/searchbox/nicon-10750f3f7d.png) no-repeat;
+          background-position: 0 -51px;
+          vertical-align: top;
+          margin-top: 1.8px;
+      }
+
+      .search .rightArea {
+          width: 108px;
+          height: 43.6px;
+          line-height: 43.6px;
+          border-radius: 0 10px 10px 0;
+          background: #4e6ef2;
+          font-size: 17px;
+          color: #fff;
+          font-weight: 400;
+          cursor: pointer;
+      }
+
+      .search .rightArea:hover {
+          background: #4662d9;
+      }
+
+      .infoPanel {
+          text-align: center;
+          font-size: 0;
+          padding: 14px 32px 0;
+      }
+
+      .infoPanel > div {
+          display: inline-block;
+          vertical-align: top;
+          font-size: 16px;
+      }
+
+      .infoPanel .leftArea {
+          width: 560px;
+      }
+			.infoPanel .rightArea{
+					width: 383.99px;
+			}
+      .infoPanel .leftArea .subNav {
+          font-size: 0;
+          text-align: left;
+      }
+
+      .infoPanel .subNav > span {
+          display: inline-block;
+          vertical-align: top;
+          font-size: 14px;
+          padding: 4px 0 0 0;
+          margin-right: 24px;
+          line-height: 26px;
+          font-size: 14px;
+          color: #9195a3;
+          position: relative;
+          cursor: pointer;
+      }
+
+      .infoPanel .subNav > span:nth-of-type(2) {
+          color: #222;
+
+      }
+
+      .infoPanel .subNav > span:nth-of-type(2) > i {
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          height: 2px;
+          width: 100%;
+          border-radius: 4px;
+          background: #4e71f2;
+      }
+			.infoPanel .leftArea .singleInfo{
+					font-size: 0;
+					text-align: left;
+					margin: 18px 0;
+					cursor: pointer;
+			}
+			.infoPanel .leftArea .singleInfo .leftArea{
+					display: inline-block;
+					vertical-align: top;
+					width: 183.99px;
+					height: 121.99px;
+					border: 1px solid rgba(0, 0, 0, 0.03);
+					border-radius: 12px;
+			}
+			.infoPanel .leftArea .singleInfo .rightArea{
+					padding: 8px 0 24px 12px;
+					height: 121.99px;
+					display: inline-block;
+					vertical-align: top;
+					width: 376px;
+					position: relative;
+			}
+			.infoPanel .leftArea .singleInfo .rightArea >p{
+					color: #222;
+					font-size: 20px;
+					line-height: 30px;
+					margin-bottom: 6px;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div{
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					width: 100%;
+					padding-left: 12px;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div >span{
+					margin-right: 12px;
+					color: #626675;
+					font-size: 13px;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div >i{
+					margin-right: 12px;
+					color: #9195a3;
+					font-size: 13px;
+					font-style: normal;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div >u{
+					position: absolute;
+					bottom: 0;
+					right: 0;
+          text-decoration: none;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div >u >i{
+					display: inline-block;
+					margin-right: 6px;
+          width: 16px;
+					height: 23px;
+					background: url(../study/images/audio.png) no-repeat;
+					background-size: cover;
+					vertical-align: top;
+			}
+      .infoPanel .leftArea .singleInfo .rightArea >div >u >span{
+					color: #626675;
+					font-size: 13px;
+					vertical-align: top;
+					display: inline-block;
+					margin-top: 4.26px;
+					padding-right: 6px;
+			}
+
+			.footer >span{
+					margin-right: 14px;
+			}
+			.footer >i{
+					display: inline-block;
+					margin: 0 9px 0 3px;
+					width: 16px;
+					height: 14.5px;
+					background: url(../study/images/1.png) no-repeat;
+					background-size: cover;
+			}
+	</style>
+</head>
+<body>
+<div class="header">
+	<div class="leftArea">
+		<div class="navItem">新闻</div>
+		<div class="navItem">hao123</div>
+		<div class="navItem">地图</div>
+		<div class="navItem">贴吧</div>
+		<div class="navItem">视频</div>
+		<div class="navItem">图片</div>
+		<div class="navItem">网盘</div>
+		<div class="navItem">更多</div>
+	</div>
+	<div class="rightArea">
+		<div class="region">北京<i></i><span>14℃</span><u>优</u></div>
+		<div class="setBtn">设置</div>
+		<div class="userInfo"><span><i></i></span>zhiheuajg</div>
+	</div>
+</div>
+<div class="mainArea">
+	<div class="w1240">
+		<div class="logo"></div>
+		<div class="search">
+			<div class="leftArea">
+				<input/>
+				<i></i>
+			</div>
+			<div class="rightArea">百度一下</div>
+		</div>
+		<div class="infoPanel">
+			<div class="leftArea">
+				<div class="subNav">
+					<span>我的关注<i></i></span>
+					<span>推荐<i></i></span>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+				<div class="singleInfo">
+					<img class="leftArea" src="https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2Ffcfaaf51f3deb48fb342a676c6f7d1222cf57866.jpeg%40f_auto%3Ftoken%3Dbefb2e6d45c32396b7701580bb39af2f&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1679936400&t=b7c2010339eb00dce38dca76b9d1bac2"/>
+					<div class="rightArea">
+						<p>记者调查：多人证实“海南临高13岁女孩被霸凌” 目击者称“她当时被打蒙了” </p>
+						<div>
+							<span>央广网</span>
+							<i>03-26 12:10 </i>
+							<u>
+								<i></i>
+								<span>播报</span>
+							</u>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="rightArea"></div>
+		</div>
+	</div>
+</div>
+<div class="footer">
+	<span>关于百度</span>
+	<span>About Baidu</span>
+	<span>使用百度前必读</span>
+	<span>帮助中心</span>
+	<span>企业推广</span>
+	<span>京公网安备11000002000001号</span>
+	<span>京ICP证030173号</span>
+	<span>信息网络传播视听节目许可证 0110516</span>
+	<i></i>
+	<u></u>
+</div>
+</body>
+<script>
+	let aim = new Date('2023/12/1')
+	let cur = new Date()
+	let _s = (aim-cur)/1000|0
+	let d = (_s/(3600*24))|0
+	let h = (_s%(3600*24))/3600|0
+	let m = (_s%3600)/60|0
+	let s = _s%60
+	console.log(`${d}天${h}时${m}分${s}秒`)
+</script>
+</html>

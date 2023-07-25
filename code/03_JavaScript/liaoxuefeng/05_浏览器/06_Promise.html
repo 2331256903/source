@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* 在JS中所有代码都是单线程执行, 由于这个缺陷导致JS的所有网络操作,浏览器事件等都必须异步执行, 异步执行可以用回调函数实现 */
+    /*上一节代码为例:
+    * request.onreadystatechange = function () {
+          if (request.readyState === 4) {
+              if (request.status === 200) {
+                  return success(request.responseText);
+              } else {
+                  return fail(request.status);
+              }
+          }
+      }
+    * 把回调函数success和fail写到一个AJAX不好看且不易复用
+    * 有无更好写法,比如:
+    *   let ajax = ajaxGet('http://...')
+    *   ajax.ifSuccess(success)
+    *       .ifFail(fail)
+    *
+    * 这种链式写法的好处在于先统一执行AJAX逻辑,不用关心如何处理结果,然后根据结果是成功还是失败在将来的某个时候调用success函数或fail函数
+    * 这种承诺将来会执行的对象在JS中称为Promise对象
+    * Promise有各种开源实现 fetch和axios等
+    * */
+
+    /*一个例子,生成0-2之间的随机数,如果小于1,则等待一段时间后返回成功,否则返回失败*/
+    function test(resolve,reject) {
+      let timeOut = Math.random() * 2
+      console.log('set timeout to: ' + timeOut + ' seconds')
+      setTimeout(function(){
+        if (timeOut < 1) {
+          console.log('call resolve()...')
+          resolve('200 OK')
+        }
+        else {
+          console.log('call reject()...')
+          reject('timeout in ' + timeOut + ' seconds')
+        }
+      }, timeOut * 1000)
+    }
+    /*这个test()函数有两个参数,这两个参数都是函数,如果执行成功,将调用resolve('200 OK'),如果执行失败,将调用reject('timeout in ' + timeOut + ' seconds')
+    * 可以看出test()函数只关心自身的逻辑,并不关心具体的resolve和reject函数将如何处理结果
+    * 有了执行函数就可以用一个Promise对象来执行它,并在将来某个时刻获得成功或失败的结果
+    * */
+    let p1 = new Promise(test)
+    let p2 = p1.then(function (result) {
+      console.log('成功: ' + result)
+    })
+    let p8 = p1.catch(function (reason) {
+      console.log('失败: ' + reason)
+    })
+    /*变量p1是一个Promise对象,它负责执行test函数,由于test函数在内部是异步执行的,当test函数执行成功时,我们告诉promise对象
+    * p1.then(function (result) {
+        console.log('成功: ' + result)
+      })
+    * 执行失败时告诉p1对象:
+    * p2.catch(function (reason) {
+        console.log('失败：' + reason);
+      });
+    * 上述then和catch可以串联起来:
+    * new Promise(test).then(function (result) {
+        console.log('成功：' + result);
+      }).catch(function (reason) {
+        console.log('失败：' + reason);
+      });
+    * */
+
+    new Promise(function (resolve, reject) {
+      console.log('start new Promise...');
+      let timeOut = Math.random() * 2;
+      console.log('set timeout to: ' + timeOut + ' seconds.');
+      setTimeout(function () {
+        if (timeOut < 1) {
+          console.log('call resolve()...');
+          resolve('200 OK');
+        }
+        else {
+          console.log('call reject()...');
+          reject('timeout in ' + timeOut + ' seconds.');
+        }
+      }, timeOut * 1000);
+    }).then(function (r) {
+      console.log('Done: ' + r);
+    }).catch(function (reason) {
+      console.log('Failed: ' + reason);
+    });
+    /*
+    * 可见Promise最大的好处是在异步执行的流程中,把执行代码和处理结果的代码清晰地分离了
+    *
+    * new Promise(async) ----then--> on_resolve(data) { // TODO }
+    *       |              |__catch--> on_reject(data) { // TODO }
+    *       |--承诺执行--> async(resolve, reject) { // TODO }
+    * Promise还可以做更多事:
+    *   比如有若干个异步任务,需要先做任务1,如果成功后再做任务2,任何任务失败则不再继续执行并执行错误处理函数
+    * 想要串行执行这样的异步任务,不用Promise需写一层一层的嵌套代码,而使用Promise只需要简单的写
+    * job1.then(job2).then(job3).catch(handlerError)
+    *   其中,job1,job2和job3都是Promise对象
+    * */
+
+    /*上一节的AJAX的异步执行函数转换为Promise对象,简化异步处理:*/
+    /*let log = document.getElementById('test-promise-ajax-result')
+    let p = ajax('GET','/api/categories')
+    p.then(function (text) {
+      // 如果AJAX成功,获得响应内容
+      console.log(text)
+    }).catch(function (status) {
+      // 如果AJAX失败,获得响应代码
+      console.log('ERROR: ' + status)
+    })*/
+
+    /*除去串行执行若干异步任务外,Promise还可以并行执行异步任务:
+    * 试想一个页面聊天系统,我们需要从两个不同的URL分别获得用户的个人信息和好友列表,这两个任务是可以并行执行的,用Promise.all()实现如下:
+    **/
+    let p3 = new Promise(function (resolve, reject) {
+      setTimeout(resolve, 500, 'P1')
+    })
+    let p4 = new Promise(function (resolve, reject) {
+      setTimeout(resolve, 600, 'P2')
+    })
+    //同时执行p3和p4,并在他们都完成后执行then
+    Promise.all([p3, p4]).then(function (results){
+      console.log(results) // 获得一个Array: ['P3','P4']
+    })
+
+    /*有些时候,多个异步任务是为了容错,比如,同时向两个URL读取用户的个人信息,只需要获得先返回的结果即可,这种情况下,用Promise.race()实现*/
+    let p5 = new Promise(function (resolve, reject) {
+      setTimeout(resolve, 500, 'p5')
+    })
+    let p6 = new Promise(function (resolve, reject) {
+      setTimeout(resolve, 600, 'p6')
+    })
+    Promise.race([p5, p6]).then(function (results){
+      console.log(results) // 'P1'
+    })
+    /*此时由于p1较快,Prpmise的then()将获得结果'p1',p2仍在继续执行,但执行结果将被丢弃*/
+
+    /*resolve和reject两个函数是ES6的api,由浏览器提供,调用resolve函数状态就是成功,并传参数给then()内的函数,调用reject就是失败
+    *   resolve将Promise对象的状态从'未完成'变为'成功',在异步操作成功时调用,并将异步操作的结果作为参数传递出去;reject的作用相反
+    *   二者有两个作用: 1. 改变Promise的状态  2. 将操作结果作为参数传出去,例如resolve( result ),这样后面调用then才能直接得到这个result,
+    * 并将得到的result作为参数用于then里面的函数操作
+    * */
+
+    const setDelay = (millisecond) => {
+      return new Promise((resolve, reject)=>{
+        if (typeof millisecond != 'number') reject(new Error('参数必须是number类型'));
+        setTimeout(()=> {
+          resolve(`我延迟了${millisecond}毫秒后输出的`)
+        }, millisecond)
+      })
+    } // 第一个promise对象
+    const setDelaySecond = (seconds) => {
+      return new Promise((resolve, reject)=>{
+        if (typeof seconds != 'number' || seconds > 10) reject(new Error('参数必须是number类型，并且小于等于10'));
+        setTimeout(()=> {
+          console.log(`先是setDelaySeconds函数输出，延迟了${seconds}秒，一共需要延迟${seconds+2}秒`)
+          resolve(setDelay(2000)) // 这里依赖上一个Promise
+        }, seconds * 1000)
+      })
+    } // 第二个promise对象
+    setDelaySecond(3).then((result)=>{
+      console.log(result)
+    }).catch((err)=>{
+      console.log(err);
+    })
+    /* CSDN
+    * Promise构造函接收一个函数作为参数,其中该参数又接收两个函数作为它自身的参数,分别是resolve和reject,对于promise对象,resolve和reject函数的作用理解如下:
+    *   1.new Promise()返回一个promise对象.该对象一共有三个状态:进行中,已完成和失败,回调函数的调用是根据对象的状态来完成的,该对象的原型上拥有then和catch等方法
+    *   2.在构造函数参数的内部执行自定义的一些代码,通过代码的执行结果来选择调用resolve方法还是reject
+    *   3.resolve方法的作用是把promise对象的状态从进行中变为已完成,同事可以向resolve方法传入参数,这个参数会在将来被promise对象的then方法获取,
+    * 而reject方法也是同样的道理,只不过是把promise对象的状态变成失败,同时传入的参数会被catch方法获取而已
+    *   4.也就是说,resolve和reject方法的作用只不过是根据代码逻辑,把promise对象的状态置为已完成或失败,同时通知promise方法的then方法或catch方法:
+    * 我们已经修改了promise对象的状态,接下来需要你们(then和catch)根据对象的状态决定走哪条路
+    *   5.整个过程可以总结为:当resolve或reject修改了promise对象的状态后,通过检测promise对象的状态,决定执行then还是catch回调方法,
+    * 在这个过程中resolve和reject起到的作用是修改promise对象的状态,通知回调函数以及传递回调函数可能需要的参数,这样做的好处是吧逻辑判断和回调函数分开处理
+    *
+    * 延升至axios:
+    *   因为axios是基于promise的,因此axios异步请求也返回一个promise对象,所以有axios().then()这样的写法,这说明axios本身已经对异步请求的过程做了封装,
+    * 若请求成功则传递响应内容给then()方法,否则传递给catch方法
+    * */
+  </script>
+</head>
+<body>
+
+</body>
+</html>

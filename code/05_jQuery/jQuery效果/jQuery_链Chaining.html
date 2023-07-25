@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/jquery.js"></script>
+  <style>
+    #p1 {
+      height: 100px;
+      width: 100px;
+      background-color: #9b9fac;
+    }
+  </style>
+  <script>
+/*
+* 通过jQuery可以把方法链接在一起
+*   Chaining允许我们在一条语句中运行多个jQuery方法(在相同的元素上),即在相同的元素上运行多条jQuery命令,是的浏览器不必多次查找相同的元素
+* */
+  $(document).ready(function (){
+    $("button").click(function(){
+      $("#p1").css("background-color","red").slideUp(2000).slideDown(1000)
+    })
+  })
+/*链接后代码会变长,但是jQuery可以随意换行或缩进,jQuery会抛掉多余的空格并当成一行长代码来执行*/
+  </script>
+</head>
+<body>
+  <p id="p1"></p>
+  <button>点我</button>
+</body>
+</html>

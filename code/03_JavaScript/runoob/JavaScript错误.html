@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  try 语句测试代码块的错误
+  catch 语句处理错误
+  throw 语句创建自定义错误
+  finally 语句在try catch之后,无论是否触发异常均执行该语句
+
+  try语句允许在定义执行时进行错误测试的代码块
+  catch语句允许定义当try代码块发生错误时所执行的代码块
+  JS中try和catch语句成对出现
+-->
+<script>
+  let txt = ""
+  function message(){
+    try{
+      adddlert("Welcome guest!")
+    } catch(err) {
+      txt = "本页有一个错误.\n\n"
+      txt += "错误描述" + err.message + "\n\n"
+      txt += "点击确定继续.\n\n"
+      alert(txt)
+    }
+  }
+</script>
+<!--
+  finally语句 无论前面的try和catch中是否产生异常均执行该代码块
+  throw语句 允许我们创建自定义错误(exception) 同try catch一起使用可以控制程序流并生成自定义的错误消息
+    function myFunction() {
+      let message, x;
+      message = document.getElementById("message");
+      message.innerHTML = "";
+      x = document.getElementById("demo").value;
+      try {
+          if(x == "")  throw "值为空";
+          if(isNaN(x)) throw "不是数字";
+          x = Number(x);
+          if(x < 5)    throw "太小";
+          if(x > 10)   throw "太大";
+      }
+      catch(err) {
+          message.innerHTML = "错误: " + err;
+      }
+  }
+-->
+<input type="button" value="查看信息" onclick=message()>
+</body>
+</html>

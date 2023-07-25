@@ -1,0 +1,26 @@
+* {
+  font-family: PingFangSC-Regular,sans-serif,PingFangSC-Light,sans-serif,"Microsoft YaHei",arial;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: inherit;
+  font-variant: inherit;
+  text-decoration: none;
+  text-align: left;
+  list-style: none;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color:black;
+}
+
+ul { list-style:none; }
+
+body {
+  overflow: auto;
+}

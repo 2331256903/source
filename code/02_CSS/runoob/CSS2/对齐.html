@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  水平居中对齐一个元素:margin:auto
+    需要设置元素的宽度,避免它溢出容器的边缘,若没有设置width属性(或100%),居中将不生效
+  文本居中对齐:text-align:center
+  图片居中对齐:将其放入块元素中并使用margin:auto
+  左右对齐(定位):position:absolute  右对齐right:0
+    使用position对齐元素时,通常<body>元素会设置margin和padding以避免在不同浏览器中出现可见的差异
+    注:使用position属性始终设置!DOCTYPE声明,否则在IE8以及更早版本中会在右侧增加17px的外边距
+  左右对齐(浮动):float:right
+    对<body>元素进行内外边距的预定义可以避免在不同浏览器中出现可见的差异
+    在父元素上设置overflow:auto来解决元素溢出的问题
+    使用float属性始终设置!DOCTYPE声明,否则在IE8以及更早版本中会在右侧增加17px的外边距
+  垂直居中对齐:头部顶部使用padding设置数值
+  垂直居中:1.设置line-height = height
+         2.使用position和transform设置垂直居中:
+            首先使用position:fixed;top:50%;left:50%;使元素的左上角位于页面中间位置
+            上下位移transform:translateX(-50%) translateY(-50%);相对于该元素宽高的50%移回来
+
+-->
+</body>
+</html>

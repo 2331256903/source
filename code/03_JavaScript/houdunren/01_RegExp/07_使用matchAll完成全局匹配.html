@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+  <script>
+    /* 注意,只有部分高端浏览器有matchAll方法 */
+    let reg = /^<(h[1-6])>([\s\S]+?)<\/\1>$/ig // 此时匹配的是所有标签和内容,只想匹配内容缺匹配不到
+    const body = document.body
+    // console.dir(body.innerHTML.match(reg))
+    console.log(body.innerHTML.matchAll(reg)) // 使用matchAll得到的是一个迭代对象,遍历
+    let contents = []
+    for (const iterator of hd) {
+      console.dir(iterator) // 获得元素和内容
+      contents.push(iterator[2])
+    }
+    console.table(contents)
+
+    // 为低端浏览器定义原型方法matchAll 一个递归算法,当所有u被替换后,最后一次匹配不到,默认返回空,然后层层返回
+    String.prototype.matchAll = function (reg){
+      let res = this.match(reg) // match()函数使用正则表达式对字符串执行查找并将包含查找的结果作为数组返回
+      // console.log(res)
+      // 如果匹配成功返回数组,因为匹配多个值,以数组形式返回
+      if (res) {
+        // 由于只能匹配一次,将匹配到的单个或连续字符替换成别的,递归匹配
+        let str = this.replace(res[0],'^'.repeat(res[0].length))
+        let match = str.replaceAll(reg) || [] // 一定会出现查不出来的情况,因此返回一个空数组
+        return [res, ...match] // 由于match还是数组,返回结果中展开
+      }
+    }
+
+    let hd2 = "houdunren"
+    console.log(hd.matchAll(/u/i))
+  </script>
+</head>
+<body>
+  <h1>houdunren.com</h1>
+  <h2>hdcms.com</h2>
+  <h1>后盾人</h1>
+</body>
+</html>

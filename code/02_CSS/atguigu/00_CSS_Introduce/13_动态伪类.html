@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 选中的是没有访问过的a元素 */
+        a:link{
+            color:orange;
+        }
+        /* 选中的是访问过的a元素 */
+        a:visited{
+            color: gray;
+        }
+        /* 选中的是鼠标悬浮状态的a元素 */
+        a:hover{
+            color: aqua;
+        }
+        /* 选中的是激活的a元素 */
+        a:active{
+            color: green;
+        }
+        /* 上述四个伪类选择器顺序不可变,否则会造成部分失效,后来者居上,顺序lvha */
+
+        /* 选中的是鼠标悬浮的span元素 */
+        span:hover{
+            color: aqua;
+        }
+        span:active{
+            color: red;
+        }
+
+        /* focus仅输入类元素才能使用 input select等 */
+        input:focus{
+            color: orange;
+            background-color: green;
+        }
+    /* 重要: 控制台调整动态元素样式的方法:
+        方法1. 利用计时器加断点, 控制台中输入类似:
+          setTimeout(()=>{
+              debugger
+          },1800)
+          即可在1.8s后卡住动态元素的显示, 进行调试
+        方法2. 利用Chrome浏览器控制台自带的元素选项进行调试(不推荐)
+          该方法仅对纯css控制的动效有效果, js等途径控制的动态显示无效
+     */
+    </style>
+</head>
+<body>
+    <a href="https://www.baidu.com">去百度</a>
+    <a href="https://www.jd.com">去京东</a>
+    <span>哈哈</span><br>
+    <input type="text"><br>
+    <input type="text"><br>
+    <input type="text">
+</body>
+</html>

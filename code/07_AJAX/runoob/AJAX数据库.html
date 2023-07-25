@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--AJAX可用来与数据库进行动态通信-->
+  <script>
+    function showCustomer(str){
+      let xmlhttp
+      if(str==""){
+        document.getElementById("txtHint").innerHTML=""
+        return
+      }
+      if(window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest()
+      }
+      else{
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+      }
+      xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+          document.getElementById("txtHint").innerHTML = xmlhttp.responseText
+        }
+      }
+      xmlhttp.open("GET","/try/ajax/getcustomer.php?q="+str,true)
+      xmlhttp.send()
+    }
+
+    /*
+    * showCustomer()函数执行以下任务
+    *   检查是否已选择某个客户
+    *   创建XMLHttpRequest对象
+    *   当服务器响应就绪时执行所创建的函数
+    *   把请求发送到服务器上的文件
+    * 向URL添加了一个参数q(带有输入域中的内容)
+    * */
+
+    /*AJAX服务器页面
+    * <%
+      response.expires=-1
+      sql="SELECT * FROM CUSTOMERS WHERE CUSTOMERID="
+      sql=sql & "'" & request.querystring("q") & "'"
+
+      set conn=Server.CreateObject("ADODB.Connection")
+      conn.Provider="Microsoft.Jet.OLEDB.4.0"
+      conn.Open(Server.Mappath("/db/northwind.mdb"))
+      set rs=Server.CreateObject("ADODB.recordset")
+      rs.Open sql,conn
+
+      response.write("<table>")
+      do until rs.EOF
+        for each x in rs.Fields
+          response.write("<tr><td><b>" & x.name & "</b></td>")
+          response.write("<td>" & x.value & "</td></tr>")
+        next
+        rs.MoveNext
+      loop
+      response.write("</table>")
+      %>
+    * */
+    /*getcustomer.php中的元代码负责对数据库进行查询,然后用HTML表格返回结果*/
+  </script>
+</head>
+<body>
+
+</body>
+</html>

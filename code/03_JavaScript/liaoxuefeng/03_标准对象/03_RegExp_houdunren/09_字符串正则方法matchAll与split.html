@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+  <script>
+    // let hd = "houdunren.com"
+    // search() 搜索内容返回第一次出现的索引
+    console.log(hd.search("h"))
+    // match() 使用正则检索到内容,默认情况下找到一个停止
+    console.log(hd.match(/u/ig))
+    let hd = `
+      https://hdcms.com
+      https://www.sina.com.cn
+      https://www.houdunren.com
+    `
+    let reg = /https?:\/\/(?:\w+\.)?(\w+\.)+(?:com|cn|org|cc)/ig
+    console.dir(hd.match(reg))
+
+    // matchAll 返回迭代器,细节更多:主信息,原子组等,不想使用的加上?:过滤忽略掉
+    for (const iterator of hd.matchAll(reg)) {
+      console.log(iterator)
+    }
+
+    // split拆分方法,根据正则拆分
+    let hd2 = "2020-09-12"
+    console.log(hd2.split(/[-\/]/))
+  </script>
+</head>
+<body>
+
+</body>
+</html>

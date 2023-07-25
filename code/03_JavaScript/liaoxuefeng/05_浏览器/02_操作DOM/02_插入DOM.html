@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* 如果获得了某个DOM节点, 想在这个DOM节点中插入新的DOM,该怎么做 */
+  /* 如果这个DOM节点是空的, 那么直接使用innerHTML='<span>child</span>'即可修改DOM节点的内容,相当于直插入了新的DOM节点 */
+  /* 如果这个DOM节点不是空的,就不能这么做,因为innerHTML会直接替换掉原来所有的子节点, 有两个办法可以插入新的节点:
+  一个是appendChild,把一个子节点添加到父节点的最后一个子节点 */
+</script>
+<!--例如:-->
+<p id="js">JavaScript</p>
+<div id="list">
+  <p id="java">Java</p>
+  <p id="python">Python</p>
+  <p id="scheme">Scheme</p>
+</div>
+<!--把<p id="js">JavaScript</p>添加到<div id="list">的最后一项-->
+<script>
+  let js = document.getElementById('js')
+  list = document.getElementById('list')
+  list.appendChild(js)
+  /* 此时HTML结构变成:
+  *   <div id="list">
+  *     <p id="java">Java</p>
+  *     <p id="python">Python</p>
+  *     <p id="scheme">Scheme</p>
+  *     <p id="js">JavaScript</p>
+  *   </div>
+  * 由于插入的js节点已经存在于当前的文档树, 因此这个节点首先会从原先的位置删除, 在插入到新的位置
+  * */
+  // 更多的时候会从零创建一个新节点,然后插入到指定位置
+  let haskell = document.createElement('p')
+  haskell.id = 'haskell'
+  haskell.innerText = 'Haskell'
+  list.appendChild(haskell)
+  // 这样就动态添加了一个新节点
+  /* 动态创建一个节点然后添加到DOM树中, 可以实现很多功能, 举个例子, 下面的代码动态创建了一个<style>节点,然后把它添加到<head>的末尾, 这样就动态地给文档添加了新的CSS定义*/
+  let d = document.createElement('style')
+  d.setAttribute('type', 'text/css')
+  d.innerHTML = 'p {color: red}'
+  document.getElementsByTagName('head')[0].appendChild(d)
+
+  /* insertBefore 如果要把子节点插入到指定的位置,可以使用parentElement.insertBefore(newElement, referenceElement),
+  子节点会插入到referenceElement之前, 而使用insertBefore的重点是要拿到一个参考子节点的引用, 很多时候需要循环一个父节点的所有子节点,可以通过迭代children实现*/
+  let i, c
+  list = document.getElementById('list')
+  for (i = 0; i < list.children.length; i++) {
+    c = list.children[i] // 拿到第i个子节点
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+/*
+* Math对象的作用,执行常见的算术任务
+*   round() 四舍五入
+*   random() 返回0到1之间的随机数
+*   max() 返回两个给定数中较大的数
+*   mix() 较小的数
+* */
+// 随机生成指定数量的字符
+function randChar(length,characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"){
+  //length为所需长度，characters为所包含的所有字符，默认为字母+数字。
+  characters=characters.split("");//分割字符。
+  result="";//返回的结果。
+  while(result.length<length) result+=characters[Math.round(Math.random()*characters.length) - 1];
+  return result;
+}
+/*
+* 规律:
+*   1.[a,b) => Math.floor(Math.random()*(b-a)+a)   Math.floor()进行下舍入
+*   2.想找到[a,b],可以先找到[a,b+1)这两个区间等效
+*   3.可以根据1的规律找到[a,b]
+*   4.Math.floor(Math.random()*(b+1-a)+a)
+* */
+
+console.log(randChar(5))
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../../../node_modules/jquery/dist/jquery.js"></script>
+  <script>
+/*
+* JQuery选择器允许对HTML中元素组或单个元素进行操作
+* JQuery选择器基于已经存在的CSS选择器之外还有一些自定义选择器
+* JQuery中所有选择器都以美元符$()开头
+* */
+
+/*
+*  JQuery元素选择器基于元素名选取元素
+*  在页面中选取所有p元素:
+*    $("p")
+*  #id 选择器
+*     $("#test")
+*   .class 选择器
+*     $(".test")
+*   更多元素选择器:
+*       $("*") 选中所有元素
+*       $(this) 选中当前HTML
+*       $("p.intro") 选取class为intro的<p>元素
+*       $("p:first") 选取第一个<p>元素
+*       后续略,形式等同于原生CSS
+*         $("#id","#.class") 复合选择器
+*         $("div p span") 层级选择器
+*         $("div>p") 父子选择器
+*         $("div+p") 相邻元素选择器
+*         $("div-p") 兄弟选择器
+*         $(".p:last") 类选择器 加 过滤选择器 最后一个<p>元素
+*         $("#mytable td:odd") 层级选择器 加 过滤选择器(奇偶)
+*         $("div pLeq(2)") 索引选择器 div下的第三个<p>元素 (索引是从0开始的)
+*         $("a[href="www.baidu.com"]") 属性选择器
+*       新增:
+*         $("p:contains(text)") 内容过滤选择器 包含test内容的p元素
+*         $(":empty") 内容过滤选择器 所有空标签(不包含子标签和内容的标签) parent相反
+*         #(":hidden") 所有隐藏元素 visible相反
+*         $("input:enabled") 选取所有启用的表单元素
+*         $(":disabled") 选取所有不可用的元素
+*         $("input:checked") 选取所有选中的复选框单选框按钮
+*         $("select option:selected") 获取选中的选项元素
+*
+*
+*
+*   $(":button")可以选取所有type="button"的<input>元素和<button>元素,如果去掉:则只能获取到<button>元素
+*     <button>按钮</button>
+*     <input type="button" value="Input按钮">
+*
+*   : 可以理解为种类  [] 可以理解为属性
+*   : 为JQuery中的过滤选择器,类似于CSS中的伪类选择器;其过滤选择器大概可以分为基本过滤(p:first之类),内容过滤(:empty),子元素过滤(:first-child)
+* 和属性过滤[href]选择器
+* */
+
+/*
+*   独立文件中使用JQuery,类似引入外部独立js文件,jquery也支持独立文件引入,若网页包含大量页面,抑郁维护,可将JQuery文件放入独立.js文件中,然后通过
+* <script src="">< /script>引入
+* */
+  </script>
+</head>
+<body>
+
+</body>
+</html>

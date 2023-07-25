@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+    }
+    .item{
+      width: 100px;
+      height: 20px;
+      display: inline-block;
+    }
+    body>.item:nth-of-type(1){
+      background-color: skyblue;
+    }
+    body>.item:nth-of-type(2){
+      background-color: #4e71f2;
+      vertical-align: top;
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+<div id="aim">
+  <div class="item"></div>
+  <div class="item"></div>
+</div>
+<script>
+  function F() {
+
+  }
+
+  F.prototype.log = function () {
+    alert(123)
+  }
+
+  ;(new F()).log()
+
+  // '',0,false,null,undefined,NaN
+  // console.log([].slice.call(document.getElementById('aim').getElementsByTagName('div'), 0, 1));
+
+</script>
+</body>
+</html>

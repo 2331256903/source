@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 伪元素 不是元素,是元素中的一些特殊位置 */
+        /* 选中的是div中第一个字母 */
+        div::first-letter{
+            color:red;
+            font-size:40px
+        }
+
+        /* 选中的是div中第一行文字 */
+        div::first-line{
+            background-color: yellow;
+        }
+        /* 选中的是div中被鼠标选中的元素 */
+        div::selection{
+            background-color: green;
+            color: orange;
+        }
+
+        /*选中的是input元素中的提示文字*/
+        div::placeholder {
+            color: skyblue;
+        }
+
+        /*选中的是p元素最开始的位置,最后创建一个子元素*/
+        div::before {
+            content:"$"
+        }
+
+        /*选中的是p元素最后的位置,最后创建一个子元素*/
+        div::after {
+            content:".00"
+        }
+    </style>
+</head>
+<body>
+    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime, iusto unde? Ea nostrum consectetur necessitatibus maiores, totam fuga quas fugiat possimus sit aut nisi dignissimos at minima ut eos ipsa velit unde, quae molestias explicabo ratione veniam dolorum vero excepturi. Ea eius at quo, in molestias nobis voluptates ducimus incidunt aliquam illum aliquid mollitia repellendus voluptas deleniti dolore sint nesciunt.</div>
+    <br>
+    <input type="text" placeholder="请输入你的用户名">
+</body>
+</html>

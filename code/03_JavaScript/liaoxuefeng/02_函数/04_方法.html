@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* 在一个对象中绑定函数,称为这个对象的方法 */
+    let xiaoming = {
+      name: 'xiaoming',
+      birth: 1990,
+      age: function () {
+        let y = new Date().getFullYear()
+        return y - this.birth
+      }
+    }
+    /* 在一个方法内部,this是一个特殊变量,它始终指向当前对象,也就是xiaoming这个变量,所以this.birth可以拿到xiaoming的birth属性 */
+    function getAge() {
+      let y = new Date().getFullYear()
+      return y - this.birth
+    }
+    let xiaoming2 = {
+      name: 'xiaoming',
+      birth: 1990,
+      age: getAge
+    }
+    xiaoming2.age() // 25
+    age() // NaN
+    /* JS的函数内部如果调用了this,如果以对象的方法形式调用,则该函数的this指向被调的对象,如果单独使用函数,此时函数的this指向全局对象 */
+    // 如果这么写
+    let fn = xiaoming2.age // 先拿到xiaoming2的age函数
+    fn() // NaN
+    /* 也不行,要保证this指向正确必须使用obj.xxx()的形式调用, 由于这是一个巨大的设计错误,ECMA决定在strict模式下让函数的this指向undefined */
+    /* 此时如果在对象方法内再定义函数 */
+    let xiaoming3 = {
+      name: '小明',
+      birth: 1990,
+      age: function () {
+        function getAgeFromBirth() {
+          let y = new Date().getFullYear();
+          return y - this.birth;
+        }
+        return getAgeFromBirth();
+      }
+    };
+    xiaoming3.age() // undefined
+    /* this指针只在age方法的函数内指向xiaoming3, 在函数内部定义的函数, this又指向undefined了(非严格模式下指向window),此时想要使用this, 需要在age中先用一个that变量捕获this */
+
+    /* apply,call,bind改变this指向 */
+  </script>
+</head>
+<body>
+
+</body>
+</html>

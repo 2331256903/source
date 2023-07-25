@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+  /*如需获得服务器响应,请使用XMLHttpRequest对象的responseText或responseXML属性
+  *  responseText  获得字符串形式的响应数据
+  *  responseXML  获得XML形式的相应数据
+  * */
+  /*
+  * 如果来自服务器的相应并非XML,请使用responseText属性
+  * responseText属性返回字符串形式的响应
+  * */
+  document.getElementById("myDiv").innerHTML = xmlhttp.responseText
+  /*如果来自服务器的相应是XML,而且需要作为XML对象进行解析,请使用responseXML属性*/
+  // 请求cd_catalog.xml文件,并解析响应
+  xmlDoc = xmlhttp.responseXML
+  txt = ""
+  x = xmlDoc.getElementsByTagName("ARTIST")
+  for(i = 0; i < x.length; i++){
+    txt = txt + x[i].childNodes[0].nodeValue + "<br>"
+  }
+  document.getElementById("myDiv").innerHtml = txt
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* JS的所有数据都可以看成对象, 但只使用NUmber,Array,string以及基本的{...}还无法发挥出面向对象编程的实力,
+    * 首先应当区别于其他语言的面向对象编程, 理解两个概念:
+    *   1. 类: 类是对象的类型模板, 例如, 定义Student类来表示学生, 类本身是一种类型, Student表示学生类型, 但不表示任何具体的学生
+    *   2. 实例: 实例是根据类创建的对象, 例如, 根据Student类可以创建出xioaming,xiaoming,xiaojun等多个实例, 每个实例表示一个具体的学生,它们全都属于Student类型
+    * 不过在JS中, 这个概念需要改一改, JS不区分类和实例的概念, 而是通过原型prototype来实现面向对象编程
+    * 原型指的是当我们想创建xiaoming这个具体的学生时,并没有一个student类来用,但恰好有这么一个现成的对象
+    *   let robot = {
+    *       name: 'Robot',
+    *       height: 1.6,
+    *       run: function() {
+    *       console.log(this.name + 'is running...')
+    *     }
+    *   }
+    * 注意到这个robot对象有名字,有身高等,于是直接根据它创建xiaoming, 直接把它改名为Student然后创建出xiaoming
+    * */
+    let Student = {
+      name: 'Robot',
+      height: 1.2,
+      run: function () {
+        console.log(this.name + 'is running')
+      }
+    }
+
+    let xiaoming = {
+      name: '小明'
+    }
+    // xiaoming的原型对象指向了对象Student, 看上去像是xiaoming是从Student继承下来的
+    xiaoming.__proto__ = Student
+
+    console.log(xiaoming.name)
+    xiaoming.run()
+    // xiaoming自己有name属性, 但并没有定义run()方法, 不过由于小明是从Student继承而来, 只要Student有run方法,xiaoming也可以调用
+    /*
+    *  xiaoming  ---------->  Student
+    *   -name     prototype    -name
+    *                          -height
+    *                          -run
+    * JS的原型链和Java的class的区别就在, 它没有class概念, 所有对象都是实例, 所谓继承关系只是把一个对象的原型指向另一个对象而已
+    * */
+
+    // 如果把xiaoming的原型指向其他对象, 就无法使用run了
+    let Bird = {
+      fly: function() {
+        console.log(this.name + ' is flying')
+      }
+    }
+    xiaoming.__proto__ = Bird
+    xiaoming.fly()
+
+    /* 注意: 上述仅仅为一个例子, 实际编程中尽量不要使用obj.__proto__方法来改变一个对象的原型, 并且低版本的IE也无法使用__proto__,
+    Object.create() 方法可以传入一个原型对象, 并创建一个基于该原型的新对象, 但是新对象什么属性都没有, 因此可以便编写一个函数来创建xiaoming */
+    // 原型对象
+    /*let Student = {
+      name: 'Robot',
+      height: 1.2,
+      run: function () {
+        console.log(this.name + 'is running')
+      }
+    }*/
+    function createStudent(name) {
+      // 基于Student原型创建一个新对象
+      let s = Object.create(Student)
+      s.name = name
+      return s
+    }
+    let xiaoming2 = createStudent('小明')
+    xiaoming2.run()
+    console.log(xiaoming2.name)
+    console.log(xiaoming2.__proto__ === Student) // true
+
+    /* 这是创建原型继承的一种方法, JS还有许多其他方法来创建对象 */
+  </script>
+</head>
+<body>
+</body>
+</html>

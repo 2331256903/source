@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root" :x="n">
+    <h2>当前的n值是:{{n}}</h2>
+    <button @click="add">点击n++</button>
+    <button @click="bye">点击销毁vm</button>
+  </div>
+
+  <script type="text/javascript">
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el:'#root',
+      data:{
+        n:1
+      },
+      methods:{
+        add(){
+          this.n++
+        },
+        bye(){
+          console.log('bye')
+          /*完全销毁一个实例,清理它与其它实例的链接,解绑它的全部指令及事件监听器*/
+          this.$destroy()
+        }
+      },
+      /*beforeCreate:创建数据代理和数据监测之前,此时无法通过vm访问到data中的数据,methods中的方法*/
+      beforeCreate(){
+        console.log('beforeCreate')
+        /*console.log(this)
+        * debugger;
+        * */
+      },
+      /*created:此时可以通过vm访问到data中的数据,methods中的方法*/
+      created(){
+        console.log('created')
+        console.log(this)
+      },
+      /*beforeMount此时呈现的是未经编译的DOM结构,此时所有对DOM的操作,最终都不生效*/
+      beforeMount(){
+        console.log('beforeMount')
+      },
+      /*mounted挂载完毕(重要)
+      * 1.页面中呈现的是经过Vue编译的DOM
+      * 2.对DOM操作均有效(尽可能避免),至此初始化过程结束,一般在此进行:开启定时器,发送网络请求,订阅消息,绑定自定义事件等初始化操作
+      * */
+      mounted(){
+        console.log('mounted')
+      },
+      /*beforeUpdate此时数据是新的但页面是旧的,即页面尚未和数据保持同步*/
+      beforeUpdate(){
+        console.log('beforeUpdated')
+      },
+      /*updated此时数据和页面都是新的,即页面和数据同步了*/
+      updated() {
+        console.log('updated')
+      },
+      /*beforeDestroy(重要):此时vm中的所有data,methods,指令等都处于可用状态,马上要执行销毁过程,一般在此阶段,关闭定时器,取消订阅消息,解绑自定义事件等收尾操作*/
+      beforeDestroy(){
+        console.log('beforeDestroy')
+      },
+      /*没用*/
+      destroyed(){
+        console.log('destroyed')
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <main>
+    后盾人不断分享视频教程,学习后盾人教程提升编程能力
+    <a href = "https://www.baidu.com">百度</a>
+    <a href = "https://yahoo.com">雅虎</a>
+    <input type="text" name="username">
+
+    <a href="https://www.houdunren.com/1.jpg">1.jpg</a>
+    <a href="https://oss.houdunren.com/2.jpg">2.jpg</a>
+    <a href="https://cdn.houdunren.com/2.jpg">3.jpg</a>
+    <a href="https://houdunren.com/2.jpg">后盾人</a>
+  </main>
+</body>
+<script>
+  /* let main = document.querySelector('main')
+  let reg = /后盾人(?=教程)/g // 断言表达式可以理解为正则匹配的条件语句 (?=教程)理解为右边是 "教程" 的后盾人,只有第二个后盾人变成超链接
+  main.innerHTML = main.innerHTML.replace(reg, `<a href="https://www.houdunren.com">$&</a>`)*/
+  /* 单词边界 \b (boundary)*/
+  /*
+  * tom 含有tom的单词 例如atomic
+  * \btom 以tom开头的单词 tomorrow
+  * tom\b 以tom结尾的单词 atom
+  * \btom\b 只匹配tom
+  *  */
+
+  /* 行的开始和结束  \A \z */
+  /*
+  * 类似^和$,但是不支持多行模式,目标字符串也不可以有其他字符,比如换行或者空格
+  * \A\d{6}\z 匹配123456
+  * */
+
+  /* 环视 也被称为零宽断言,和单词边界类似,但是更加灵活,环视可以限定左右两侧的单词可以是什么类型,不可以是什么类型,可以或不可以是什么内容 */
+  /* (记忆: 带<看左边,不带<看右边,带!为否定)
+  * (?<=Y) 肯定逆序环视 左边是Y  (?<=\d)th 左边是数字的th, 可以匹配上9th
+  * (?<!Y) 否定逆序环视 左边不是Y (?<!Y)th 左边不是数字的th, 可以匹配上health
+  * (?=Y) 肯定顺序环视 右边是Y six(?=Y) 右边是数字的six,可以匹配上six6
+  * (?!Y) 否定顺序环视 右边不是Y six(?!Y) 右边不是数字的six, 可以匹配上sixgod
+  * */
+  /* 注意: 环视的正则表达式是甩括号()括起来的,注意这个括号不会被保存成子组, 引用数括号位置的时候注意跳过 */
+
+  // 把价格中没有.00的补上.00
+  let lessons = `
+    js,200元,300次
+    php,300.00元,100次
+    node.js,180元,260次
+  `
+  let reg = /(\d+)(.00)?(?=元)/gi // 此处(?=元)为条件,不是一个组
+  // string.replace(regexp,replacement) regexp声明了要替换的模式的RegExp对象(正则表达式), replacement为一个字符串,声明的是替换文本或生成替换文本的函数
+  lessons = lessons.replace(reg, (v, ...args) => {
+    args[1] = args[1] || ".00" // 有值就取,没有值就加一个.00
+    return args.splice(0,2).join("") // 由于只用到了前两个数据,所以做了一个截断 splice函数返回从当前数组中被移除的元素所组成的新数组
+  })
+  console.log(lessons)
+
+  // 将a中链接全部变成houdunren
+  const main = document.querySelector("main")
+  const reg2 = /(?<=href=)(['"]).+(?=\1)/gi // 前后断言,中间的.+才是主体
+  main.innerHTML = main.innerHTML.replace(reg2, "https://www.houdunren.com")
+
+  // 给电话号后四位做模糊处理
+  let users = `
+    向军电话: 12345678901
+    后盾人电话: 98745675603
+  `
+  let reg3 = /(?<=\d{7})\d{4}/gi
+  users = users.replace(reg3, v => {
+    return "*".repeat(4)
+  })
+  console.log(users)
+
+  // ?!断言匹配
+  let hd = "houdunren2010hdcms"
+  let reg4 = /[a-z]+(?!\d+)/i // 此时匹配的是houdunre  没有n,和想象中的hdcms不一样
+  let reg5 = /[a-z]+(?!\d+)$/i // 此处的$限制的是最后一位为字母,与主体相关,与断言无关
+  console.log(hd.match(reg5))
+
+  // 断言限制用户名关键词 (敏感词过滤)
+  const input = document.querySelector(`[name="username"]`)
+  input.addEventListener("keyup", function() {
+    const reg6 = /^(?!.*向军.*)[a-z]{5,6}$/i // (?!.*向军.*) 限制条件,从开始到后面任何位置不能有向军
+    console.log(this.value.match(reg6))
+  })
+
+  // ?<!断言匹配
+  let hd7 = "hdcms99houdunren"
+  let reg7 = /^(?<!\d+)[a-z]+$/i
+  console.log(hd7.match(reg7))
+
+  // 使用断言匹配排除法统一数据
+  const main2 = document.querySelector("main")
+  const reg8 = /https:\/\/([a-z]+)?(?<!oss)\..+?(?=\/)/gi // 忽略oss开头的网址并匹配其他网址
+  main.innerHTML = main2.innerHTML.replace(reg8, v => {
+    return "https://org.houdunren.com"
+  })
+</script>
+</html>

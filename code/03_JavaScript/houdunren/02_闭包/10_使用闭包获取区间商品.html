@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	let hd = arr.filter(function(v) {
+		return v >= 2 && v <=9
+	})
+	console.log(hd) // 2 3 4 5 6 7 8 9
+	/* 如果此时需要再获取6-10之间的数字, 修改参数十分麻烦, 利用闭包的特性可以封装一个函数 */
+	function between(a, b) {
+		return function (v) {
+			return v >= a && v <= b
+		}
+	}
+	console.log(arr.filter(between(3, 9)))
+	// 例子: 按照价格获取课程
+	let lessons = [
+		{
+			title: "媒体查询响应式布局",
+			click: 89,
+			price: 12
+		},
+		{
+			title: "FLEX 弹性盒模型",
+			click: 45,
+			price: 120
+		},
+		{
+			title: "GRID 栅格系统",
+			click: 19,
+			price: 67
+		},
+		{
+			title: "盒子模型详解",
+			click: 29,
+			price: 300
+		}
+	]
+	function between2(a, b) {
+		return function (v) {
+			return v.price >= a && v.price <= b
+		}
+	}
+	console.table(lessons.filter(between2(10, 100))) // console.table可以打印表格
+</script>
+</body>
+</html>

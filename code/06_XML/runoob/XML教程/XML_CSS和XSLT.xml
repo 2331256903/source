@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<note>
+<!--
+  可以使用CSS格式化XML文档,但不常用
+  通常使用XSLT显示XML,作为首选的XML样式表语言,在显示XML文件之前先把他转换为HTML
+-->
+</note>

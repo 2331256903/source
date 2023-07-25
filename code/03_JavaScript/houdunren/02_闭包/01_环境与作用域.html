@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+	/*
+		1. 全局环境不会被回收
+			js中全局变量可以渗透到函数中
+	*/
+	let title = "后盾人"
+	function show() {
+		console.log(title)
+	}
+	show()
+</script>
+</body>
+</html>

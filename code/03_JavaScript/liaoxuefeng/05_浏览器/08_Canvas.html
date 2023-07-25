@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* Canvas是H5新增的插件, 类似一块幕布, 可以用JS在上面回执各种图标,动画等
+  *   没有Canvas的年代, 绘图只能借助Flash插件实现, 页面不得不用JS和Flash进行交互, 有了Canvas如今只需要直接使用JS完成绘制
+  *  */
+</script>
+<!-- 一个canvas定义了一个指定尺寸的矩形框, 在这个范围内可以随意绘制 -->
+<canvas id="test-canvas" width="300" height="200">
+  <p>你的浏览器不支持Canvas!</p>
+</canvas>
+<!-- 由于浏览器对H5的标准支持不一致, 所以通常在canvas内部添加一些说明性HTML代码, 如果浏览器支持Canvas, 它将忽略canvas内部的HTML, 如果浏览器不支持则会显示出内部的HTML -->
+<script>
+  /* Canvas本身是没有绘图能力的, 所有的绘制工作必须在JS内部完成 */
+  // 找到canvas元素
+  let c = document.getElementById("test-canvas")
+  /* getContext("2d")方法拿到一个CanvasRenderingContext2D对象, 所有的绘图操作都需要这个对象完成 */
+  // 创建context对象
+  let ctx = c.getContext("2d")
+  /* 如果需要绘制3D, H5还有一个WebGL规范, 允许在Canvas中绘制3D图形, 本节只专注于绘制2D图形 */
+  let gl = c.getContext("webgl")
+
+  /* Canvas坐标 Canvas是一个二维网络, 左上角坐标是(0, 0) */
+  ctx.fillStyle = "#FF0000"
+  ctx.fillRect(0, 0, 150, 75) // fillRect(x, y, width, height)方法定义了矩形当前的填充方式
+
+  /* Canvas路径 在Canvas上画线, 我们将使用以下两种方法
+  *   moveTo(x, y) 定义线条开始坐标
+  *   lineTo(x, y) 定义线条结束坐标
+  * */
+  // 定义开始坐标(0, 0) 结束坐标 (200, 100) 然后使用Stroke()方法来绘制线条
+  ctx.moveTo(0, 0)
+  ctx.lineTo(200, 100)
+  ctx.stroke()
+  // 在Canvas中绘制一个圆形 ,将采用以下方法: arc(x, y, r, start, stop) x,y为圆心位置,start和stop为开始角度和结束角度 360度角为2PI, 90度角为0.5PI, 为顺时针, 负值则为逆时针
+  ctx.beginPath()
+  ctx.arc(95, 50, 40, 0, 2*Math.PI)
+  ctx.stroke()
+  /* 实际上在绘制圆形的时候使用了"ink"方法, 比如stroke() 或者 fill()方法 */
+
+  /* canvas文本
+  *   font定义字体
+  *   fillText(text, x, y) 在Canvas上(x,y)位置填充实心的文本
+  *   strokeText(text, x, y) 在canvas上绘制空心的文本
+  *  */
+  ctx.font = "30px Arial"
+  ctx.fillText("Hello World", 10, 50)
+
+  /* canvas渐变
+  *   渐变可以填充在矩形, 圆形, 线条, 文本等等, 各种形状可以自己定义不同的颜色, 有两种不同的方式来设置Canvas渐变
+  *   createLinearGradient(x, y, x1, y1) 创建线条渐变 渐变开始点的x,y坐标, 渐变结束点的x1,y1坐标
+  *   createRadialGradient(x, y, r, x1, y1, r1) 创建一个径向/圆渐变 渐变开始圆的x,y坐标,r半径; 渐变结束圆的x1,y1坐标,r1半径
+  *  使用渐变对象, 必须使用两种或两种以上的停止颜色
+  *   addColorStop()方法指定颜色停止, 参数使用坐标来描述, 可以是0或1
+  *   使用渐变, 设置fillStyle或strokeStyle的值为渐变, 然后绘制形状, 如矩形,文本,或一条线
+  *   使用createLinearGradient()
+  * */
+  // 创建一个线性渐变,使用渐变填充矩形
+  // 创建渐变
+  let grd = ctx.createLinearGradient(0, 0, 200, 0)
+  grd.addColorStop(0, "red")
+  grd.addColorStop(1, "white")
+  // 填充渐变
+  ctx.fillStyle = grd
+  ctx.fillRect(10, 10, 150, 80)
+  // 创建一个径向渐变,使用渐变填充矩形
+  let grd = ctx.createRadialGradient(70, 50, 5, 90, 60, 100)
+  grd.addColorStop(0, "red")
+  grd.addColorStop(1, "white")
+  ctx.fillStyle = grd
+  ctx.fillRect(10, 10, 150, 80)
+
+  /* canvas图像 把一副图像放置到画布上, 使用 drawImage(image, x, y) */
+  ctx.drawImage(img, 10, 10)
+</script>
+</body>
+</html>

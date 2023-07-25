@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+/*
+* 所有的JS对象都会从一个prototype原型对象中继承属性和方法
+*   Data对象从Data.prototype中继承
+*   Array对象从Array.prototype对象中继承
+* 所有JS对象都是位于原型链顶端的Object的实例
+* */
+
+/*
+* 在所有已经存在的对象添加新的属性和方法,使用prototype属性就可以给对象的构造函数添加新的属性
+* */
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+}
+
+Person.prototype.nationality = "English"
+/*同理可以给对象的构造函数添加新的方法*/
+Person.prototype.name=function(){
+  return this.firstName + " " + this.lastName
+}
+/*
+* 通常使用构造器(函数体)定义属性,使用原型对象(prototype)定义方法
+* 如此,构造器只包含属性定义而方法则分装在不同的代码块,使代码更具可读性
+* */
+
+</script>
+</html>

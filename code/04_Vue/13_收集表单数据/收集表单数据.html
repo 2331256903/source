@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+  收集表单数据:
+    若:<input type="text"/>,则v-model收集的是value值,用户输入的就是value值
+    若:<input type="radio"/>,则v-model收集的是value值,且要给标签配置value值
+    若:<input type="checkbox"/>
+      1.没有配置input的value属性,那么收集的就是checked(布尔值)
+      2.配置input的value属性:
+        (1).v-model的初始值是非数组,那么收集的就是checked(布尔值)
+        (2).v-model的初始值是数组,那么收集的就是value组成的数组
+    备注:v-model的三个修饰符:
+      lazy:失去焦点再收集数据
+      number:输入字符串转为有效数字
+      trim:输入收尾空格过滤
+
+-->
+  <div id="root">
+    <form @submit.prevent="demo">  <!--.prevent表示阻止默认事件的修饰符,提交页面后不会刷新 -->
+      <!--<label for="demo">账号:</label>
+      <input type="text" id="demo">-->
+      账号:<input type="text" id="demo" v-model="userInfo.account"><br><br>
+      密码:<input type="password" v-model="userInfo.password"><br><br>
+      年龄:<input type="number" v-model.number="userInfo.age"><br><br><!--两个.number通常同时使用,第一个控制只能输入数字,的第二个转换数据类型成数字-->
+      性别:
+      男<input type="radio" name="sex" v-model="userInfo.sex" value="male">
+      女<input type="radio" name="sex" v-model="userInfo.sex" value="female"><br><br>
+      爱好:
+      学习<input type="checkbox" v-model="userInfo.hobby" value="study">
+      游戏<input type="checkbox" v-model="userInfo.hobby" value="game">
+      吃饭<input type="checkbox" v-model="userInfo.hobby" value="eat">
+      <br><br>
+      所属校区
+      <select v-model="userInfo.city">
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="shenzhen">深圳</option>
+        <option value="wuhan">武汉</option>
+      </select>
+      <br><br>
+      其他信息:
+      <textarea v-model.lazy="userInfo.other"></textarea>
+      <br><br>
+      <input type="checkbox" v-model="userInfo.agree"><a href="https://www.baidu.com">《用户协议》</a>
+      <button>提交</button>
+    </form>
+  </div>
+  <script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el:'#root',
+      data:{
+        userInfo:{
+          account:'',
+          password:'',
+          age:'',
+          sex:'female',
+          hobby:[],
+          city:'beijing',
+          other:'',
+          agree:false
+        }
+      },
+      methods:{
+        demo(){
+          /*console.log(JSON.stringify(this._data))*/
+          console.log(JSON.stringify(this.userInfo))
+        }
+      }
+    })
+  </script>
+</body>
+</html>

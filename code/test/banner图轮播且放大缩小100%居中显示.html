@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>纯css实现banner图放大缩小100%居中显示</title>
+</head>
+<style>
+	/* 设置banner图外层高度
+占满浏览器，宽度设置100%
+溢出部分隐藏*/
+	.wrapper{
+		height: 500px;
+		width: 100%;
+		overflow: hidden;
+	}
+	/* 外层内包一个div，
+		 通过给该div添加移动动画效果实现轮播*/
+	.box{
+		/* 三个图片轮播，图片高度为500px，根据需求自行调整 */
+		height:1500px;
+		/* 定义动画延迟时间，无限重复，步进为3，根据需求自行调整*/
+		animation: mybox 5s infinite steps(3);
+	}
+	/* 给内层需要轮播的图片设置3个div，
+		 图片设为背景图片，不铺满且一直居中*/
+	.box .img1{
+		height:500px;
+		width:100%;
+		background:url(./img/1.png) no-repeat center;
+		background-size: cover;
+	}
+	.box .img2{
+		height:500px;
+		width:100%;
+		background:url(./img/2.png) no-repeat center;
+		background-size: cover;
+	}
+	.box .img3{
+		height:500px;
+		width:100%;
+		background:url(./img/3.png) no-repeat center;
+		background-size: cover;
+	}
+	/* 定义关键帧，从第一个div移动到最后一个div，
+		 高度为500px，宽度被占满，所以最后一个就需要从Y轴移动-1500px，
+		根据需求自行调整*/
+	@keyframes mybox{
+		form{
+			transform: translateY(0px);
+		}
+		to{
+			transform: translateY(-1500px);
+		}
+	}
+</style>
+<body>
+<div class="wrapper">
+	<div class="box">
+		<div class="img1"></div>
+		<div class="img2"></div>
+		<div class="img3"></div>
+	</div>
+</div>
+</body>
+</html>

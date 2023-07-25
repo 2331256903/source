@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+  <script>
+    let hd = "houdunren"
+    let reg = /u/gi
+    /* let result = []
+    console.log(reg.exec(hd))
+    console.log(reg.exec(hd))
+    while (res = reg.exec(hd)) {
+      result.push(res)
+    }
+    console.log(result) */
+    // 封装到函数中
+    function search(string, reg) {
+      let result = []
+      while ((res = reg.exec(string))) {
+        result.push(res)
+      }
+      return result
+    }
+    let matchs = search(document.body.innerHTML, /<(h[1-6])>[\s\S]+?<\/\1>/g)
+    console.log(matchs)
+  </script>
+</head>
+<body>
+
+</body>
+</html>

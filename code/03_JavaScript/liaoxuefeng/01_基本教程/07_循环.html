@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*for循环的一个变体是for...in循环,他可以把一个对象的所有属性依次循环出来*/
+    let o = {
+      name: 'Jack',
+      age: 20,
+      city: 'Beijing'
+    }
+    for(let key in o){
+      console.log(key)
+    }
+    /*想要过滤掉继承的属性,用hsaOwnProperty()来实现*/
+    for(let key in o){
+      if(o.hasOwnProperty(key)){
+        console.log(key) // 'name', 'age', 'city'
+      }
+    }
+    /*for...in对array的循环得到的是String而不是Number*/
+
+    /*while循环和do...while循环 略 使用循环均要注意边界值*/
+  </script>
+</head>
+<body>
+
+</body>
+</html>

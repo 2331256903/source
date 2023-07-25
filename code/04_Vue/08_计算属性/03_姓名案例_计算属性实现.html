@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+  计算属性:
+    1.定义:要用的属性不存在,要通过已有属性计算得来
+    2.原理:底层记住了Object.defineProperty方法提供的get和set方法
+    3.get函数什么时候执行:
+      (1).初次读取时执行一次
+      (2).依赖的数据发生改变时会被再次调用
+    4.优势:与methods实现相比,内部有缓存机制(复用),效率更高,调试方便
+    5.备注:
+      (1).计算属性最终会出现在vm上,直接读取使用即可
+      (2).如果计算属性要被修改,必须写set函数相应修改,且set要引起计算式依赖的数据发生改变
+-->
+  <div id="root">
+    姓:<input type="text" v-model="firstName"> <br/><br/>
+    名:<input type="text" v-model="lastName"> <br/><br/>
+    <!--模板中表达式应当相对简单-->
+    <!--数据发生变化,模板重新解析  若模板中调用了方法,则方法也重新调用(效率低)-->
+    <!--计算属性的缓存机制-->
+    全名:<span>{{fullName}}</span><br/><br/>
+    <!--全名:<span>{{fullName}}</span><br/><br/>
+    全名:<span>{{fullName}}</span><br/><br/>
+    全名:<span>{{fullName}}</span><br/><br/>-->
+  </div>
+  <script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el:'#root',
+      data:{
+        firstName:'张',
+        lastName:'三'
+      },
+      /*computed调用时自动使用get后将返回值放入vm,而不是放一个对象*/
+      computed:{
+        fullName:{
+          //有人读取fullName时,get被调用,且返回值作为fullName的值
+          //get调用的时机:1.初次读取fullName时 2.所依赖的数据发生变化时
+          get(){
+            console.log('get被调用了')
+            //此处的this是vm
+            return this.firstName + '-' + this.lastName
+          },
+          //当有人修改person的age属性时,set函数就会被调用,且会收到修改的具体值
+          set(value){
+            console.log('set',value)
+            const arr = value.split('-')
+            this.firstName = arr[0]
+            this.lastName = arr[1]
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p id="demo"></p>
+</body>
+<script>
+  /*JavaScript中函数表达式可以存储在变量中*/
+  let x = function (a,b) {return a*b}
+  /*在函数表达式存储在变量后,变量也可以作为一个函数使用*/
+  let z = x(4,3)
+  /*以上函数实际上是一个命名函数(没有名称),函数存储在变量中,不需要函数名称,通常通过变量名来调用*/
+  /*Function()构造函数*/
+  let myFunction = new Function("a","b","return a*b")//或者 let myFunction = new Function("a","b"){"return a*b"}
+  let y = myFunction(4,3)
+
+  /*函数提升 函数可以在声明之前调用*/
+  /*自调用函数(立即执行函数)*/
+    (function(){
+      let x = "Hello!"
+    })()
+  /*
+  函数表达式可以自调用,自调用表达式会自动调用,如果表达式后紧跟()则会自动调用,不能自调用声明的函数,通过添加括号来证明它是一个函数表达式
+  以上函数实际上是一个匿名的自我调用的函数
+  **/
+  /*函数自调用,必须通过吧函数表达式外部添加括号(说明它是一个函数表达式)再调用,否则会报错*/
+  /*但如果把函数表达式赋值给一个变量则不需要添加括号也可以直接调用*/
+    let e = function(){
+      document.write("Hello!我是自调用" + "<br/>")
+      return "返回的东西"
+    }()
+    document.write(e)
+  /*匿名函数自调用表达式*/
+    (function (){})()
+    (function(){document.getElementById("demo").innerHTML = "hello!"})()
+
+  /*函数是对象*/
+  function myFunction2(a,b) {
+    return a*b
+  }
+  /*toString方法将函数作为一个字符串返回*/
+  let txt = myFunction2.toString()
+  console.log(txt)
+
+  /*箭头函数*/
+  /*
+  ES6新增箭头函数,表达式的语法比普通函数更简洁
+  (参数1,参数2...参数n) => {函数声明}
+  (参数1,参数2...参数n) => 表达式(单一) 相当于(参数1,参数2...参数n) => {return 表达式}
+
+  当只有一个参数时,圆括号可选
+  (单一参数) => {函数声明}
+  单一参数 => {函数声明}
+
+  没有参数的函数写成一对圆括号
+  () => {函数声明}
+  * */
+
+  /*
+  所有的箭头函数都没有自己的this,不适合定义一个对象的方法
+  箭头函数会默认绑定外层this的值,所以在箭头函数中this的值和外层一致
+  箭头函数不能提升,因此使用前就得定义
+  const比let更安全,因为函数表达式始终是一个常量
+  * */
+
+  /*如果函数部分只是一个语句,则可以省略return关键字和{}*/
+  const m = (x,y) => x*y
+
+  /*匿名自调用表达式*/
+    (()=>{})()
+</script>
+</html>

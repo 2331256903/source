@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+<!--
+  当请求被发送到服务器时,我们需要执行一些基于相应的任务
+  每当readyState改变时,就会触发onreadystatechange事件
+  readyState属性存有XMLHttpRequest的状态信息
+  下面是XMLHttpRequest对象的三个重要属性:
+    onreadystatechange  存储函数(或函数名),每当readyState属性改变时,就会调用该函数
+    readyState  存有XMLHttpRequest的状态,从0-4发生变化
+                0:请求未初始化
+                1:服务器连接已建立
+                2:请求已接收
+                3:请求处理中
+                4:请求已完成,且响应已就绪
+    status  200: "OK"
+            404: 未找到页面
+
+            304: 该资源在上次请求之后没有任何修改,通常用于浏览器的缓存机制,使用GET请求时需要注意
+            400: 无法找到请求的资源
+            401: 访问资源的权限不够
+            403: 没有权限访问资源
+            405: 需要访问的资源被禁止
+            407: 访问的资源需要代理身份验证
+            414: 请求的url太长
+            500: 服务器内部错误
+
+      综上:
+        1xx: 信息相应类,表示接收到请求并且继续处理
+        2xx: 处理成功响应类,表示动作被成功接收理解和接受
+        3xx: 重定向响应类,为了完成指定的动作,必须接受进一步处理
+        4xx: 客户端错误,客户请求包含语法错误或不能正确执行
+        5xx: 服务端错误,服务端不能正确执行一个正确的请求
+
+    在onreadystatechange事件中,我们规定当服务器响应已做好被处理的准备时做执行的任务
+    当readyState = 4且状态为200时,表示响应已经就绪
+-->
+  <script>
+    xmlhttp.onreadystatechange = function() {
+      if(xmlhttp.readyState = 4 && xmlhttp.status == 200){
+        document.getElementById("myDiv").innerHTML = xmlhttp.responseText
+      }
+    }
+    /*注意:onreadystatechange事件被触发4次,分别0-1,1-2,2-3,3-4,对应这readyState的每个变化*/
+
+    /*使用回调函数
+    *   回调函数是一种以参数形式传递给另一个函数的函数
+    *   如果网站上存在多个AJAX任务,name应该为创建XMLHttpRequest对象编写一个标准的函数,并为每个AJAX任务调用该函数
+    *   该函数调用应该包含URL以及发生onreadystatechange事件时执行的任务(每次调用可能不尽相同)
+    * */
+    function myFunction() {
+      loadXMLDoc("/try/ajax/ajax_info.txt",function() {
+        if(xmlhttp.readyState = 4 && xmlhttp.status == 200){
+          document.getElementById("myDiv").innerHTML = xmlhttp.responseText
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>

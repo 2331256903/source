@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--AJAX可以用来与JSON文件进行交互式通信-->
+  <script>
+/*
+* 当用户点击到获取课程数据的按钮,就会执行loadXMLDoc()函数
+* loadXMLDoc()函数创建XMLHttpRequest对象,添加当服务器响应就绪时执行的函数,并将强求发送到服务器
+* 当服务器响应就绪时,使用JSON.parse()方法将数据转换为JS对象
+* */
+  function loadXMLDoc(){
+    let xmlhttp
+    if(window.XMLHttpRequest){
+      xmlhttp = new XMLHttpRequest()
+    }
+    else{
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+    }
+    xmlhttp.onreadystatechange = function() {
+      if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+        let myArr = JSON.parse(this.responseText)
+        myFunction(myArr)
+      }
+    }
+    xmlhttp.open("GET","/try/ajax/json_ajax.json",true)
+    xmlhttp.setRequestHeader("Content-Type","application/json;charset=UTF-8")
+    xmlhttp.send()
+  }
+  function myFunction(arr){
+    let out = ""
+    let i
+    for(i = 0; i < arr.length; i++){
+      out += '<a href="' + arr[i].url + '">' +
+      arr[i].title + '</a><br>'
+    }
+    document.getElementById("myDiv").innerHTML = out
+  }
+  /*
+  * 上述例子使用的服务器页面其实是名为"json_ajax.json"的JSON文件
+  * [
+      {
+        "title": "JavaScript 教程",
+        "url": "https://www.runoob.com/js/"
+      },
+      {
+        "title": "HTML 教程",
+        "url": "https://www.runoob.com/html/"
+      },
+      {
+        "title": "CSS 教程",
+        "url": "https://www.runoob.com/css/"
+      }
+    ]
+  * */
+  /*发送JSON数据*/
+  xmlhttp.send(JSON.stringify({"email": "admin@runoob.com","response" : {"name" :"runoob"}}))
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* 删除一个DOM就比插入要容易得多
+  *   要删除一个节点,首先需要获得该节点本身以及它的父节点,然后调用父节点的removeChild把自己删除掉
+  *  */
+  // 拿到准备删除的节点
+  let self = document.getElementById('to-be-removed')
+  // 拿到父节点
+  let parent = self.parentElement
+  // 删除
+  let removed = parent.removeChild(self)
+  console.log(removed === self) // true
+  /* 注意到删除后的节点虽然不再文档树中了, 但它其实还在内存中, 可以随时再次被添加到别的位置 */
+  /* 当遍历一个父节点的子节点并进行删除操作时, 要注意children属性是一个只读属性, 并且它在自己点变化时会实时更新,例如:
+  *   对于如下HTML结构:
+  *   <div id="parent">
+  *     <p>First</p>
+  *     <p>Second</p>
+  *   </div>
+  *   使用如下代码删除子节点时:
+  *   let parent = document.getElementById('parent')
+  *   parent.removeChild(parent.children[0])
+  *   parent.removeChild(parent.children[1}) // 浏览器报错
+  *  浏览器报错: parent.children[1]不是一个有效的节点, 原因就在于当节点被删除时, parent.children的节点数量已经从2变成了1,索引1已经不存在了,
+  * 因此删除多个节点时,要时刻注意children的属性在变化
+  * */
+</script>
+</body>
+</html>

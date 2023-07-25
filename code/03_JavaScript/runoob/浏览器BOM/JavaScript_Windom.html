@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+/*浏览器对象模型(BOM) 尚无正式标准*/
+/*
+* Window对象
+*   所有浏览器都支持Window对象,他表示浏览器窗口
+*   所有JS全局变量,函数和其变量均自动成为window对象的成员
+*   全局变量均为window对象的属性,全局函数均为window对象的方法
+* */
+/*
+* 定义全局变量与在window对象上直接定义属性差别
+*   1.全局变量不能通过delete操作符删除,let定义的全局变量会有configurable属性,默认为false
+*   2.查询window对象可以知道某个未声明变量比否存在,而访问未定义的全局变量会报错
+*       let newValue = window.oldValue  //不会报错
+*       console.log(newValue)
+*   3.自执行函数里面的变量想要外部也访问的话,在window对象上直接定义属性
+* */
+</script>
+</html>

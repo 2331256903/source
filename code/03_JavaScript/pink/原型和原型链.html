@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*
+    * 每个 函数 都有prototype"属性"(是属性) 称之为原型, 因为这个属性的值是个对象, 也称为原型对象
+    * 作用: 1. 用于存放一些属性和方法  2. 在JS中实现继承
+    * */
+    const arr = new Array(1,2,3)
+    arr.reverse()
+    arr.sort()
+    /*
+    * 每个 对象 都有__proto__属性
+    * 作用: 这个属性指向它的原型对象
+    * */
+    console.log(arr.__proto__ === Array.prototype) // true
+    /*
+    * 1. 原型: 函数都有prototype属性,称之为原型,也称为原型对象
+    *       原型可以放一些属性和方法,共享给实例对象使用
+    *       原型可以做继承
+    * 2. 原型链: 对象都有__proto__属性,这个属性指向它的原型对象,原型对象也是对象,也有__proto__属性,指向原型对象的原型对象(更高一级),
+    * 这样一层一层形成的链式结构称为原型链,最顶层找不到则返回null
+    * */
+  </script>
+</head>
+</html>

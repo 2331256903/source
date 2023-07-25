@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  #grad {
+    width: 300px;
+    height: 200px;
+    background-image: linear-gradient(0deg,#e66465,#9198e5);
+  }
+
+
+  h1 {
+    position: relative;
+    margin: 0 auto 20px;
+    padding: 10px 40px;
+    width: 400px;
+    text-align: center;
+    background-color: #875e46;
+  }
+
+  h1::before, h1::after {
+    content: '';
+    width: 80px;
+    height: 100%;
+    background-color: #724b34;
+
+    /* 定位彩带两端形状的位置，并且放在最底层 */
+    position: absolute;
+    z-index: -1;
+    top: 20px;
+
+    /* 彩带两端的形状clip-path裁剪 polygon函数,参数为点在坐标轴上位置,第一个点和最后一个点首尾相连*/
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+    /* 绘制并定位彩带的阴影三角形 参数为两个50%时没有渐变*/
+    background-image: linear-gradient(45deg, transparent 50%, #5d3922 50%);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+  }
+
+  h1::before {
+    left: -60px;
+  }
+
+  h1::after {
+    right: -60px;
+    transform: scaleX(-1); /* 水平翻转 */
+  }
+
+  .div2 {
+    background-image: linear-gradient(45deg, red 50%, #5d3922 50%);
+    background-size: 200px 200px;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    width: 300px;
+    height: 300px;
+  }
+</style>
+<body>
+<!--
+线性渐变:
+  background-image: linear-gradient(direction, color-stop1,color-stop2)
+  方向:从上到下(默认),
+      对角:to bottom right,
+      使用角度:从下到上为0deg,顺时针旋转直至360deg,可使用负数
+    eg:#grad {background-image:linear-gradient(to right, #e66465,#9198e5)}
+  使用多个颜色节点:
+    #grad {background-image:linear-gradient(red,yellow,green);}
+  使用透明度:transparent,颜色节点使用rgba即可
+  重复的线性渐变:
+    #grad {background-image: repeating-linear-gradient(red,yellow 10%,green 20%)}
+    颜色后跟着的百分比指该颜色距离起点的位置,30%即距离起点30%开始这个颜色,若果有别的颜色百分比更大则变成这个颜色
+      渐变过渡区的占比为总空间减去上下两个着色快空间占比剩下的空间
+      七色非过渡条:
+       background:linear-gradient(
+        red 0%,
+        red 14.3%,
+        orange 0,
+        orange 28.6%,
+        yellow 0,
+        yellow 42.9%,
+        green 0,
+        green 57.2%,
+        blue 0,
+        blue 71.5%,
+        indigo 0,
+        indigo 85.8%,
+        violet 0,
+        violet 100%
+       }
+    百分比在径向渐变中指定颜色大小
+  径向渐变:
+    默认中心为center,形状为ellipse(椭圆),大小为farthest-corner(表示到最远的角落)
+    background-image: radial-gradient(shape size at position, start color,...,last-color)
+      eg:background-image: radial-gradient(red 30%, green 30%)0-30为红,30-70是红绿渐变,70-100是绿色
+    at控制圆心方向:at 100px 100px,
+    size大小(渐变到哪里停止):
+      closest-side:最近边,farthest-side:最远边
+      closest-corner:最远角,farthest-corner:最远角
+    重复的径向渐变:略
+-->
+<div id="grad"></div>
+
+<h1>标题</h1>
+<div class="div2"></div>
+</body>
+</html>

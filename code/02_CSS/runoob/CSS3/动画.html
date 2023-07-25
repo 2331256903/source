@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div{
+      animation: myfirst 5s infinite; /*指定动画名称和时长*/
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      position: relative; /*增加position:relative使位移相关动画生效*/
+    }
+
+    /*使用百分比或from to规定变化发生的时间 0%开始 100%完成 始终定义0%和100%以保持兼容性*/
+    /*@keyframes规定动画 改变颜色和背景的位置*/
+    @keyframes myfirst {
+      0% {background-color: red; left:0; top:0}
+      25% {background-color: yellow; left: 200px; top:0}
+      50% {background-color: blue; left: 200px; top:200px}
+      75% {background-color: purple; left:0; top: 200px}
+      100% {background-color: red; left:0; top:0}
+    }
+    /*
+      animation-timing-function 规定动画的速度曲线,默认为ease
+        linear:动画从头到尾速度相同
+        ease:默认,动画以低速开始,然后加快,在结束前变慢
+        ease-in:低速开始
+        ease-out:低速结束
+        ease-in-out:低速开始和低速结束
+        steps(int,start|end):阶梯函数,动画以帧过渡
+          第一个参数int为阶梯数,将动画总时长按照阶梯数等距花灯
+          第二个参数可选值为start或end,默认end,也可不写
+            start表示动画第一帧立即执行,直接从第二帧开始,然后以第一帧结束
+            end表示动画从第一帧开始到正常结束
+      animation-fill-mode 规定动画不播放时,要应用到元素的样式
+      animation-delay 规定动画什么时候开始 单位s或ms
+      animation-iteration-count 规定动画的重复次数 infinite无限次
+      animation-direction 规定动画是否在下一周期逆向播放,默认normal
+      animation-play-state 指定动画是否增在运行或暂停,默认running
+
+      简写: animation: myfirst 5s linear 2s infinite alternate
+      animation不太注重语法顺序 (除了duration需要在delay之前 但在-webkit-animation中不能以-webkit-animation-name来结尾)
+    */
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>

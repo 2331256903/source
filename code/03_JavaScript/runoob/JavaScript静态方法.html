@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p id="demo"></p>
+</body>
+<script>
+/*  静态方法使用static关键字修饰 又叫类方法,属于类而不属于对象
+  ,在实例化对象之前可以通过 类名.方法名 调用静态对象,静态方法不能在对象上调用,只能在类中调用*/
+
+class Runoob {
+  constructor(name) {
+    this.name = name
+  }
+  static hello (x){
+    return "Hello" + x.name
+  }
+}
+
+let runoob = new Runoob("菜鸟教程")
+//可以在类中调用'hello()'方法
+document.getElementById("demo").innerHTML = Runoob.hello()
+/*document.getElementById("demo").innerHTML = runoob.hello() 会出错,不能通过实例化后的对象调用静态方法*/
+//如果想对象runoob中使用静态方法,可以作为一个参数传递给它
+document.getElementById("demo").innerHTML = Runoob.hello(runoob)
+</script>
+</html>

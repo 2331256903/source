@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* 对于数组,除了map() reduce() filter() sort() 这些方法可以传入一个函数外,还提供了很多实用的高阶函数 */
+    /* every()方法可以判断数组的所有元素是否满足测试条件 */
+    let arr = ['Apple', 'pear', 'orange']
+    console.log(arr.every(function(s){
+      return s.length > 0
+    })) // true,每个元素length都>0
+
+    /* findIndex() 和find()类似,也是查找符合条件的< 第一个元素 >,不同之处在于返回值为这个元素的索引,没找到则返回-1
+    *     和indexOf()的区别,indexOf()丢进去的是要找的元素,而findIndex()丢进去的是一个函数,用来找满足函数关系的元素
+    * */
+    console.log(arr.findIndex(function (s){
+      return s.toLowerCase() === s
+    })) // 1,因为'pear'的索引为1
+
+    /* forEach() 和map()类似,它也把每个元素一次作用于传入的函数,但不会返回新的数组, forEach()常用于遍历数组,因此传入的函数不需要返回值 */
+    arr.forEach(console.log)
+  </script>
+</head>
+<body>
+
+</body>
+</html>

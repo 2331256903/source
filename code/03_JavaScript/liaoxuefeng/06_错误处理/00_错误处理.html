@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* 执行JS代码的时候,有些情况下会发生错误, 错误分两种一种是程序的逻辑写的不对,导致代码异常, 这种错误需要修复程序
+  * 而一种是执行过程中,程序可能遇到无法预测的异常情况而报错, 例如网络连接中断, 读取不存在的文件, 没有操作权限等, 对于这种错误需要处理它并可能需要给用户反馈
+  *  */
+  /* 对于c一类的贴近系统底层的语言,错误通过错误码返回,编写程序时非常不方便, 因此高级程序语言都提供了更抽象的错误处理逻辑try...catch...finally,JS也不例外 */
+
+  /* try...catch...finally 格式如下: */
+  let r1, r2, s = null
+  try {
+    r1 = s.length // 此处应该产生错误
+    r2 = 100 // 该语句不会执行
+  } catch (e) {
+    console.log('出错了: ' + e)
+  } finally {
+    console.log('finally')
+  }
+  console.log('r1 = ' + r1) // r1 应该为undefined
+  console.log('r2 = ' + r2) // r2 应该为undefined
+  /* 运行时发现, 输出类似"出错了: TypeError: Cannot read property 'length' of null"
+  *   当代码块被try{...}包裹的时候, 就表示这部分代码执行过程中可能会发生错误, 一旦发生错误就不再执行后续代码, 转而跳到catch块, catch(e){...}
+  * 包裹的代码就是错误处理代码, 变量e表示捕获到的错误, 最后无论有没有错误, finally一定会被执行
+  * 所以有错误发生时, 执行流程类似:
+  *   1. 先执行 try{...} 的代码
+  *   2. 执行到出错的语句时, 后续语句不再执行, 转而执行catch(e){...} 代码
+  *   3. 最后执行finally{...}代码
+  * 而没有错误发生时, 流程类似:
+  *   1. 先执行try{...}的代码
+  *   2. 由于没有出错,catch(e){...}的代码不会被执行
+  *   3. 最后执行finally{...}代码
+  * 最后注意 catch和finally均可省略
+  *  */
+
+  /* 错误类型 JS中有一个标准的Error对象表示错误, 还有从Error中派生的TypeError, Reference等错误对象, 在处理错误的时候, 可以通过catch(e)捕获的变量e访问错误对象 */
+  /* 使用变量e是一个习惯用法, 可以替换成其他变量 */
+
+  /* 抛出错误 程序也可以主动抛出一个错误, 让执行流程直接跳转到catch块, 抛出错误使用throw语句 */
+  // 下面的代码让用户输入一个数字, 程序实际接收的是一个字符串, 然后用parseInt来转换为整数, 当用户输入不合法时, 我们抛出错误
+  let r, n, s
+  try {
+    s = prompt('请输入一个数字')
+    n = parseInt(s)
+    if(isNaN(n)) {
+      throw new Error('输入错误')
+    }
+    // 计算平方
+    r = n*n
+    console.log(n + ' * ' + n + ' = ' + r)
+  } catch (e) {
+    console.log('出错了: ' + e)
+  }
+  /* 实际上, JS允许抛出任意对象, 包括数字,字符串, 但是最好还是抛出一个Error对象 */
+  /* 最后,当我们用catch捕获错误时, 一定要编写错误处理语句 */
+  let g = 0, h
+  try {
+    g = h.length
+  } catch(e) {
+    console.log(e)
+  }
+  console.log(n)
+  /* 哪怕仅仅是把错误打印出来, 也不要什么都不干, 因为catch到错误缺什么都不执行, 就不知道程序执行过程中到底有没有发生错误,
+  处理错误时, 请不要简单粗暴的用alert() 把错误显示给用户 */
+</script>
+</body>
+</html>

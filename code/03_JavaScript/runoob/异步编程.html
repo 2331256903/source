@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p id="demo"></p>
+</body>
+<script>
+  /*通过子线程来完成一些可能消耗时间足够长以至于被用户察觉的事,JavaScript中的异步操作往往通过回调函数来实现异步任务的结果处理*/
+
+  /*
+  setTimeout函数,第一个参数是一个回调函数,第二个参数为毫秒数,该函数执行后会产生一个子线程,子线程等待3秒后执行回调函数print
+  由于setTimeout函数会在子线程中等待3秒,在setTimeout函数执行之后主线程并没有停止,所以执行结果是
+    先显示:
+      RUNOOB-2
+    3秒后显示
+      RUNOOB-1
+      RUNOOB-2
+    在主线程中的执行结果并没有变
+  * */
+  setTimeout(function(){
+    document.getElementById("demo").innerHTML="RUNOOB-1!"
+  },3000)
+  document.getElementById("demo").innerHTML="RUNOOB-2!"
+
+  /*异步AJAX,异步回调广泛应用于AJAX编程*/
+  /*XMLHttpRequest常用于请求来自远程服务器上的XML或JSON数据,一个标准的XMLHttpRequest对象往往包含多个回调*/
+  let xhr = new XMLHttpRequest()
+  /*XMLHttpRequest的onload和onerror属性都是函数,分别在它请求成功和请求失败时被调用,使用完整的jQuery库可以更优雅的使用异步AJAX*/
+  xhr.onload = function(){
+    //输出接收到的文字数据
+    document.getElementById("demo").innerHTML = xhr.response
+  }
+
+  xhr.onerror = function(){
+    document.getElementById("demo").innerHTML = "请求出错"
+  }
+
+  //发送异步GET请求
+  xhr.open("GET","https://www.runoob.com/try/ajax/ajax_info.txt",true)
+  xhr.send()
+</script>
+</html>

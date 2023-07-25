@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <title>酷我音乐-无损音质正版在线试听网站</title>
+</head>
+<body>
+<div class="container">
+  <div class="sub-nav">
+    <a href="javascript:" class="current"><span>推荐</span></a>
+    <a href="javascript:"><span>排行榜</span></a>
+    <a href="javascript:"><span>歌手</span></a>
+    <a href="javascript:"><span>歌单</span></a>
+    <a href="javascript:"><span>MV</span></a>
+  </div>
+  <div class="main">
+    <div class="banner-out">
+      <div class="swiper-out">
+        <div class="swiper-inn">
+          <div class="swiper-container">
+            <div class="swiper-wrapper" style="left: -1400px">
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3460417394"><img src="./source/img/1684069467445_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href=""><img src="./source/img/1677749209264_.png" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3480039720"><img src="./source/img/1689402762005_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3468351866"><img src="./source/img/1689402854175_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3464313714"><img src="./source/img/1689330791866_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3467025335"><img src="./source/img/1689303067197_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="https://www.kuwo.cn/playlist_detail/3460417394"><img src="./source/img/1684069467445_.jpg" alt></a>
+              </div>
+              <div class="swiper-slide">
+                <a href=""><img src="./source/img/1677749209264_.png" alt></a>
+              </div>
+            </div>
+            <div class="swiper-pagination">
+              <ul class="swiper-bullets"></ul>
+            </div>
+            <div class="BtnL"><i><</i></div>
+            <div class="BtnR"><i>></i></div>
+          </div>
+        </div>
+        <div class="download">
+          <ul class="btns">
+            <li><a href=""><i></i><span></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  var subNavTitle = document.querySelector('.sub-nav').querySelectorAll('a');
+  (function () {
+    for (var i = 0; i < subNavTitle.length; i++) {
+      (function (i) {
+        subNavTitle[i].addEventListener('click', function () {
+          for (var t = 0; t < subNavTitle.length; t++) {
+            subNavTitle[t].classList = ''
+          }
+          subNavTitle[i].classList.add('current')
+        })
+      })(i)
+    }
+  })()
+  var box = document.getElementsByClassName('swiper-container')[0]
+  var BtnL = document.getElementsByClassName('BtnL')[0]
+  var BtnR = document.getElementsByClassName('BtnR')[0]
+  var swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
+  var swiperSlide = document.getElementsByClassName('swiper-slide')
+  var swiperBullets = document.getElementsByClassName('swiper-bullets')[0]
+  var counter = 2
+  var circle = 0;
+  var flag = true;
+  var timer = undefined
+  
+  // 定时器
+  var play = function() {
+    timer = setInterval(function() {
+      BtnR.click()
+    }, 5000)
+  }
+  play()
+  
+  // 鼠标悬停时停止轮播, 移出时恢复轮播
+  box.onmouseover = function() {
+    clearInterval(timer)
+  }
+  box.onmouseleave = function() {
+    play()
+  };
+  
+  // 动态生成按钮 按钮点击逻辑
+  (function () {
+    for (var i = 1; i < swiperSlide.length - 1; i++) {
+      var spanElement = document.createElement('span')
+      spanElement.className = 'current'
+      spanElement.setAttribute('index', i)
+      swiperBullets.appendChild(spanElement)
+      spanElement.addEventListener('mouseover', function () {
+        for (var i = 0; i < swiperBullets.children.length; i++) {
+          swiperBullets.children[i].className = 'current'
+        }
+        this.className = 'current white'
+        var index = this.getAttribute('index')
+        swiperWrapper.style.left = -1400 * index + 'px'
+        circle = index
+        counter = index + 1
+      })
+    }
+  })()
+  swiperBullets.children[0].className = 'current white'
+  
+  function circlechange() {
+    (function () {
+      for (var i = 0; i < swiperBullets.children.length; i++) {
+        swiperBullets.children[i].className = 'current'
+      }
+      swiperBullets.children[circle].className = 'current white'
+    })()
+  }
+  
+  BtnL.addEventListener('click', function () {
+    if (counter > 1) {
+      swiperWrapper.style.left = parseInt(swiperWrapper.style.left) + 1400 + 'px'
+      counter--
+    } else {
+      swiperWrapper.style.transition = 'none'
+      swiperWrapper.style.left = '-8400px'
+      setTimeout(() => {
+        swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+        swiperWrapper.style.left = '-7000px'
+        counter = 6
+      });
+      flag = true
+      circle--
+      if (circle <1) {
+        circle = swiperBullets.children.length
+      }
+      circlechange()
+    }
+  })
+  BtnR.addEventListener('click', function () {
+    if (counter < 7) {
+      swiperWrapper.style.left = parseInt(swiperWrapper.style.left) - 1400 + 'px'
+      counter++
+    } else {
+      swiperWrapper.style.transition = 'none'
+      swiperWrapper.style.left = '0px'
+      setTimeout(() => {
+        swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+        swiperWrapper.style.left = '-1400px'
+        counter = 2
+      })
+      flag = true
+      circle++
+      if (circle === swiperBullets.children.length + 1) {
+        circle = 1
+      }
+      circlechange()
+    }
+  })
+</script>
+</html>

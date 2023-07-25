@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*字符串中既包含'又包含",则可以使用转义字符\ */
+    console.log('I\'m \"OK\"')
+    /*ASCII字符可以通过\x##形式的十六进制表示*/
+    console.log('\x41') //'A'
+    /*多行字符串用\n写起来比较费事,所以最新的ES6标准新增多行字符串的表示方法模板字符串 `...` ,...部分字符串会按照原结构显示在html中*/
+    /*多个字符串连接起来可以使用 + ,但多个变量需要连接时比较麻烦,ES6新增模板字符串,${...}会自动替换字符串中的变量 `你好,${name}` */
+    let name = "小明"
+    let age = 20
+    // let message =  `你好.${name},你今年${age}岁了!`
+    console.log(message =  `你好.${name},你今年${age}岁了!`)
+    /*操作字符串*/
+    // 常见操作如下
+    let s = "Hello, World!"
+    s.length  // 13
+    console.log(s[0]) // 'H'
+    console.log(s[13]) // undefined
+    /*字符串是不可变的,如果对字符串的某个索引赋值,不会报错但也没有任何效果*/
+    s[0] = 'X'
+    console.log(s) // 仍然是"Hello, World!"
+    /*indexOf()搜索指定字符串出现的位置*/
+    /*substring()返回指定索引区间的字符串*/
+    let s2 = "hello, world!"
+    s2.substring(0,5) // 返回'hello'
+    s2.substring(7) // 从索引7开始到结束,返回world
+  </script>
+</head>
+<body>
+
+</body>
+</html>

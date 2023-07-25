@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /* generator生成器,ES6引入的新数据类型,一个generator看上去像个函数,但可以返回多次 */
+
+    /* 函数在执行过程中,如果没有遇到return语句,则隐含地return undefined,控制权无法交回被调用的代码 */
+    // generator和函数很像
+    function* foo(x) {
+      yield x + 1
+      yield x + 2
+      return x + 3
+    }
+    /* 于函数不同的是,generator由 function* 定义,并且除了return语句,还可以用yield返回多次 */
+    // 输出斐波那契数列
+    function* fib(max) {
+      let
+        t,
+        a = 0,
+        b = 1,
+        n = 0
+      while (n < max) {
+        yield a
+        [a, b] = [b, a + b]
+        n ++
+      }
+      return
+    }
+    console.log(fib(5)) // fib {[[GeneratorStatus]]: "suspended", [[GeneratorReceiver]]: Window}
+    /* 直接调用一个generator和调用函数不一样,fib(5)仅仅是创建了一个generator对象,还没有去执行它 */
+    /* 调用generator对象有两个方法,一是不断调用generator对象的next()方法; next方法会执行generator的代码.然后每次遇到yield x就返回一个对象
+    * 然后暂停,返回的value就是yield的返回值,done表示这个generator是否已经执行结束,如果done为true,则value就是return的返回值
+    *   当执行到done为true时,这个generator对象就已经全部执行完毕,无需再继续调用next()了
+    *  */
+    let f = fib(5)
+    f.next() // {value: 0, done: false}
+    f.next() // {value: 1, done: false}
+    f.next() // {value: 1, done: false}
+    f.next() // {value: 2, done: false}
+    f.next() // {value: 3, done: false}
+    f.next() // {value: undefined, done: true}
+    /* 第二个方法是用for...of循环迭代generator对象,这种方式不需要我们自己判断done */
+    for(let x of fib(10)) {
+      console.log(x) // 依次输出0, 0, 1, 1, 2, 3...
+    }
+
+    /* 作用:
+    *   由于generator,可以在执行过程中多次返回,所以它看上去就像一个可以记住执行状态的函数,利用这一点写一个generator就可以实现需要用面向对象才能实现的功能
+    * 比如用一个对象来保存状态,正常得这么写,相当繁琐
+    * */
+    let fib = {
+        a : 0,
+        b : 1,
+        n : 0,
+        max : 5,
+        next: function () {
+          let
+            r = this.a
+            t = this.a + this.b
+          this.a = this.b
+          this.b = t
+          if (this.n < this.max) {
+            this.n++
+            return r
+          } else {
+            return undefined
+          }
+        }
+    }
+
+    /* 另一个巨大的好处,是把异步回调代码变成"同步代码",没有generator时回调越多嵌套层级越多越难看,有了generator后,类似async异步函数,使用ajax时可以这么写 */
+    /* try {
+      r1 = yield ajax('http://url-1', data1)
+      r2 = yield ajax('http://url-2', data2)
+      r3 = yield ajax('http://url-3', data3)
+      success(r3)
+    }
+    catch (err) {
+      handle(err)
+    } */
+    // 看上去是同步代码,实际上执行是异步的
+  </script>
+</head>
+<body>
+</body>
+</html>

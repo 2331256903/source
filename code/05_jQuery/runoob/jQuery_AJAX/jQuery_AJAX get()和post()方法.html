@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/jquery.js"></script>
+  <script>
+/*
+*   jQuery的get()和post()方法用于通过HTTP GET请求或 POST请求
+*     GET:从指定的资源请求数据(基本用于从服务器获得(取回)数据,GET方法可能返回缓存数据)
+*     Post:向指定资源提交要处理的数据(也可以用于从服务器获取数据 不过POST方法不会缓存数据并且常用于连同请求一起发送数据)
+* */
+
+/*
+* jQuery $.get()方法  $.get()方法通过HTTP GET请求从服务器上请求数据
+*   语法: $.get(URL,callback)
+*        或$.get(URL[,data][,callback][,dataType])
+*     URL:发送请求的URL字符串
+*     data:可选,发送给服务器的字符串或键值对
+*     callback:可选,请求成功后执行的回调函数
+*     dataType:可选,从服务器返回的数据 类型,默认可以是(xml,json,script,html)
+* */
+  $("button").click(function(){
+    $.get("demo_test.php",function(data,status){
+      alert("数据: " + data + "\n状态: " + status);
+    });
+  });
+  /*$.get()第一个参数是希望请求的URL,第二个参数是回调函数,第一个回调函数的参数存有被请求页面的内容,第二个回调参数存有请求的状态*/
+/*
+* jQuery $.post()方法 $.post()方法通过HTTP POST请求向服务器提交数据
+*   语法: $.post(URL,callback)
+*       或$.post(URL [,data][,callback][,dataType])
+*     URL:发送请求的URL字符串
+*     data:可选,发送给服务器的字符串或者键值对
+*     callback:可选,请求成功后执行的回调函数
+*     dataType:可选,从服务器返回的数据类型,默认(xml,json,script或html)
+* */
+  $("button").click(function(){
+    $.post("/try/ajax/demo_test_post.php",
+      {
+        name:"菜鸟教程",
+        url:"http://www.runoob.com"
+      },
+      function(data,status){
+        alert("数据: \n" + data + "\n状态: " + status);
+      });
+  });
+  /*$.post()的第一个参数是希望请求的URL,然后连同请求(name和url)一起发送数据,PHP脚本读取这些参数后对它们进行处理,然后返回结果;第三个参数是
+  回调函数,第一个回调参数存有被请求页面的内容,而第二个参数存有请求的状态*/
+
+
+/*
+* GET与POST方法的区别
+*   1.发送的数据量:
+*     GET中只能发送有限的数据量,因为在URL中发送
+*     POST中可以发送大量的数据,因为数据是在正文主体中发送的
+*   2.安全性:
+*     GET中发送的数据不受保护,因为数据在URL栏中公开,这增加了漏洞和黑客攻击的风险
+*     POST中发送的数据是安全的,因为数据未在URL栏中公开,还可以在其中使用多种编码技术,使其具有弹性
+*   3.加入书签中:
+*     GET查询的结果可以加入书签中,因为它以URL的像是存在,而POST查询的结果无法加入书签中
+*   4.编码:
+*     在表单中使用GET方法时,数据类型中只接受ASCII字符
+*     在表单提交时:POST方法不绑定表单数据类型,并允许二进制和ASCII字符
+*   5.可变大小:
+*     GET方法中可变大小约为2000个字符
+*     POST方法最多允许8MB的可变大小
+*   6.缓存:
+*     GET方法的数据是可缓存的,而POST方法的数据是无法缓存的
+*   7.主要作用:
+*     GET方法主要用于获取信息,而POST方法主要用于更新数据
+* */
+
+/*
+* get和load方法的区别
+*   1.get方法会直接返回实体类,如果查询不到则返回null;
+*     load会返回一个实体代理对象,这个对象会自动转化为质体对象,如果代理对象被调用时数据不存在则会抛出org.hibernate.ObjectNotFoundException异常
+*   2.get和load都会先到Session缓存(一级缓存)/SessionFactory(二级缓存)中查询,如果查询不到,get会直接去DB中查询,而load会返回代理对象,直到代理对象
+*     调用时才会去DB中查询,(即懒加载,通过修改配置文件可以取消,但主要不要在one的一方取消懒加载,否则会发出多条查询语句大大降低效率)
+*   综上如果确定数据库中有这个对象就使用load,不确定则使用get
+* */
+  </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="demo"></div>
+</body>
+<script>
+/*
+* JavaScript计时事件: 做到在一个设定的时间间隔之后执行代码
+*   setInterval() 间隔制定的毫秒数不停地执行指定代码
+*   setTimeout() 在指定的毫秒数执行指定代码
+* */
+/* setInterval(function(){alert("Hello")},3000) 每三秒种弹框,对用户体验不好*/
+//显示当前时间
+let mylet = setInterval(function(){myTimer()},1000)
+function myTimer(){
+  let d = new Date()
+  document.getElementById("demo").innerHTML = d.toLocaleTimeString()
+}
+/*
+* 停止执行clearTimeInterval()函数用于停止setTimeInterval()方法执行的代码
+*
+* 同理:setTimeout和clearTimeout用于延迟执行代码和取消延迟
+* */
+</script>
+</html>

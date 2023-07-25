@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  注:
+    NaN的数据类型为number
+    数组Array的数据类型是object
+    日期Data的数据类型是object
+    null的数据类型是object
+    未定义变量的数据类型是undefined
+
+  constructor属性返回所有Javascript变量的构造函数
+    "John".constructor //返回函数String() {[native code]}
+    (3.14).constructor //返回函数Number() {[native code]}
+    false.constructor //返回函数Boolean() {[native code]}
+    [1,2,3,4].constructor //返回函数Array() {[native code]}
+    {name:'John', age:34} //返回函数Object() {[native code]}
+    new Date().constructor //返回函数Date() {[native code]}
+    function(),constructor //返回函数Function {[native code]}
+
+  Javascript类型转换:
+    全局方法String()可以将数字转换为字符串 可用于任何类型的数字,字母,变量,表达式
+      Number方法toString()也有同样的效果,还有一些其他的Number方法:
+        toFixed(2) 把数字转换为字符,结果的小数点后有指定位数的数字
+        toPrecision 把数字格式化为指定的长度
+    全局方法String()可以将布尔值转换为字符串
+      String(false) //返回"false"  true同理
+        Boolean方法toString()也有相同效果  false.toString()  //返回"false"
+    Date()返回字符串 // 返回 Thu Jul 17 2014 15:38:19 GMT+0200 (W. Europe Daylight Time)
+    全局方法String() 可以将日期对象转换为字符串
+      String(new date()) // 返回 Thu Jul 17 2014 15:38:19 GMT+0200 (W. Europe Daylight Time)
+      Date方法中的toString()也有相同的效果
+        obj = new Date()
+        obj.toString()  // 返回 Thu Jul 17 2014 15:38:19 GMT+0200 (W. Europe Daylight Time)
+
+    全局方法Number()可以将字符串转换为数字
+      Number("3.14") //返回3.14
+      Number(" ") //返回0
+      Number("") //返回0
+      Number("99 89") //返回 NaN
+      Number方法中也有更多关于字符串转为数字的方法
+        parseFloat() 解析一个字符串,并返回一个浮点数
+        parseInt() 解析一个字符串,并返回一个整数
+    一元运算符+ Operator + 可用于将变量转换为数字
+      let y = "5"
+      bar x = +y //x是一个数字
+      如果不能转换,它仍会是一个数字,但值为NaN
+    全局方法Number()可以将布尔值转换为数字
+      Number(false) //返回0
+      Number(true) //返回1
+    全局方法Number()可以将Date转换为数字
+      d = new Date()
+      Number(d) //返回 1404568027739 时间戳
+      日期方法 getTime()也有相同的效果
+        d = new date()
+        d.getTime() //返回 1404568027739 时间戳
+
+    自动转换类型(隐式转换)
+      Javascript尝试操作一个错误的数据类型时会自动转换成正确的数字类型
+        5 + null //返回5
+        "5" + null //返回"5null"
+        "5" + 1 //返回"51"
+        "5" - 1 //返回4 ("5"被隐式转换为5)
+      自动转换为字符串
+        尝试输出一个对象或一个变量时Javascript会自动调用变量的toString()方法
+        document.getElementById("demo").innerHTML = mylet;
+        mylet = {name:"Fjohn"} //转换为"[object,Object]"
+        mylet = [1,2,3,4] //转换为"1,2,3,4"
+        mylet = new Date() //转换为"Fri Jul 18 2014 09:08:55 GMT+0200"
+      数字和布尔值也经常相互转换
+-->
+<script>
+  console.log("5" - 1)
+</script>
+</body>
+</html>

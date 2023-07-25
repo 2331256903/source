@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p id="demo"></p>
+</body>
+<script>
+/*
+*   JavaScript使用class关键字来创建一个类,每个类中包含一个特殊方法constructor()
+* ,类的构造函数,这种方法用于创建和初始化一个由class创建的对象
+* */
+class Runoob {
+  constructor(name,url){
+    this.name = name
+    this.url = url
+  }
+}
+/*定义好类后,可以通过new关键字来创建对象*/
+let site = new Runoob("菜鸟教程", "https://www.runoob.com")
+/*  创建对象时会自动调用构造函数方法constructor()
+*   构造方法用于初始化对象属性
+*   如果不定义构造方法,JS会自动添加一个空的构造方法
+* */
+console.log(site)
+
+/*类表达式*/
+/*未命名/匿名类*/
+let Runoob2 = class{
+  constructor(name,url) {
+    this.name = name
+    this.url = url
+  }
+}
+console.log(Runoob2.name) //输出"Runoob"
+/*命名类*/
+let Runoob5 = class Runoob3 {
+  constructor(name,url) {
+    this.name = name
+    this.url = url
+  }
+}
+console.log(Runoob5.name) //同上,输出"Runoob3"
+
+/*类的方法*/
+/*使用关键字class创建一个类 可以添加一个constructor()方法,然后添加任意数量的方法*/
+class Runoob4 {
+  constructor(name,year){
+    this.name = name
+    this.year = year
+  }
+  /*还可以向类的方法传递参数*/
+  age(element){
+    let date = new Date()
+    console.log("传参为:" + element)
+    return date.getFullYear() - this.year
+  }
+}
+let runoob = new Runoob4("菜鸟教程",2018)
+document.getElementById("demo").innerHTML = "菜鸟教程" + runoob.age("我是参数") + "岁了"
+</script>
+</html>

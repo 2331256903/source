@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  Promise是一个ES6新增的类,更方便书写复杂的异步任务
+-->
+</body>
+<script>
+  /*构造Promise*/
+  new Promise(function (resolve,reject){
+    //要做的事
+  })
+  /*如果多次调用异步函数,比如分三次输出字符串,第一次间隔1s,第二次4s,第三次3s*/
+  setTimeout(function(){
+    console.log("1")
+    setTimeout(function (){
+      console.log("2")
+      setTimeout(function(){
+        console.log("3")
+      },3000)
+    },4000)
+  },1000)
+  /*上述无论维护还是异常处理都很繁琐,且让缩进格式显得非常冗余*/
+  /*使用Promise*/
+  new Promise(function (resolve,reject){
+    setTimeout(function (){
+      console.log("1")
+    },1000)
+  }).then(function (){
+    return new Promise(function(resolve,reject){
+      setTimeout(function (){
+        console.log("2")
+        resolve()
+      },4000)
+    })
+  }).then(function () {
+    setTimeout(function () {
+      console.log("3")
+    }, 3000)
+  })
+  /*此时Promise将嵌套格式的代码变成了顺序格式*/
+
+  /*Promise的构造函数*/
+  /*
+  Promise构造函数是JavaScript中用于创建Promise对象的内置构造函数
+  Promise构造函数接受一个函数作为参数,该函数是同步的并且会被立即执行,称为起始函数,起始函数包含两个参数:
+resolve和reject,分别表示Promise成功和失败的状态
+  起始函数执行成功时,调用resolve函数并传递成功的结果,起始函数执行失败时,调用reject函数并传递失败的原因
+  Promise构造函数返回一个Promise对象,该对象有以下几个方法:
+    then:用于处理Promise成功状态的回调函数
+    catch:用于处理Promise失败状态的回调函数
+    finally:无论成功还是失败,都会执行的回调函数
+  */
+
+  const promise1 = new Promise((resolve,reject)=>{
+    //异步操作
+    setTimeout(()=>{
+      if(Math.random() < 0.5){
+        resolve('success')
+      }else{
+        reject('error')
+      }
+    },1000)
+  })
+
+  promise1.then(result => {
+    console.log(result)
+  }).catch(error=> {
+    console.log(error)
+  })
+  /*上述例子 使用Promise构造函数创建了一个Promise对象,并使用setTimeout模拟了一个异步操作
+  如果异步操作成功,则调用resolve函数并传递成功的结果,如果异步操作失败,则调用reject函数并传递
+  失败的原因,然后使用then方法处理promise成功状态的回调函数,时用catch方法处理promise失败状态的
+  回调函数
+    这段程序会直接输出error或success
+    resolve和reject都是函数,其中调用resolve表示是一切正常,reject是出现异常时调用的
+  */
+
+  /*
+    Promise类有.then() .catch() .finally()三个方法,这三个方法的参数都是一个函数, .then()可以
+  将参数中的函数添加到当前的Promise的正常执行序列, .catch()则是设定Promise的异常处理序列, .finally()
+  是在Promise执行的最后一定会执行的序列, .then()传入的函数会按顺序依次执行,有任何异常都会直接跳到catch序列
+  */
+
+  new Promise(function(resolve,reject){
+    console.log('1111')
+    resolve('2222')
+  }).then(function(value){ //调用第一个then()
+    console.log(value)
+    return 3333
+  }).then(function(value){ //调用第二个then(),因为调用第一个then()方法返回的是一个新的Promise对象,此对象的状态由上面的success或error两个回调函数的执行情况决定的
+    console.log(value)  //如果回调函数能正常执行完毕,则新的promise对象的状态是fulfilled,下面执行success2,反之则执行error2
+    throw "An error"
+  }).catch(function(err){
+    console.log(err)
+  })
+  /*输出结果为:
+    1111
+    2222
+    3333
+    An error
+     多个then连续使用,直接返回值,上一个then的返回值传递到下一个then作为参数
+  */
+  /*
+  resolve()函数中可以放置一个参数用于向下一个then传递一个值,then中的函数也可以返回一个值传递给then
+但是如果then中返回的是一个Promise对象,那么下一个then将相当于对这个返回的Promise进行操作
+  reject()函数中一般会传递一个异常给之后的catch函数用于处理异常
+  但请注意:
+    resolve和reject的作用域只有起始函数,不包括then和其他序列
+    resolve和reject并不能使起始函数停止运行,别忘了return
+  */
+
+  /*Promise函数 改写上述计时器函数*/
+  function print(delay,message){
+    return new Promise(function (resolve,reject){
+      setTimeout(function(){
+        console.log(message)
+        resolve()
+      },delay)
+    })
+  }
+
+  print(1000,'first').then(function (){
+    return print(4000,'second')
+  }).then(function(){
+    print(3000,'third')
+  })
+  /*这种返回值为一个Promise对象的函数,称作Promise函数,常用于开发基于异步操作的库*/
+
+  /*常见问题
+    Promise不是一种将异步转换为同步的方法,只是一种更良好的编程风格
+    一个Promise对象只能改变一次状态,成功或失败后都会返回结果数据
+    当程序需要多次顺序执行异步操作时,例如想通过异步方法先后检测用户名和密码,需要先异步检测用户名然后再异步检测密码的情况适合使用Promise
+
+    then,catch和finally可以颠倒顺序,但不建议
+    then块默认会向下执行,return也不可中断,想要中断只能throw来跳转至catch实现中断
+    当需要再调用一个异步任务时,需要再写一个then而不是在当前的then中接着写
+    catch只捕获最近的then的回调函数,前面的then执行不成功的结果,由后面的then的reject回调函数执行,如果没有后续then的回调函数执行,则会被catch捕获执行
+    catch方法相当于最近的then方法的第二个参数,指向reject的回调函数,另一个作用是在执行resolve回调函数时如果出错则抛出异常,不会停止运行而是进入catch方法中
+    finally和then一样可以按顺序多次使用,但catch块只会执行第一个,除非catch块中有异常,所以最好只安排一个catch和finally块
+  * */
+
+  /*异步函数 async function*/
+  /*Promise函数的计时器例子,可以写的更好看*/
+  async function asyncFunc() {
+    await print(1000,'first')
+    await print(4000,'second')
+    await print(3000,'third')
+  }
+  asyncFunc()
+  /*
+  使异步操作变得像同步操作一样容易
+  异步函数async function中可以使用await指令,await指令后必须跟着一个Promise,异步函数会在这个Promise运行中暂停,直到其运行结束再继续运行
+  异步函数实际上原理与Promise原生API机制是一模一样的,只不过更便于阅读
+  处理异常的机制将用try-catch块实现
+  */
+  async function asyncFunc2() {
+    try {
+      await new Promise(function (resolve, reject) {
+        throw "Some error" //或者resolve("Some error")
+      })
+    } catch (err) {
+      console.log(err) //输出Some error
+    }
+  }
+  asyncFunc2()
+
+  /*如果Promise有一个正常的返回值,await语句也会返回它*/
+  async function asyncFunc3(){
+    let value = await new Promise(function(resolve,reject){
+      resolve("Return value")
+    })
+    console.log(value)
+  }
+  asyncFunc3()
+</script>
+</html>

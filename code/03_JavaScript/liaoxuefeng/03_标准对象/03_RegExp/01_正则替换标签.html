@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+</head>
+<script>
+  // 使用正则替换字符串,功能更强
+  let tel = "2020/12/18"
+  console.log(tel.replace(/\//g), "-")
+  // 010-99999
+  let hd2 = "(010)9999999 (020)88888888"
+  let reg2 = /\((\d{3,4})\)(\d{7,8})/g
+  // $1和$2指的是正则中的原子组,从左到右,下标从1开始
+  console.log(hd2.replace(reg2, "$1-$2"))
+  // $`匹配内容的右边  $'匹配内容的左边  $&为匹配到的内容 (用的较少)
+  let hd3 = "=后盾人="
+  console.log(hd3.replace(/后盾人/, '%&'))
+
+  let hd = `
+      <h1>houdunren</h1>
+      <span>后盾人</span>
+      <h2>hdcms</h2>
+    `
+  // 使用模板字符串
+  let reg = /<(h[1-6])>(\w([\s\S]+))<\/\1>/gi // \w为首字母,此时外括号原子组包含首字母h,内括号部分不包含h
+  console.log(hd.match(reg))
+  console.log(hd.replace(reg, `$2`))
+  /* replace的replacement中(仅在此处可以使用这个替代参数) $1-$99表示从左到右正则子表达式组匹配到的本文, $&表示regexp相匹配的子串, $`位于匹配子串左边的文本, $'用于匹配子串右侧的文本, $$直接插入一个$ */
+  // 使用函数
+  // 第一个参数是正则匹配的完整字符串(上述 <h1>houdunren</h1>和<h2>hdcms</h2>), 后续参数为原子组匹配的字符串,js不支持原子组(p1为h1和h2; p2为houdunren和hdcms),正则内可能出现括号套括号,此时数"("数量即可, (此处p2包含首字母h,p3不包含)
+  let res = hd.replace(reg, (p0, p1, p2) => `<p>${p2}}</p>`)
+  console.log(res)
+
+  // 文本中的单词超链接
+  const main = document.querySelector('body main')
+  main.innerHTML = main.innerHTML.replace(/教育/,`<a href="https://www/hdcms.com">$&</a>`)
+</script>
+<body>
+ <main>
+   在线教育是一种高效的学习方式,教育是一生的事业
+ </main>
+</body>
+</html>

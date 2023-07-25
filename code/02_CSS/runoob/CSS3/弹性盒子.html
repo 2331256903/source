@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  flex box弹性盒子由弹性容器(Flex container)和弹性子元素(Flex item)组成
+    通过设置display:flex或inline-flex将其定义为弹性容器
+    弹性容器外以及弹性子元素内是正常渲染的,弹性盒子只定义了弹性子元素如何在弹性容器内布局
+    弹性子元素通常在弹性盒子内一行显示,默认情况是每个容器只有一行
+
+    容器属性:
+      flex-direction: row | row-reverse | column | column-reverse
+        主轴 左对齐(默认) 右对齐 纵向 反转纵向(从后往前)
+      justify-content: flex-start | flex-end | center | space-between | space-around
+        把弹性项沿着弹性容器的主轴线对齐
+        flex-start(默认) 弹性项目向行头紧挨着填充,第一个弹性项的main-start外边距边线被放置在
+          该行的main-end的边线,后续弹性项依次水平摆放(剩余自由空间为负则向end方向溢出)
+        flex-end 弹性项目向行尾紧挨着填充,第一个弹性项的main-end外边距边线被放置在该行的main-end边线
+          ,后续弹性项依次平齐摆放(剩余自由空间为负则向end方向溢出)
+        center:弹性项目居中紧挨着填充(剩余自由空间为负则向两边同时溢出)
+        space-between:弹性项目平均分布在该行上,若剩余空间为负或只有一个弹性项,等同于flex-start,
+          否则,第一个弹性项的外边距和该行的main-start边线对齐,最后一个弹性项的外边距和行的main-end
+          边线对齐,然后剩余的弹性项均匀分布在该行上,相邻项目的间隔相等
+        space-around:弹性项目平均分布在该行上,两边留有一半的间隔空间,若剩余空间为负或只有一个弹性项
+          则该值等同于center,否则,弹性项目沿该行分布且彼此之间间隔相等,同时首位两边和弹性容器之间留有一半间隔
+      flex-wrap: nowrap | wrap | wrap-reverse | initial | inherit
+        指定弹性盒子的子元素的换行方式
+        nowrap(默认):单行,子项可能溢出容器
+        wrap:多行 子项溢出部分会放置到新行,子项内部会发生断行
+        wrap-reverse:反转wrap排列
+        initial:将此属性设置为属性的默认值
+        inherit:从父元素继承属性的值
+      align-items: flex-start | flex-end | center | baseline | stretch
+        单行对齐,设置或检索弹性盒子元素在侧轴(纵轴)上的对齐方式
+        flex-start:弹性盒子元素的纵轴起始位置的边界紧靠住该行的纵轴起始边界
+        flex-end:弹性盒子元素的纵轴起始位置的边界紧靠住该行的纵轴结束边界
+        center:弹性盒子元素在该行的纵轴上居中放置(若该行的尺寸小于弹性盒子元素的尺寸,则会向两个方向溢出相同长度)
+        baseline:如弹性盒子元素的行内轴与纵轴为同一条,则该值与flex-start等效,其他情况下,该值将参与基线对齐
+        stretch:如果指定纵轴大小的属性值为auto,则其值会使项目的边距盒的尺寸经可能接近所在行的尺寸,但同时会遵循
+          min/max-width/height属性的限制
+      align-content: stretch | flex-start | flex-end | center | space-between | space-around
+        多行对齐,类似justify-content属性,在弹性盒子的侧轴还有多余空间时调整容器内项目的对齐方式
+        stretch(默认):将项目拉伸以占据剩余空间
+        flex-start:项目在容器中居中排布
+        flex-end:项目在容器的底部排列
+        space-between:多行项目均匀分布在容器中,其中第一行分布在容器的顶部,最后一行分布在容器的底部
+        space-around:多行项目均匀分布在容器中,并且每行的间距都相等
+      flex-flow: flex-direction flex-wrap;用于简写
+
+    项目(弹性子元素)属性:
+      order: int  用整数值来定义排列顺序
+      margin: auto 完美居中 自动获取弹性容器中的剩余空间,所以设置垂直方向margin值为auto,使弹性子元素在同期的两个轴方向上都完全居中
+      margin-right:auto  对齐 第一个元素设置margin-right:auto,使其他剩余空间放置在元素右侧
+      align-self: auto | flex-start | flex-end | center | baseline | stretch
+        设置弹性元素自身在纵轴上的对齐方式(单个元素对齐)
+        auto:计算值为父元素的align-items值,若无父元素则为stretch
+        flex-start|flex-end:略
+        center:弹性元素在该行的纵轴上居中放置,若该行尺寸小于弹性盒子元素尺寸则在两个方向上溢出相同长度
+        baseline:如弹性盒子元素行内轴与纵轴为同一条,则该值与flex-start等效,其他情况下基线对齐
+        stretch:略
+      flex: auto | initial | none | inherit | [flex-grow] || [flex-shrink] || [flex-basis]
+        用于指定弹性子元素如何分配空间 是flex-grow,flex-shrink,flex-basis三个属性的简写
+      auto:计算值为1 1 auto
+      initial: 0 1 auto
+      none: 0 0 auto
+      inherit:从父元素继承
+      flex-glow:设置项目相对于其他项目的增长量,默认为0
+      flex-shrink:设置项目相对于其他项目的收缩量,默认为1
+      flex-basis:项目长度(默认基准值),合法值:auto | inherit | 具体的值% px em等单位
+-->
+</body>
+</html>

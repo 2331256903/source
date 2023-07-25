@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .btn{
+            background-color: aqua;
+             height: 420px;
+            line-height: 1020px;
+            font-size: 360px;
+            font-family: '宋体';
+            overflow: hidden;
+            text-decoration: underline;
+            text-decoration: none;
+            white-space: normal;
+            white-space: nowrap;
+            background: url() no-repeat;
+            background-size:cover ;
+            background-size: contain;
+        }
+        .wrapper{
+            word-break: break-all;
+            background-color: aqua;
+        }
+        .wrapper>img{
+            display: inline-block;
+            margin-left: 20px;
+            margin-top: 12px;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<div style="position:relative;width: 120px;height: 120px;background-color: aquamarine;">
+    <div style="position: absolute;width: 100px;height: 100px;background-color: blue;bottom: 0;"></div>
+</div>
+<div style="width: 160px;background-color: blue;word-break: break-all">
+    <img src="https://via.placeholder.com/100x110" style="display: inline-block;float: right;" />
+    这是麻烦您看幅画卡卡姐·cc阿书法书法胜多负少a123123123123131sas的范德萨范德萨个人个人特如果对方规定规定反攻倒算反对反对
+</div>
+<div style="position:relative;width: 400px;height: 400px;background-color: aqua;">
+    <div style="position: absolute;width: 20px;height: 20px;background-color: red;left: 0;right: 0;top: 0;bottom: 0;margin: auto;"></div>
+</div>
+<div style="width: 80px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+    卡书法啦读卡三月底啦压力三月底啦要死了
+</div>
+<div style="width: 100px;">
+    <div style="display: inline-block;width: 50px;height: 40px;background-color: aquamarine;"></div>
+    <div style="display: inline-block;width: 50px;height: 40px;background-color: blue;"></div>
+</div>
+<div style=""> // width未知
+    <div style=""></div> // width+12px
+</div>
+<div class="wrapper">
+    12312312312312312312
+    <img src="https://via.placeholder.com/300x200" />
+</div>
+
+<span></span>
+<ui>
+    <li>1</li>
+    <li>2</li>
+</ui>
+<i></i>
+<u></u>
+<a href="http://www.baidu.com" target="_self">12312</a>
+<form action="index.php" enctype="application/x-www-form-urlencoded" method="post">
+    <input type="file" />
+    <label for="aim">
+<!--        <input type="text" placeholder="hint" id="aim" />-->
+        水果
+        <input name="type" type="radio" id="aim"  />
+    </label>
+    <label for="aim2">
+        事物
+        <input name="type" type="radio" id="aim2" />
+    </label>
+    <textarea></textarea>
+    <select>
+        <option>112222223</option>
+    </select>
+    <table>
+        <caption></caption>
+        <tr>
+            <th></th>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+    <button>btn</button>
+</form>
+<button id="btn1">btn</button>
+<video ></video>
+<meta />
+<button id="upload" style="display: inline-block;padding: 8px 12px;border-radius: 4px;border: none;background-color: red;color: #fff;cursor: pointer;">上传文件</button>
+<input type="file" id="fileInput" style="display: none;" />
+<script>
+    function f() {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState===4&&xhr.status===200){
+                console.log(xhr.response)
+            }
+        }
+        // xhr.open('get','index.php')
+        xhr.open('post','index.php')
+        xhr.setRequestHeader('content-type','application/x-www-formurlencoded')
+        xhr.send()
+    }
+
+    console.log(document.getElementsByTagName('button'));
+    let collection = document.getElementsByTagName('button');
+    document.getElementById('btn1').onclick = f
+
+    document.getElementById('upload').addEventListener('click',function () {
+        document.getElementById('fileInput').click();
+    })
+
+    document.getElementById('fileInput').addEventListener('change',function (e) {
+        console.log(e.target.files);
+    })
+
+</script>
+</body>
+</html>

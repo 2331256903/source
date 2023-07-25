@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  #div1 {
+    height: 100px;
+    width: 100px;
+    background-color: orange;
+    /*默认情况下所有的HTML元素均为静态的,不可移动,如果需要改变位置则需要将元素的position属性设置为relative,fixed或absolute*/
+    position: relative;
+  }
+  #div2 {
+    height: 100px;
+    width: 100px;
+    background-color: palevioletred;
+    position: relative;
+  }
+</style>
+<script src="../js/jquery.js"></script>
+<script>
+/*
+* jQuery动画 animate()方法
+*   jQuery animate()方法用于创建自定义动画
+*   语法: #(selector).animate({params},speed,callback)
+*     必须的param参数定义形成动画的css属性
+*     后两者可选和前叙方法相同
+* */
+  // 将div元素右移250px
+  $(document).ready(function (){
+    $("#div1").hover(function (){
+      $("#div1").animate({left:'250px'})
+    });
+    // jQuery animate() 操作多个属性
+    $("#button1").click(function (){
+      $("#div1").animate({
+        left: '300px',
+        opacity: '0.5',
+        height: '150px',
+        width: '150px'
+      } )
+    });
+    // jQuery animate() 使用相对值
+    $("#button2").click(function (){
+      $("#div1").animate({
+        left: '+=30px',
+        opacity: '+=0.1',
+        height: '+=50px',
+        width: '+=50px'
+      } )
+    });
+    // 使用预定义的值 可以把属性动画的值设置为show,hide或toggle
+    $("#button3").click(function (){
+      $("#div1").animate({
+        height:'toggle'
+      } )
+    });
+    // 使用动画队列 在之后编写多个animate()调用,jQuery会创建包含这些发方法调用的内部队列,然后逐一运行这些animate()调用
+    $("#button4").click(function (){
+      let div= $("#div1")
+      div.animate({height: '300px', opacity: '0.4'}, 'slow')
+      div.animate({weight: '300px', opacity: '0.8'}, 'slow')
+      div.animate({height: '100px', opacity: '0.4'}, 'slow')
+      div.animate({height: '100px', opacity: '0.8'}, 'slow')
+    });
+    // 把div元素向右移动100px,然后增加文本字号
+    $("#button5").click(function (){
+      let div= $("#div2")
+      div.animate({left:'100px'},"slow");
+      div.animate({fontSize:'3em'},"slow");
+    });
+  })
+
+/*
+* 注意:
+*   使用jQuery animate()时,必须使用Camel标记法书写所有的属性名,比如要使用paddingLeft而不是paddingleft或padding-left
+*   色彩动画不包含在核心jQuery库中,如需要生成颜色动画,需要从官网下载颜色动画插件
+*
+* 引入Queue队列,允许一系列函数被异地调用而不会阻塞程序
+*   提供的两组API:
+*     jQuery.queue/dequeue
+*     jQuery.fn.queue/dequeue
+*       jQuery.queue和jQuery.fn.queue不仅执行出队操作返回队头元素,还会自动执行返回的队头元素
+*       其中fn是扩展在原型上的高级API是提供给实例使用的
+*       /queue/.dequeue其内部是调用的.queue,.dequeue静态的底层方法实现入列和出列
+*
+* 动画调度
+*   每一个动画效果看做一个独立的动画对象,每个对象都实现了针对自己这个动画的生命周期的控制
+*   动画对象与动画对象之间没有直接关系,但是为了做到连续调用引入了Queue队列机制来控制对象之间转换的控制
+*   动画的源码(缩减):
+*     animate: function(prop,speed,easing,callback){
+*       doAnimation = function(){
+*         let anim = Animation(this,args,optall)
+*       }
+*       this.queue(optall.queue,doAnimation)
+*     }
+*     以上代码通过queue调度动画之间的衔接,Animation方法执行单个动画的封装,jQuery在queue的调度上涉及了一个关键的处理:同步与异步代码同时执行,
+*   同步收集动画序列,异步调用序列
+*     1.通过animate方法形成动画链,那么这个动画链其实都会加入到queue队列里面
+*     2.在每一次queue方法中会把动画数据写入队列中,然后取出队列中的第一个序列通过dequeue方法执行
+*     3.开始执行之前写一个进程锁"inprogress"到queue里面,代表这个动画还在执行中,防止同个序列的多个动画重复执行,这个就是异步执行同步收集的处理方案
+*
+* */
+</script>
+<body>
+  <div id="div1"></div>
+  <div id="div2">div2</div>
+  <button id="button1">点我大幅变化</button>
+  <button id="button2">使用相对值</button>
+  <button id="button3">使用预定义的值</button>
+  <button id="button4">使用队列功能</button>
+  <button id="button5">使用队列功能2</button>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	let lessons = [
+		{
+			title: "媒体查询响应式布局",
+			click: 89,
+			price: 12
+		},
+		{
+			title: "FLEX 弹性盒模型",
+			click: 45,
+			price: 120
+		},
+		{
+			title: "GRID 栅格系统",
+			click: 19,
+			price: 67
+		},
+		{
+			title: "盒子模型详解",
+			click: 29,
+			price: 300
+		}
+	]
+	let hd = lessons.sort(function (a, b) {
+		return a.price > b.price ? 1 : -1
+	})
+	let a = lessons.sort(function (a, b) {
+		return a.click > b.click ? 1 : -1
+	})
+	console.table(hd)
+	console.table(a)
+	function order(field, type="asc") {
+		// 利用闭包特性, 内部函数可以访问到外部函数作用域的数据
+		return function(a, b) {
+			// 对象属性是变量时, 不能使用.来引用
+			if (type === "asc") return a[field] > b[field] ? 1 : -1
+			return a[field] > b[field] ? -1 : 1
+		}
+	}
+	/* 可以理解为
+	lessons = {
+		sort: function(callback) {
+			callback(a, b)
+		}
+	} */
+	let hd2 = lessons.sort(order("click", "desc"))
+	console.table(hd2)
+</script>
+</body>
+</html>

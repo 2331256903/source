@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  typeof操作符用于检测变量的数据类型
+    typeof [1,2,3,4] //返回object 数组时一种特殊的对象类型
+
+  null:js中null表示什么都没有,主动释放一个变量引用的对象,表示一个变量不再指向任何对象地址
+    null是只有一个值的特殊类型,表示一个空对象引用,因此可以通过设置null来清空对象
+    使用完一个比较大的对象时,需要对其进行释放内存时设置为null
+
+  undefined:js中undefined是一个没有设置值的变量,自动赋值,是所有未赋值的变量的默认值
+    typeof一个没有值的变量会返回undefined
+      eg:let person //值为undefined,类型也为undefined
+
+  undefined和null的值相等,但类型不等
+
+  可以使用typeof来获取一个变量是否存在,如if(typeof a!= "undefined"){} 而不是if(a),如果a不存在(未声明)会出错
+  由于typeof遇到对象,null和数组时都会返回object类型,因此需要判断一个对象是否为数组时或是判断某个变量是否是某个对象的实例时使用instanceof
+
+  instanceof:   let result = objectName instanceof objectType
+    返回布尔值,如果是指定类型返回true 否则返回false
+      arr = [1,2,3]
+      if(arr instanceof Array) document.write("arr是一个数组")
+      else document.write("arr不是一个数组")
+
+  return myArray.constructor.toString().indexOf("Array") > -1
+      myArray是函数isArray的参数,constructor返回构造函数属性即function Array(){[native code]},
+    同时调用toString方法将其转变为字符串,使用indexOf("Array")检索字符串返回首次出现位置,此处为9,大于-1则说明
+    构造函数中含有Array,因此可以判断是否为数组
+-->
+</body>
+</html>

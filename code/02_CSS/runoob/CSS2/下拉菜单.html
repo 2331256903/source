@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    button {
+      height: 30px;
+      width: 70px;
+    }
+
+    .dropDown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropDownContent {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .dropDown:hover .dropDownContent{
+      display: block;
+    }
+    .dropDownContent a {
+      text-decoration: none;
+      padding: 8px 12px;
+      color: black;
+      display: block;
+      border: 1px solid black;
+    }
+    .dropDownContent a:hover {
+      background-color: #9b9fac;
+    }
+  </style>
+</head>
+<body>
+  <div class="dropDown">
+    <button>下拉菜单</button>
+    <div class="dropDownContent">
+      <a href="">1</a>
+      <a href="">2</a>
+      <a href="">3</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	{
+		let a = 1
+	}
+	console.log(a) // 报错
+	{
+		let a = 2 // 虽然名字一样, 但是是两个块级作用域中的, 实际不同
+	}
+	{
+		var a = 1
+	}
+	console.log(window.a)
+	// var没有块级作用域, 在对象中声明直接放入了全局
+</script>
+</body>
+</html>

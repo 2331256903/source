@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="js/jquery.js"></script>
+  <script>
+/*
+* jQuery使用$符号作为jQuery的简写,有许多其他js框架也使用$符号,如果在两种不同的框架下使用相同的简写符号,可能导致脚本停止运行
+*   因此实现了noConflict()方法
+*     该方法会释放对$表示符的控制,这样其他脚本就可以使用它看
+* */
+  $.noConflict();
+  jQuery(document).ready(function(){
+    jQuery("button").click(function(){
+      jQuery("p").text("jQuery 仍然在工作!");
+    });
+  });
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+  <script>
+    let  hd = "hdddd"
+    console.log(hd.match(/hd+?/)) // +后面加? 默认匹配多个,禁止贪婪,倾向于少的一方,1个
+    console.log(hd.match(/hd*?/)) // *后面加? 默认匹配多个,禁止贪婪,倾向于少的一方,0个
+    console.log(hd.match(/hd{2,100}?/)) // {}后面加? 默认匹配多个,禁止贪婪,倾向于少的一方,2个
+    console.log(hd.match(/hd{2,}?/)) // {}后面加? 默认匹配多个,禁止贪婪,倾向于少的一方,2个
+    console.log(hd.match(/hd??/)) // ?后面加? 默认匹配多个,禁止贪婪,倾向于少的一方,0个
+
+    //h4 描红 增加后盾人-
+    const main  = document.querySelector('main')
+    // let reg = /<span>[\s\S]+<\/span>/gi // 此时[\s\S]由于贪婪会匹配第一个<span>到最后一个</span>中的所有内容,而不是我们希望的每一行内容,因此使用?禁止贪婪
+    let reg = /<span>([\s\S]+?)<\/span>/gi
+    main.innerHTML.replace(reg,(v,p1)=>{
+      return `<h4 style="color:red">后盾人-${p1}</h4>`
+    })
+  </script>
+</head>
+<body>
+  <main>
+    <span>houdunwang</span>
+    <span>hdcms.com</span>
+    <span>houdunren.com</span>
+  </main>
+</body>
+</html>

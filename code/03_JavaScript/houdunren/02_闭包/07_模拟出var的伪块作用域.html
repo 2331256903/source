@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	/* var没有块级作用域, 但是有函数作用域, 可以通过立即执行函数来模拟块级作用域 */
+	for (var i = 1; i <= 3; i++) {
+		(function(a){
+			setTimeout(function() {
+				console.log(a)
+			}, 1000)
+		})(i) // 立即执行函数的括号里为想要传递的参数, 可以直接用自执行函数的参数a接收
+	} // 1 2 3
+	/* 由于传递到函数中, 每一个a的执行都产生一个新的环境, 每个函数中都会有定时器函数, 延迟一秒执行, 因此父级作用域中环境就会保留变量, 这样就模拟出了块级作用域的特性 */
+</script>
+</body>

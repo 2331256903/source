@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+  // Map对象
+  /*Map对象保存键值对,任何值(对象或原始值)都可以作为一个键或一个值*/
+  /*Map和Object的区别
+  *   一个Object的键只能是字符串或者Symbols,但一个map的键可以是任意值
+  *   Map中的键值是有序的(FIFO原则),而添加到对象中的键则不是
+  *   Map的键值对个数可以从size属性中获取,而Object的键值对个数只能手动计算
+  *   Object都有自己的原型,原型链上的键名有可能和你在即在对象上设置的键名产生冲突
+  * */
+  /*Map中的key*/
+  /*map.set(key,value) 根据键存储值,返回map自身*/
+  /*map.get(key) 根据键来返回值,如果map中不存在对应的key,则返回undefined*/
+  /*key是字符串*/
+  let myMap = new Map()
+  let keyString = "a string"
+  myMap.set(keyString, "和键'a string'关联的值")
+  console.log(myMap)
+  myMap.get(keyString)  // "和键'a string'关联的值"
+  myMap.get("a string")  // "和键'a string'关联的值"   因为keyString === 'a string'
+  /*key是对象*/
+  let myMap2 = new Map()
+  let keyObj = {}
+  myMap2.set(keyObj, "和键keyobj相关联的值")
+  myMap2.get(keyObj)  //"和键keyobj相关联的值"
+  myMap2.get({})  // undefined  因为keyObj !== {}
+  /*key是函数*/
+  let myMap3 = new Map()
+  let keyFunc = function (){}
+  myMap3.set(keyFunc, "和键kryFunc关联的值")
+  myMap3.get(keyFunc) //"和键kryFunc关联的值"
+  myMap.get(function (){})  // undefined 因为keyFunc !== function(){}
+  /*key是NaN*/
+  let myMap4 = new Map()
+  myMap4.set(NaN, "not a number")
+  myMap4.get(NaN)  // "not a number"
+  let otherNaN = Number("foo")
+  myMap4.get(otherNaN)  // "not a number"
+  /*虽然NaN和任何值都不相等,但NaN作为Map的键是没有区别的*/
+
+  /*Map的迭代  对map进行遍历,以下两个最高级*/
+  // for...of
+  /*
+  * for...of循环原理
+  *   1.创建一个指针对象,指向当前数据结构的起始位置
+  *   2.第一次调用对象的next方法,指针一直往后移动,直到指向最后一个成员
+  *   3.接下来不断调用next方法指针一直往后移动,直到指针指向最后一个成员
+  * 注:需要自定义遍历数据的时候要想到迭代器
+  * */
+  let myMap5 = new Map()
+  myMap5.set(0, "zero")
+  myMap5.set(1, "one")
+  for (let[key,value] of myMap5){
+    console.log(key + " = " + value)
+  }
+  /*entries方法返回一个新的Iterator对象,它按插入顺序包含了Map对象中的每个元素的[key,value]数组*/
+  for (let[key,value] of myMap5.entries()){
+    console.log(key + " = " + value)
+  }
+  // forEach()
+  /*将会显示两个logs,一个是"0 = zero" 另一个是"1 = one"*/
+  myMap5.forEach(function(value,key){
+    console.log(key + " = " + value)
+  },myMap5)
+
+  /*Map对象的操作*/
+  /*Map与Array的转换*/
+  let kletray = [["key","value1"],["key2","value2"]]
+  /*Map构造函数可以将一个二维键值对数组转换成一个Map对象*/
+  let myMap6 = new Map(kletray)
+  /*使用Array.from函数可以将一个Map对象转换成一个二维键值对数组*/
+  let outArray = Array.from(myMap6)
+
+  /*Map的克隆*/
+  let myMap7 = new Map([["key1","value1"],["key2","value2"]])
+  let myMap8 = new Map(myMap7)
+  console.log(myMap7 === myMap8)  //打印false   因为Map对象构造函数生成实例,迭代出新的对象
+
+  /*Map的合并*/
+  let first = new Map([[1, "one"], [2, "two"], [3, "three"],])
+  let second = new Map([[1, "uno"], [2, "dos"]])
+  /*合并两个Map对象时,如果有重复的键值,后来的会覆盖先前的*/
+  let merged = new Map([...first, ...second])
+
+
+
+  /*Set对象*/
+  /*Set对象允许存储任何类型的唯一值,无论是原始值还是对象引用
+  * Set对象是值的集合,你可以按照插入的顺序迭代它的元素,Set中的元素只会出现一次,即Set中的元素是唯一的
+  * 引用值地址不能相同,原始值不能相等,这才能确保值的唯一性
+  * */
+  /*Set中的特殊值
+  *   Set对象存储的值总是唯一的,所以需要判断两个值是否恒等,有几个特殊值需要特殊对待
+  *   +0 与-0在存储判断唯一性的时候是恒等的,所以不重复
+  *   undefined与undefined是恒等的,所以不重复
+  * */
+  let mySet = new Set()
+  mySet.add(1)  //Set(1) {1}
+  mySet.add(5)  //Set(2) {1, 5}
+  mySet.add(5)  //Set(2) {1, 5} 这里体现唯一性
+  mySet.add("some text")  //Set(3) {1, 5, "some text"} 这里体现了类型的多样性
+  let o = {a: 1, b: 2}
+  mySet.add(o)
+  mySet.add({a: 1, b: 2})  //Set(5) {1, 5, "some text", {a: 1, b: 2}, {a: 1, b: 2}}
+  /*此处对象之间引用不同,不恒等,即使值相同,Set也能存储*/
+
+  /*类型转换*/
+  /*Array*/
+  // Array转Set   用...操作符,将Set转Array,  ...是ES6出现的扩展运算符,遍历当前使用的对象能够访问到的所有属性,并将属性放入当前对象中,重名时会选取后者
+  let mySet2 = new Set(["value1", "value2", "value3"])
+  let myArray = [...mySet2]
+  /*String*/
+  // String转Set
+  let mySet3 = new Set('hello')  // Set(4) {"h", "e", "l", "o"}
+  /*注:Set中的toString方法是不能将Set转换成String*/
+
+  /*Set对象作用*/
+  // 数组去重
+  let mySet4 = new Set([1,2,3,4,5,4,3])
+  console.log([...mySet4])  // [1,2,3,4,5]
+  // 并集
+  let a = new Set([1, 2, 3])
+  let b = new Set([4, 3, 2])
+  let union = new Set([...a,...b])  // {1,2,3,4}
+  // 交集
+  let intersect = new Set([...a].filter(x => b.has(x)))  // {2,3}
+  /*has() 将匹配元素集合缩减为包含特定元素的后代的集合,在数组中寻找是否包含有匹配的值并返回*/
+  /*filter()函数  过滤器函数,用于把array的某些元素过滤掉,然后返回剩下的元素,操作当前元素,删除不匹配的元素,得到一个新的集合
+  *  array.filter(function(currentValue,index,arr), thisValue)
+  *  参数: 必须的currentValue 表示当前元素的值
+  *       可选的index 表示当前元素的索引值
+  *       可选的arr表示当前元素属于的数组对象
+  *       可选的thisValue 表示执行function(currentValue,index,arr)时的用于this的值
+  *  返回值为过滤元素后的新数组
+  * */
+  /*理解上述代码略有难度
+  *   1.[...a]就是将set转换成array,以后需要将set转换成array均使用这个方法
+  *   2.[...a].filter()
+  *      Array.filter(function(x))把传入的函数function(x)依次作用于每个元素,x为元素的值,然后根据返回值是true还是false决定保留还是丢弃该元素
+  *      意思就是遍历当前数组,当遍历到某个元素时返回值为false的就将该元素从数组中剔除
+  *      filter方法创建一个新的数组,新数组中的元素是通过检查指定数组中符合条件的所有元素
+  *      filter函数类似循环遍历数组,遍历的元素返回值为false则将该元素从数组中剔除
+  *   3. =>是一种简写方法
+  *      x => x*x  相当于  function(x){return x*x}
+  *      所以x=>b.has(x) 本质是一个函数相当于  function(x){return b.has(x)}
+  *   4. b.has(x)
+  *      Set.has(x)是set中的一个方法,即判断当前set中是否含有x,如果有则返回true,没有则返回false
+  * */
+  // 差集
+  let difference = new Set([...a].filter(x => !b.has(x)))  //{1}
+  </script>
+</head>
+<body>
+
+</body>
+</html>

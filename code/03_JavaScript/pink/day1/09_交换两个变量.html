@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <script>
+    /*
+    * 变量命名规则
+    *   1.不能用关键字let if for let等
+    *   2.只能用下划线,数字,字母,$ 组成,且不能以数字开头
+    *   3.字母严格区分大小写 Age和age是不同的变量
+    * 起名要有意义,遵守小驼峰写法:第一个字母小写,后续每个单词首字母大写
+    * */
+    let number1 = 10
+    let number2 = 20
+    let temp
+
+    temp = number1
+    number1 = number2
+    number2 = temp
+    console.log(number1,number2)
+  </script>
+</body>
+</html>

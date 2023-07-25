@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script>
+  /*
+  * AJAX请求是异步执行的,因此需要通过回调函数获得响应
+  * 现代浏览器写AJAX主要依靠XMLHttpRequest对象
+  * */
+
+  /*创建了XMLHttpRequest对象后,要先设置onreadystatechange的回调函数,在回调函数中,通常只需要通过readystate === 4判断请求是否完成,如果已完成,
+    再通过status === 200判断是否是一个成功的响应*/
+  /*XMLHttpRequest对象的open()方法有3个参数,第一个参数指定是GET还是POST,第二个参数指定URL地址,第三个参数指定是否使用异步,默认是true所以不写
+    注意:如果第三个参数指定为false,浏览器将停止响应,直到AJAX请求完成,如果这个过程耗时10秒,则浏览器将处于假死状态10秒*/
+  /*最后调用的send方法才真正发送请求,GET请求不需要参数,POST请求需要把body部分以字符串或者FormData对象传进去*/
+  function success(text) {
+    let textarea = document.getElementsByClassName('test-response-text')
+    textarea.value = text
+  }
+  function fall(code) {
+    let textarea = document.getElementsByClassName('test-response-text')
+    textarea.value = 'Error code: ' + code
+  }
+  let request = new XMLHttpRequest() // 新建XMLHttpRequest对象
+  request.onreadystatechange = function () { // 状态发生变化时,函数被回调
+    if( request.readyState === 4 ) { // 成功完成
+      /* readyState是AJAX状态
+      *   0: (未初始化) 还没有调用send()方法
+      *   1: (载入) 已调用send()方法 正在发送请求
+      *   2: (载入完成) send()方法执行完成
+      *   3: (交互) 正在解析相应内容
+      *   4: (完成) 响应内容解析完成, 可以在客户端调用了
+      *  而status是请求之后服务器端的HTTPCode, 两者不同
+      *  */
+      // 判断响应结果
+      if ( request.status === 200 ) {
+        // 成功,通过responseText拿到响应的文本
+        return success( request.responseText )
+      } else {
+        // 失败,根据响应码判断失败原因
+        return fail( request.status )
+      }
+    } else {
+      // HTTP请求还在继续
+    }
+  }
+
+  // 发送请求:
+  request.open('GET','/api/categories')
+  request.send()
+  alert('请求已发送,等待响应...')
+
+  /*对于低版本的IE需要换一个ActiveXObject对象,可以把它与标准写法一起写, 通过检测window对象是否有XMLHttpRequest对象来确定浏览器是否支持标准的XMLHttpRequest */
+  let request2
+  if (window.XMLHttpRequest) {
+    request2 = new XMLHttpRequest()
+  } else {
+    request2 = new ActiveXObject('Microsoft.XMLHTTP')
+  }
+
+  /*如果不考虑IE兼容性问题,现代浏览器还提供了原生支持的Fetch API,以Promise方式提供,把上述代码用Fetch API改写如下*/
+  async function get(url) {
+    let resp = await fetch(url)
+    return resp.json()
+  }
+
+  // 发送异步请求:
+  get('/api/categories').then(data => {
+    let textarea = document.getElementById('fetch-response-text')
+    textarea.value = JSON.stringify(data)
+  })
+</script>
+<body>
+
+</body>
+</html>

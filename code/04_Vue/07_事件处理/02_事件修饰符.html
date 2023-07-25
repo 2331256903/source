@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <style>
+    .demo1 {
+      height: 50px;
+      background-color: skyblue;
+    }
+
+    .box1 {
+      height: 50px;
+      background-color: skyblue;
+      padding: 5px;
+    }
+    .box2 {
+      height: 25px;
+      background-color: orange;
+    }
+    .list {
+      height: 200px;
+      width: 200px;
+      background-color: peru;
+      overflow: auto;
+    }
+    li {
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+<!--
+  Vue中的事件修饰符:
+    1.prevent:阻止默认事件(常用)
+    2.stop:阻止事件冒泡(常用)     事件冒泡:因为box2在box1里面，所以点击box2时，也同时点击了box1，这就是事件冒泡
+    3.once:事件只触发一次(常用)
+    4.capture:使用事件的捕获模式
+    5.self:只有event.target是当前操作的元素时才触发事件
+    6.passive:事件的行为立即执行,无需等待事件回调执行完毕
+-->
+  <div id="root">
+    <h2>欢迎来到{{name}}</h2>
+    <!--阻止默认事件(常用)-->
+    <a href="https://www.baidu.com" @click.prevent="showInfo">点我提示信息</a>
+    <!--阻止事件冒泡(常用)-->
+    <div class="demo1" @click="showInfo">
+      <button @click.stop="showInfo">点我提示信息</button>
+    </div>
+    <!--once:事件只触发一次(常用)-->
+    <button @click.once="showInfo">点我提示信息</button>
+    <!--capture:使用事件的捕获模式-->
+    <!--
+      点击div2时先经过事件捕获(由外往内)最后才事件冒泡,默认处理事件的时候是事件冒泡阶段(由内往外)
+      因此点击是先输出2然后冒泡到1
+    -->
+    <!--此时在外层盒子加上.capture,则该点击事件在事件捕获阶段就立刻执行-->
+    <div class="box1" @click.capture="showMsg(1)">
+      div1
+      <div class="box2" @click="showMsg(2)">
+        div2
+      </div>
+    </div>
+    <!--self:只有event.target是当前操作的元素时才触发事件-->
+    <!--此时点击按钮事件target不是外层,所以只会弹框一次,也能用于阻止冒泡-->
+    <div class="demo1" @click.self="showInfo">
+      <button class="box2" @click="showInfo">点我提示信息</button>
+    </div>
+    <!--passive:事件的行为立即执行,无需等待事件回调执行完毕-->
+    <ul class="list" @wheel.passive="demo">
+    <!--<ul class="list" @scroll="demo">-->
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+    </ul>
+  </div>
+  <script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el:'#root',
+      data:{
+        name:'baidu',
+      },
+      methods:{
+        showInfo(e){
+          alert("你好")
+        },
+        showMsg(msg){
+          console.log(msg)
+        },
+        /*鼠标滚动后,先触发滚动事件,然后执行函数回调,最后才执行默认行为(控制滚动条移动)*/
+        demo(){
+          for (let i= 0; i < 100000; i++){
+            console.log('#')
+          }
+          console.log('麻了')
+        }
+      }
+    })
+  </script>
+</body>
+</html>

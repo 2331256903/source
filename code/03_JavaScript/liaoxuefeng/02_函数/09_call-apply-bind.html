@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script>
+  // call,apply,bind
+  // call是函数的一个方法
+  function fun() {
+    console.log(this)
+  }
+  let cat = {
+    name: "喵喵"
+  }
+  let dog = {
+    name: "旺财",
+    sayName() {
+      console.log("我是" + this.name)
+    },
+    eat(food1, food2) {
+      console.log("我喜欢吃" + food1 + food2)
+    }
+  }
+  // call可以调用函数,call可以改变函数中的this指向
+  fun.call(cat) // {name: '喵喵'}
+
+  dog.sayName() // 我是旺财
+  dog.sayName.call(cat) // 我是喵喵
+
+  dog.eat("骨头", "骨头") // 我喜欢吃骨头骨头
+  dog.eat.call(cat,"鱼", "肉") // call传参
+  dog.eat.apply(cat,["鱼","肉"]) //apply传参 数组
+  // 下两行等效与上面call的一行,call和apply会调用函数, bind会作为一个返回值返回函数
+  let fun2 = dog.eat.bind(cat,"鱼", "肉")
+  fun2()
+</script>
+<body>
+
+</body>
+</html>

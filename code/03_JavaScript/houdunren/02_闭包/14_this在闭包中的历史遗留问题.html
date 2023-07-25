@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	let hd = {
+		user: "后盾人",
+		get function() {
+			let This = this // 此时可以使用另一个参数接收this来解决这个this指向的问题
+			// return this.user
+			return This.user
+			// 或者使用es6的箭头函数 () => {}
+			/*return () => {
+				return this.user
+			}*/
+		}
+	}
+	/*
+		过程其实是
+		let a = hd.get()
+		console.log(a())
+		this指向当前调用函数的对象, 此时执行函数在window对象下, 因此this指向window, user为undefined
+	*/
+	console.log(hd.get()())
+</script>
+</body>
+</html>

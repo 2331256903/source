@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script>
+  function changeDiv() {
+    let body = document.getElementsByTagName("body")[0]
+    let reg = /(?<=(class=")).*(?=">)/g
+    body.innerHTML = body.innerHTML.replace(reg, "div2")
+  }
+</script>
+<style>
+  div {
+    width: 200px;
+    height: 150px;
+    transition: all 0.5s;
+  }
+  .div1 {
+    background-color: #9b9fac;
+  }
+  .div2 {
+    background-color: #4e6ef2;
+    height: 100px;
+  }
+</style>
+<body>
+  <div class="div1"></div>
+  <button onclick="changeDiv()">按钮</button>
+</body>
+
+</html>
