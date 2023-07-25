@@ -86,9 +86,9 @@
   var swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
   var swiperSlide = document.getElementsByClassName('swiper-slide')
   var swiperBullets = document.getElementsByClassName('swiper-bullets')[0]
-  var counter = 2
-  var circle = 0;
-  var flag = true;
+  var counter = 1
+  var circle = 0
+  var flag = true
   var timer = undefined
   
   // 定时器
@@ -109,20 +109,23 @@
   
   // 动态生成按钮 按钮点击逻辑
   (function () {
-    for (var i = 1; i < swiperSlide.length - 1; i++) {
-      var spanElement = document.createElement('span')
-      spanElement.className = 'current'
-      spanElement.setAttribute('index', i)
-      swiperBullets.appendChild(spanElement)
-      spanElement.addEventListener('mouseover', function () {
+    for (var i = 0; i < swiperSlide.length - 2; i++) {
+      var span = document.createElement('span')
+      span.className = 'current'
+      span.setAttribute('index', i)
+      swiperBullets.appendChild(span)
+      span.addEventListener('click', function () {
         for (var i = 0; i < swiperBullets.children.length; i++) {
           swiperBullets.children[i].className = 'current'
         }
         this.className = 'current white'
-        var index = this.getAttribute('index')
+        var index = parseInt(this.getAttribute('index')) + 1
         swiperWrapper.style.left = -1400 * index + 'px'
         circle = index
-        counter = index + 1
+        counter = index
+        console.log(swiperWrapper.style.left)
+        console.log(circle, 's1')
+        console.log(counter, 's2')
       })
     }
   })()
@@ -133,48 +136,54 @@
       for (var i = 0; i < swiperBullets.children.length; i++) {
         swiperBullets.children[i].className = 'current'
       }
-      swiperBullets.children[circle].className = 'current white'
+      swiperBullets.children[--circle].className = 'current white'
     })()
   }
   
   BtnL.addEventListener('click', function () {
-    if (counter > 1) {
-      swiperWrapper.style.left = parseInt(swiperWrapper.style.left) + 1400 + 'px'
-      counter--
-    } else {
-      swiperWrapper.style.transition = 'none'
-      swiperWrapper.style.left = '-8400px'
-      setTimeout(() => {
-        swiperWrapper.style.transition = 'left 0.5s ease-in-out'
-        swiperWrapper.style.left = '-7000px'
+    console.log(swiperWrapper.style.left)
+    console.log(circle, 'l1')
+    console.log(counter, 'l2')
+    if (flag) {
+      if (counter > 1) {
+        swiperWrapper.style.left = parseInt(swiperWrapper.style.left) + 1400 + 'px'
+        counter--
+        flag = true
+        circle--
+        if (circle < 1) {
+          circle = swiperBullets.children.length
+        }
+        circlechange()
+      } else {
+        swiperWrapper.style.transition = 'none'
+        swiperWrapper.style.left = '-8400px'
+        setTimeout(() => {
+          swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+          swiperWrapper.style.left = '-7000px'
+        });
         counter = 6
-      });
-      flag = true
-      circle--
-      if (circle <1) {
-        circle = swiperBullets.children.length
       }
-      circlechange()
     }
   })
   BtnR.addEventListener('click', function () {
-    if (counter < 7) {
+    console.log(swiperWrapper.style.left)
+    console.log(circle, 'r1')
+    console.log(counter, 'r2')
+    if (counter < 6) {
       swiperWrapper.style.left = parseInt(swiperWrapper.style.left) - 1400 + 'px'
       counter++
+      flag = true
+      circle++
+      circlechange()
     } else {
       swiperWrapper.style.transition = 'none'
       swiperWrapper.style.left = '0px'
+      circle = 1
+      counter = 1
       setTimeout(() => {
         swiperWrapper.style.transition = 'left 0.5s ease-in-out'
         swiperWrapper.style.left = '-1400px'
-        counter = 2
       })
-      flag = true
-      circle++
-      if (circle === swiperBullets.children.length + 1) {
-        circle = 1
-      }
-      circlechange()
     }
   })
 </script>

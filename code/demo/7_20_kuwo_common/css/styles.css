@@ -61,6 +61,7 @@
   overflow: hidden;
   font-size: 0;
   position: relative;
+  cursor: pointer;
 }
 .banner-out .swiper-out .swiper-inn .swiper-container .BtnL {
   left: 38px;
@@ -125,18 +126,18 @@
   text-align: center;
 }
 .banner-out .swiper-out .swiper-inn .swiper-container .swiper-bullets span {
-  margin: 0 5px;
+  margin: 0 6px;
   display: inline-block;
   overflow: hidden;
   color: #FFFFFF;
   text-overflow: ellipsis;
   white-space: nowrap;
-  height: 6px;
-  width: 20px;
+  height: 8px;
+  width: 8px;
   cursor: pointer;
   background-color: #D0D0D0;
   opacity: 1;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .banner-out .swiper-out .swiper-inn .swiper-container .swiper-bullets .current {
   background-color: #D0D0D0;
