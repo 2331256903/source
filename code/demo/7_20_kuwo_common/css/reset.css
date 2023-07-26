@@ -13,7 +13,9 @@
   vertical-align: baseline;
   box-sizing: border-box;
 }
-
+*::selection {
+  background-color: transparent;
+}
 /*.col-1 {width: 4.16%}
 .col-2 {width: 8.33%;}
 .col-3 {width: 12.5%;}
@@ -54,6 +56,9 @@ div {
 
 img {
   display: block;
+}
+image {
+  overflow: hidden;
 }
 
 i {

@@ -48,12 +48,14 @@
   max-height: 400px;
 }
 .banner-out .swiper-out {
-  height: 400px;
+  height: 340px;
 }
 .banner-out .swiper-out .swiper-inn {
   max-height: 340px;
   height: 100%;
   font-size: 0;
+  position: relative;
+  z-index: 2;
 }
 .banner-out .swiper-out .swiper-inn .swiper-container {
   height: 100%;
@@ -122,7 +124,7 @@
   overflow: hidden;
   left: 0;
   right: 0;
-  bottom: 40px;
+  bottom: 20px;
   text-align: center;
 }
 .banner-out .swiper-out .swiper-inn .swiper-container .swiper-bullets span {
@@ -156,5 +158,209 @@
   height: 100%;
   font-size: 0;
   display: inline-block;
+}
+.banner-out .swiper-out .swiper-inn .swiper-container .swiper-wrapper .swiper-slide a,
+.banner-out .swiper-out .swiper-inn .swiper-container .swiper-wrapper .swiper-slide img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.banner-out .swiper-out .blur {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  bottom: -25px;
+  display: block;
+}
+.banner-out .swiper-out .blur svg {
+  height: 100%;
+  width: 100%;
+  font-size: 0;
+}
+.banner-out .swiper-out .blur svg image {
+  display: none;
+}
+.banner-out .download {
+  position: relative;
+  height: 60px;
+  line-height: 60px;
+  color: #FFF;
+  font-size: 16px;
+  padding: 0 13.5%;
+  background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
+  z-index: 2;
+}
+.banner-out .download .btns {
+  display: block;
+  margin: 0 auto;
+  height: 100%;
+  text-align: center;
+}
+.banner-out .download .btns .split {
+  width: 1px;
+  height: 28px;
+  background: hsla(0, 0%, 100%, 0.1);
+  border-radius: 1px;
+  margin: 0 80px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.banner-out .download .btns li {
+  display: inline-block;
+  height: 100%;
+  line-height: 60px;
+}
+.banner-out .download .btns li i {
+  height: 100%;
+  position: relative;
+}
+.banner-out .download .btns li i:after {
+  content: '';
+  position: absolute;
+  height: 28px;
+  width: 29px;
+  left: -39px;
+  background-color: #FFF;
+  display: inline-block;
+  top: calc(50% - 18px);
+}
+.banner-out .download .btns li a {
+  display: block;
+  color: #FFF;
+  text-align: center;
+}
+.banner-out .download .btns li a span {
+  display: inline-block;
+  font-size: 16px;
+  text-align: center;
+}
+.model {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFF;
+  width: 450px;
+  height: 244px;
+  padding: 16px 20px;
+  z-index: 100;
+  box-shadow: 0 4px 20px 0 rgba(65, 67, 70, 0.08);
+}
+.model .title {
+  padding-bottom: 14px;
+  border-bottom: 1px solid #F5F5F5;
+  width: 100%;
+  position: relative;
+  line-height: 21px;
+}
+.model .title span {
+  font-size: 16px;
+  font-weight: 600;
+}
+.model .title i {
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  font-size: 20px;
+  font-weight: 600;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.model .content .btns {
+  margin-top: 15px;
+  padding-bottom: 5px;
+  font-size: 0;
+}
+.model .content .btns .button-container {
+  width: 220px;
+  height: 146px;
+  line-height: 146px;
+  text-align: center;
+  display: inline-block;
+  padding-right: 20px;
+}
+.model .content .btns .button-container a {
+  display: inline-block;
+  vertical-align: middle;
+  color: #333;
+  background-color: #ffdf1f;
+  width: 171px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 23px;
+  text-align: center;
+  font-size: 14px;
+}
+.model .content .btns .button-container a i {
+  height: 16px;
+  width: 16px;
+  margin-right: 5px;
+}
+.model .content .btns .button-container a i:after {
+  content: '';
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+  margin-bottom: 3px;
+  background-color: #333;
+}
+.model .content .btns .split {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #F5F5F5;
+  height: 146px;
+  width: 1px;
+  border-radius: 1px;
+  margin-right: 48px;
+}
+.model .content .btns .img-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+.model .content .btns .img-container img {
+  width: 110px;
+  height: 110px;
+}
+.model .content .btns .img-container p {
+  margin-top: 8px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+.song-list .song-list-nav {
+  align-items: baseline;
+  height: 40px;
+  line-height: 40px;
+  margin: 70px 0 28px;
+  position: relative;
+}
+.song-list .song-list-nav h3 {
+  display: inline-block;
+  font-size: 28px;
+  margin-right: 40px;
+  font-weight: 700;
+}
+.song-list .song-list-nav .sub-nav {
+  display: inline-block;
+  padding-left: 0;
+  width: auto;
+}
+.song-list .song-list-nav > a:last-child {
+  display: inline-block;
+  font-size: 13px;
+  line-height: normal;
+  color: #999;
+  font-weight: 400;
 }
 /*# sourceMappingURL=styles.css.map */

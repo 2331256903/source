@@ -23,7 +23,8 @@
       <div class="swiper-out">
         <div class="swiper-inn">
           <div class="swiper-container">
-            <div class="swiper-wrapper" style="left: -1400px">
+            <!-- ondragstart="return false" 禁止鼠标选中后拖动有半透明图片跟随 -->
+            <div class="swiper-wrapper" style="left: -1400px" ondragstart="return false">
               <div class="swiper-slide">
                 <a href="https://www.kuwo.cn/playlist_detail/3460417394"><img src="./source/img/1684069467445_.jpg" alt></a>
               </div>
@@ -56,10 +57,71 @@
             <div class="BtnR"><i>></i></div>
           </div>
         </div>
-        <div class="download">
-          <ul class="btns">
-            <li><a href=""><i></i><span></span></a></li>
-          </ul>
+        <div class="blur">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200%" viewBox="0 0 1680 480" preserveAspectRatio="none">
+            <defs>
+              <filter id="blur">
+                <feGaussianBlur in="SourceGraph" stdDeviation="30"></feGaussianBlur>
+              </filter>
+            </defs>
+            <image href="./source/img/1677749209264_.png" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+            <image href="./source/img/1689402762005_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+            <image href="./source/img/1689402854175_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+            <image href="./source/img/1689330791866_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+            <image href="./source/img/1689303067197_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+            <image href="./source/img/1684069467445_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
+          </svg>
+        </div>
+      </div>
+      <div class="download">
+        <ul class="btns">
+          <li><a href=""><i></i><span>下载PC版</span></a></li>
+          <li class="split"></li>
+          <li class="downloadAndroid"><a href="javascript:"><i></i><span>下载Android版</span></a></li>
+          <li class="split"></li>
+          <li class="downloadIphone"><a href="javascript:"><i></i><span>下载iphone版</span></a></li>
+          <li class="split"></li>
+          <li><a href="https://www.kuwo.cn/down"><i></i><span>下载其他版本</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="model" style="display: none">
+      <div class="title">
+        <span class="androidTitle" style>酷我音乐Android最新版</span>
+        <span class="iphoneTitle" style="display: none">酷我音乐iphone最新版</span>
+        <i class="close">x</i>
+      </div>
+      <div class="content">
+        <div class="btns">
+          <div class="button-container"><a href=""><i></i>下载安装包</a></div>
+          <div class="split"></div>
+          <div class="img-container">
+            <img src="./source/img/Snipaste_2023-07-21_15-27-50.png" alt>
+            <p class="tip">扫描二维码下载</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="song-list">
+      <div class="song-list-nav">
+        <h3>推荐歌单</h3>
+        <div class="sub-nav">
+          <a href="javascript:" class="current"><span>每日推荐</span></a>
+          <a href="javascript:"><span>翻唱</span></a>
+          <a href="javascript:"><span>网络</span></a>
+          <a href="javascript:"><span>伤感</span></a>
+          <a href="javascript:"><span>欧美</span></a>
+        </div>
+        <a href="https://www.kuwo.cn/playlists" class="song-list-more">更多<i>></i></a>
+      </div>
+      <div class="song-list-content">
+        <div class="item">
+          <div class="pic-out">
+            <div class="cover"></div>
+            <div class="item-img"></div>
+          </div>
+          <p class="name"></p>
+          <p class="count"></p>
         </div>
       </div>
     </div>
@@ -67,6 +129,7 @@
 </div>
 </body>
 <script>
+/* 顶部标签动态选中样式 */
   var subNavTitle = document.querySelector('.sub-nav').querySelectorAll('a');
   (function () {
     for (var i = 0; i < subNavTitle.length; i++) {
@@ -80,12 +143,16 @@
       })(i)
     }
   })()
+  
+  
+/* 顶部滚动轮播图 */
   var box = document.getElementsByClassName('swiper-container')[0]
   var BtnL = document.getElementsByClassName('BtnL')[0]
   var BtnR = document.getElementsByClassName('BtnR')[0]
   var swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
   var swiperSlide = document.getElementsByClassName('swiper-slide')
   var swiperBullets = document.getElementsByClassName('swiper-bullets')[0]
+  var blur = document.getElementsByTagName('image')
   var counter = 1
   var circle = 0
   var flag = true
@@ -106,8 +173,11 @@
   box.onmouseleave = function() {
     play()
   };
-  
+  swiperWrapper.onmousedown = function () {
+    clearInterval(timer)
+  };
   // 动态生成按钮 按钮点击逻辑
+    /* 7张图对应5个按钮, 需要分别设置状态, 判断两个边界时直接改值 */
   (function () {
     for (var i = 0; i < swiperSlide.length - 2; i++) {
       var span = document.createElement('span')
@@ -121,39 +191,40 @@
         this.className = 'current white'
         var index = parseInt(this.getAttribute('index')) + 1
         swiperWrapper.style.left = -1400 * index + 'px'
-        circle = index
+        circle = index - 1
         counter = index
-        console.log(swiperWrapper.style.left)
-        console.log(circle, 's1')
-        console.log(counter, 's2')
       })
     }
   })()
   swiperBullets.children[0].className = 'current white'
+  blur[0].style.display = 'block'
+  blur[0].style.filter = 'url(#blur)'
   
-  function circlechange() {
+  function circleChange() {
     (function () {
       for (var i = 0; i < swiperBullets.children.length; i++) {
         swiperBullets.children[i].className = 'current'
+        blur[i].style.display = 'none'
+        blur[i].style.filter = ""
       }
-      swiperBullets.children[--circle].className = 'current white'
+      swiperBullets.children[circle].className = 'current white'
+      blur[circle].style.display = 'block'
+      blur[circle].style.filter = 'url(#blur)'
     })()
   }
   
   BtnL.addEventListener('click', function () {
-    console.log(swiperWrapper.style.left)
-    console.log(circle, 'l1')
-    console.log(counter, 'l2')
     if (flag) {
-      if (counter > 1) {
+      flag = false
+      if (counter > 0) {
         swiperWrapper.style.left = parseInt(swiperWrapper.style.left) + 1400 + 'px'
         counter--
         flag = true
         circle--
-        if (circle < 1) {
-          circle = swiperBullets.children.length
+        if (circle < 0) {
+          circle = swiperBullets.children.length - 1
         }
-        circlechange()
+        circleChange()
       } else {
         swiperWrapper.style.transition = 'none'
         swiperWrapper.style.left = '-8400px'
@@ -161,30 +232,118 @@
           swiperWrapper.style.transition = 'left 0.5s ease-in-out'
           swiperWrapper.style.left = '-7000px'
         });
-        counter = 6
+        counter = 5
+        circle = 4
+        flag = true
+        circleChange()
       }
     }
+    console.log(counter, 'lc')
+    console.log(circle, 'lcircle')
+    console.log(swiperWrapper.style.left)
   })
   BtnR.addEventListener('click', function () {
-    console.log(swiperWrapper.style.left)
-    console.log(circle, 'r1')
-    console.log(counter, 'r2')
-    if (counter < 6) {
-      swiperWrapper.style.left = parseInt(swiperWrapper.style.left) - 1400 + 'px'
-      counter++
-      flag = true
-      circle++
-      circlechange()
-    } else {
-      swiperWrapper.style.transition = 'none'
-      swiperWrapper.style.left = '0px'
-      circle = 1
-      counter = 1
-      setTimeout(() => {
-        swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+    if (flag) {
+      flag = false
+      if (counter < 7) {
+        swiperWrapper.style.left = parseInt(swiperWrapper.style.left) - 1400 + 'px'
+        counter++
+        flag = true
+        circle++
+        if (circle > swiperBullets.children.length - 1) {
+          circle = 0
+        }
+        circleChange()
+      } else {
+        swiperWrapper.style.transition = 'none'
         swiperWrapper.style.left = '-1400px'
-      })
+        setTimeout(() => {
+          swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+          swiperWrapper.style.left = '-2800px'
+        })
+        circle = 1
+        counter = 2
+        flag = true
+        circleChange()
+      }
     }
+    console.log(counter, 'rc')
+    console.log(circle, 'rcircle')
+    console.log(swiperWrapper.style.left)
   })
+  // 拖动超过一半触发点击事件
+  var currentLeft
+  var downMouseLeft
+  var currentMouseLeft
+  var swiperJudge = false
+  swiperWrapper.addEventListener('mousedown', function (e) {
+    swiperJudge = true
+    swiperWrapper.style.transition = 'none'
+    currentLeft = parseInt(swiperWrapper.style.left)
+    downMouseLeft = e.clientX
+    window.addEventListener('mousemove', move)
+  })
+    /* move事件绑定到window上,避免滑动时超出容器导致后续操作不生效 */
+  function move (e) {
+    clearInterval(timer)
+    if(counter === 0 && (e.clientX - downMouseLeft) > 0) {}
+    else if (counter === 7 && (e.clientX - downMouseLeft) < 0) {}
+    else { swiperWrapper.style.left = currentLeft - downMouseLeft + e.clientX + 'px' }
+  }
+  window.addEventListener('mouseup', function (e) {
+    if (swiperJudge === true) {
+      var upMouseLeft = e.clientX
+      window.removeEventListener('mousemove', move)
+      swiperWrapper.style.transition = 'left 0.5s ease-in-out'
+      if (upMouseLeft - downMouseLeft > 800) {
+        swiperWrapper.style.left = currentLeft + 'px'
+        BtnL.click()
+      } else if (upMouseLeft - downMouseLeft < -800){
+        swiperWrapper.style.left = currentLeft + 'px'
+        BtnR.click()
+      } else {
+        swiperWrapper.style.left = currentLeft + 'px'
+      }
+      play()
+    }
+    swiperJudge = false
+  })
+
+/* 视窗浮动下载框 */
+  var model = document.getElementsByClassName('model')[0]
+  var close = document.getElementsByClassName('close')[0]
+  var downloadAndroid = document.getElementsByClassName('downloadAndroid')[0]
+  var downloadIphone = document.getElementsByClassName('downloadIphone')[0]
+  var androidTitle = document.getElementsByClassName('androidTitle')[0]
+  var iphoneTitle = document.getElementsByClassName('iphoneTitle')[0]
+  close.addEventListener('click', function() {
+    model.style.display = 'none'
+  })
+  downloadAndroid.addEventListener('click', function() {
+    model.style.display = 'block'
+    androidTitle.style.display = 'inline-block'
+    iphoneTitle.style.display = 'none'
+  })
+  downloadIphone.addEventListener('click', function() {
+    model.style.display = 'block'
+    iphoneTitle.style.display = 'inline-block'
+    androidTitle.style.display = 'none'
+  })
+  
+/* 推荐歌单栏标签动态选中效果 */
+  var playListTitle = document.querySelectorAll('.sub-nav')[1].querySelectorAll('a');
+  (function () {
+    for (var i = 0; i < playListTitle.length; i++) {
+      (function (i) {
+        playListTitle[i].addEventListener('click', function () {
+          for (var t = 0; t < playListTitle.length; t++) {
+            playListTitle[t].classList = ''
+          }
+          playListTitle[i].classList.add('current')
+        })
+      })(i)
+    }
+  })()
+
 </script>
 </html>
