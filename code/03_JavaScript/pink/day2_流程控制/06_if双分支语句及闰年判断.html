@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	/*
+	* 双分支if语句
+	* if (条件) {
+	* 	满足条件要执行的语句
+	* } else {
+	* 	不满足条件要执行的语句
+	* }
+	* */
+	// 判断闰年案例 能被4整除但不能被100整除, 或者被400整除的年份是闰年, 否则都是平年
+	// 1. 用户输入
+	let year = +prompt('请输入年份')
+	// 2. 判断输出
+	if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+		alert(`${year}年是闰年`)
+	} else {
+		alert(`${year}年是平年`)
+	}
+</script>
+</body>
+</html>

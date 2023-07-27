@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	/*
+	* switch语句:
+	* 	1. 找到跟小括号里数据全等(===)的case值, 并执行里面对应的代码
+	* 	2. 若没有全等 === 则执行default里面的代码
+	* 注: switch-case语句一般用于等值判断, 不适合与区间判断
+	* 		switch-case一般需要配合break关键字使用, 没有break会造成case穿透
+	* 		switch()的括号里通常放值, 但是也可以放表达式
+	* */
+	// 简单计算器案例: 用户输入两个数字, 然后输入+ - * / 任何一个, 计算出结果
+	// 1. 用户输入 2个数字 + 操作符号(+ - * /)
+	var num1 = +prompt('请输入数字1:')
+	var num2 = +prompt('请输入数字2:')
+	var sp = prompt('请输入运算操作符(+ - * /):')
+	// 2. 判断输出
+	switch (sp) {
+		case '+':
+			alert(`两个数的加法操作是: ${num1 + num2}`)
+			break
+		case '-':
+			alert(`两个数的减法操作是: ${num1 - num2}`)
+			break
+		case '*':
+			alert(`两个数的乘法操作是: ${num1 * num2}`)
+			break
+		case '/':
+			alert(`两个数的除法操作是: ${num1 / num2}`)
+			break
+		default:
+			alert(`输入运算符格式有误`)
+	}
+</script>
+</body>
+</html>

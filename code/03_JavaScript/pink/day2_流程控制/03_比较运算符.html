@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+	/* === 比较两边是否全等(除了值之外, 值的类型也要相等) */
+	// == 比较运算符也存在隐式转换, 最终把数据隐式转换成number类型再比较  此处会把字符型的2转换成数字类型再进行比较, 因此在js中通常使用 === 进行比较
+	console.log(2 == '2') // true
+	console.log(undefined == null) // true
+	
+	console.log(NaN === NaN) // false  NaN不等于任何人, 包括它自己
+	
+	/* 字符串比较, 比较的是字符的ASCII码 */
+	/* 尽量不要比价小数, 小数的比较存在精度问题 */
+	console.log(0.1 + 0.2) // 0.30000000000000004
+	 // 小数的计算尽量先转化成整数
+	console.log((0.1 * 10 + 0.2 * 10) / 10) // 0.3
+</script>
+</body>
+</html>
