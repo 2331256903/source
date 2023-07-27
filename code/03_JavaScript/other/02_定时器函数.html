@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /* setTimeout定时器第一个参数是到时间后执行的代码块, 第二个参数是延迟时间()毫秒, 第三个以及之后的参数都作为回调函数的参数 */
+   // 此处setTimeout的返回值是一个定时器的编号, 是一个整数
+  /*var timer = setTimeout(function() {
+    console.log(timer)
+  }, 1000)*/
+	
+	/* 此处字符串会被执行两次解析, 当前字符串会被编译成函数, 函数再执行, 造成浏览器的负担 */
+	// 字符串传参的方式
+	/*var timer = setTimeout("console.log(timer);", 1000)*/
+	
+	/* 同步任务优先执行, 异步任务滞后执行 */
+	/* 此处不传递第二个参数延迟时间,则延时4毫秒执行, html5中规定浏览器执行时延时默认不低于4毫秒 */
+	var timer = setTimeout(function() {
+		console.log(timer)
+	})
+	console.log("start")
+	// start 1
+
+	var timer1 = setTimeout(function() {
+		console.log(timer1) // 1
+	},3)
+	var timer2 = setTimeout(function() {
+		console.log(timer2) // 2
+	},2)
+	var timer3 = setTimeout(function() {
+		console.log(timer3) // 3
+	},1)
+	// 按照上面的理论应当按照注册顺序执行, 但是实际上输出的还是 3, 2, 1  因为虽然规定延迟不低于4ms,但浏览器能识别到3,2,1ms
+
+
+	var timer_1 = setTimeout(function() {
+		console.log(timer_1) // 1
+	},0.3)
+	var timer_2 = setTimeout(function() {
+		console.log(timer_1) // 2
+	},0.2)
+	var timer_3 = setTimeout(function() {
+		console.log(timer_3) // 3
+	},0.1)
+	// 此时输出按照注册顺序输出1,2,3  此时浏览器无法识别0.1,0.2,0.3, 就按照该浏览器的最低时间间隔来执行, 不同浏览器结果不同
+	
+	/* 各大浏览器厂商基本采取两种策略
+	* 		1.首先会在延迟时间和1ms中取一个最大值, 即在不满足嵌套层级的情况下, 最小延迟时间先设置为1ms
+	*       因为浏览器中的js为单线程, 虽然HTML5提出的Web Worker标准允许js脚本创建多个线程, 这里的多线程由一个主线程和多个子线程组成, 子线程完全受控于主线程, 因此依然视为单线程
+	*       由此形成的消息队列中, 定时器通过异步回调封装成一个宏任务, 然后把它添加到消息队列的尾部, 因此几个小数时间延迟的任务未准时执行, 是因为主消息队列中的任务仍未完成
+	* 		2.如果设置的timeout小于0, 则设置为0
+	* 		3.如果嵌套的层级超过了5层, 并且timeout小于4ms, 则设置timeout为4ms
+	*       例子:var timer = setTimeout(function a() {
+	*             timer = setTimeout(a, 2)
+	*             console.log(1)
+	*           }, 2)
+	*       上述例子在chrome浏览器中实际上在前5次执行中时间间隔为2ms, 后续每次调用的时间间隔为4ms, 因为在chrome中定时器函数被嵌套5层后, 系统会判断该方法被阻塞, 如果调用时间低于4ms, 浏览器会按照html5标准的4ms来执行延迟
+	* 		4.chrome和safari中最小时间为1ms, 而firefox 65.0.1和 IE11的最小延迟时间为0
+	*       Chrome,Safari,FireFox都是以32bit存储延迟, 2147483647毫秒后溢出, 换算为24小时51分18秒, 溢出后按照溢出的数字执行延迟,比如延迟2147483648相当于延迟1
+	*  */
+  
+  /* setTimeout中的this指向问题 指向window*/
+  var timerThis = setTimeout(function () {
+    console.log(this)
+  }, 1000)
+  var obj = {
+    foo: function() {
+      console.log(this)
+    }
+  }
+  obj.foo() // obj
+  // 隐式丢失
+  var timerObj = setTimeout(obj.foo, 1000) // window
+  /*
+  * 解决方法:
+  *   1.setTimeout(obj.foo.bind(this), 1000)  此处绑定this指的是当前函数setTimeout函数的this,即window
+  *     希望this指向obj 则上述改成setTimeout(obj.foo.bind(obj), 1000)
+  *   2.var timerObj2 = setTimeout(function() {
+  *       obj.foo.call(obj)
+  *     }, 1000)
+  *     或者用apply
+  *  */
+  
+  /* clearTimeout 用于取消计时器 */
+  clearTimeout(timer3)
+  clearTimeout(3) // 直接传3 效果相同, 因为timer3计时器的标识为3, 但通常不这么用
+  clearInterval(timer3)  // 此处依然生效, 由此可见clearTimeout和clearInterval同根同源, 但是不推荐混用, 容易造成语义的歧义
+  
+  /* setInterval 最短时间间隔为10ms
+  *    正常60hz的屏幕, 刷新时间约为 16.67ms, 因此设置这个数字以下的setInterval函数延迟时间意义不大
+  * */
+  
+  /* requestAnimationFrame本质上为了解决定时器时间间隔不稳定的问题 */
+  // 上面提到60hz刷新率的影响
+  setInterval(function () {
+    console.log(1)
+  }, 17) // 哪怕这个延迟设置为16.67, 该定时器依旧得等待主要队列执行完成, 也就是存在事件轮询问题
+  // 而requestAnimationFrame的事件间隔是由系统时间间隔来决定的(调用的是系统的时间间隔), 此时就不会引起由于js代码的执行导致的时间间隔不准的问题
+  var timerAni = requestAnimationFrame(function() {
+    console.log(timerAni)
+  })
+  cancelAnimationFrame(timerAni)
+  // 此处的使用和处理方式和setTimeout完全一致
+  // 兼容性
+  if (!window.requestAnimationFrame) {
+    requestAnimationFrame = function(fn) {
+      setTimeout(fn, 17)
+    }
+  }
+</script>
+</body>
+</html>
