@@ -1331,6 +1331,7 @@
   font-weight: 600;
   line-height: 30px;
   color: #333;
+  cursor: pointer;
 }
 .main-con3 .song-list .song-list-nav h3 i {
   font-size: 24px;
