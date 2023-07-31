@@ -9,6 +9,8 @@
 			height: 300px;
 			/*border: 1px solid red;*/
 			background-color: red;
+      /* 开机父元素的BFC属性, 父元素内部就是独立的块级格式化上下文, 不会影响到外部元素 */
+      overflow: hidden
 		}
 		.son {
 			width: 200px;
@@ -17,15 +19,70 @@
 			margin-top: 50px;
 			background-color: blue;
 		}
-    /* margin穿透问题
+    /* margin穿透问题(外边距塌陷)
+      1. 只会发生在垂直方向, 块级元素
          当父元素没有设置边框, 子元素上设置了上侧的margin时, 此时,子元素的margin会在父元素上起作用
          (当父元素没有设置边框时, 子元素的margin找不到起作用的边界, 会越过没有边界的父元素, 向上找更上一级的父元素)
     */
+    /*
+      (1).BFC(Block Formatting Context 块级格式化上下文, 决定元素如何对内容进行定位, 以及与其他元素的关系和相互作用,涉及到可视化布局时,
+    BFC提供了一个环境, HTML元素在这个环境中按照一定规则进行布局)
+      (2).BFC的目的: 形成一个完全的独立空间, 让空间中的子元素不会影响到外面的布局
+      (3).触发BFC的方法:
+        1. float 不为 none
+        2. position 为 absolute 或者 fixed
+        3. overflow 的值不为 visible
+        4. display 的值为 inline-block inline-flex flex flow-root table-caption table-cell
+      (4).BFC的作用:
+        1. 解决浮动元素令父元素高度塌陷问题
+           例如: 子元素设置flex:left后, 父元素产生高度塌陷问题, 此时父元素使用(overflow: hidden; display: inline-block; position: fixed; position: absolute)
+         均可以触发BFC,实现清除浮动的效果
+           原理: 触发了BFC的容器就是页面上一个完全隔开的容器, 容器中的元素绝不会影响到外面的元素, 为了保证这个规则, 触发了BFC的父元素在计算高度的时候
+           不得不让浮动的子元素也参与进来, 变相的视实现了清除内部浮动的问题
+        2. 解决自适应布局问题
+          例如: 单纯使用浮动来进行两栏布局(左侧固定, 右侧自适应)
+            下例右侧文字在超出左侧高度之后就会挤到左边去, 右侧display: flow-root触发右侧容器的BFC后, 右侧就是一个完全隔离开的容器, 容器中的子元素绝对不会影响到外面的元素,
+            为了保证这个规则, 触发了BFC的右侧元素为了将内部元素与左侧隔离开, 不得不形成这样左右完全隔离的两栏, 触发BFC
+        3. 解决外边距垂直方向重合的问题
+          兄弟元素之间的外边距在垂直方向上默认取最大值而不是取和, 这通常不是预期的样子, 可以通过触发BFC来防止兄弟之间相互影响, 比如为其中一个包裹父元素, 并为该父元素触发BFC
+          比如此处练手酷我项目的专辑栏目底部margin未穿透是由于外层父级元素设置了 overflow: hidden
+    */
+    html,body{
+      width:100%;
+      height: 100%;
+    }
+    .container{
+      width: 600px;
+      height: 200px;
+      background-color: #ccc;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    aside{
+      width:200px;
+      height: 120px;
+      background-color: cadetblue;
+      float: left;
+    }
+    .main{
+      /* margin-left: 200px; */
+      height: 200px;
+      background-color: coral;
+      word-wrap: break-word;
+    }
 	</style>
 </head>
 <body>
 <div class="box">
 	<div class="son"></div>
+</div>
+<br>
+<br>
+<div class="container">
+  <aside></aside>
+  <div class="main">
+    sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  </div>
 </div>
 <script>
 	/* BFC开启之后还可以解决margin穿透的问题 */
