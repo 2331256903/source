@@ -66,10 +66,10 @@
   background-color: #FFDF1F;
   color: #333;
 }
-.page-wrap i:first-child {
+.page-wrap .forbidden {
   color: #999;
 }
-.page-wrap i:first-child:hover {
+.page-wrap .forbidden:hover {
   background-color: #FFF;
   color: #999;
 }
@@ -77,6 +77,7 @@
   display: inline-block;
   cursor: default;
   vertical-align: middle;
+  font-size: 0;
 }
 .page-wrap ul li {
   display: inline-block;
@@ -85,12 +86,7 @@
   width: 42px;
   text-align: center;
   cursor: pointer;
-}
-.page-wrap ul li:first-child {
-  background-color: #FFDF1F;
-}
-.page-wrap ul li:first-child span {
-  color: #333;
+  margin: 0 4px;
 }
 .page-wrap ul li:hover {
   background-color: #FFDF1F;
@@ -101,6 +97,12 @@
 .page-wrap ul li span {
   color: #999;
   font-size: 14px;
+}
+.page-wrap ul .current {
+  background-color: #FFDF1F;
+}
+.page-wrap ul .current span {
+  color: #333;
 }
 .song-list .gap {
   width: 1.43%;
@@ -831,7 +833,6 @@
   background-color: #F2F2F2;
 }
 .main-con1 .gap {
-  background-color: #FFF;
   display: inline-block;
   width: 3.1%;
   vertical-align: top;
@@ -951,18 +952,6 @@
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item:hover .song-time {
   display: none;
-}
-.main-con1 .con-r .list-out .list-in .rank-list .song-item:first-child .song-rank .rank-num {
-  background: url("../source/img/icon_first.df06fb1.png") center 4px no-repeat;
-  background-size: 168%;
-}
-.main-con1 .con-r .list-out .list-in .rank-list .song-item:nth-child(2) .song-rank .rank-num {
-  background: url("../source/img/icon_secondary.d99e73e.png") center 4px no-repeat;
-  background-size: 168%;
-}
-.main-con1 .con-r .list-out .list-in .rank-list .song-item:nth-child(3) .song-rank .rank-num {
-  background: url("../source/img/icon_third.8abbb65.png") center 4px no-repeat;
-  background-size: 168%;
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item div {
   display: inline-block;

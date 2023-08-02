@@ -65,18 +65,19 @@
       background-color: #FFDF1F;
       color: #333;
     }
-    &:first-child {
+  }
+  .forbidden {
+    color: #999;
+    &:hover {
+      background-color: #FFF;
       color: #999;
-      &:hover {
-        background-color: #FFF;
-        color: #999;
-      }
     }
   }
   ul {
     display: inline-block;
     cursor: default;
     vertical-align: middle;
+    font-size: 0;
     li {
       display: inline-block;
       height: 42px;
@@ -84,12 +85,7 @@
       width: 42px;
       text-align: center;
       cursor: pointer;
-      &:first-child {
-        background-color: #FFDF1F;
-        span {
-          color: #333;
-        }
-      }
+      margin: 0 4px;
       &:hover {
         background-color: #FFDF1F;
         span {
@@ -99,6 +95,12 @@
       span {
         color: #999;
         font-size: 14px;
+      }
+    }
+    .current {
+      background-color: #FFDF1F;
+      span {
+        color: #333;
       }
     }
   }
@@ -826,7 +828,6 @@
     }
   }
   .gap {
-    background-color: #FFF;
     display: inline-block;
     width: 3.1%;
     vertical-align: top;
@@ -931,9 +932,6 @@
                 display: none;
               }
             }
-            &:first-child .song-rank .rank-num{ background: url("../source/img/icon_first.df06fb1.png") center 4px no-repeat; background-size: 168%;}
-            &:nth-child(2) .song-rank .rank-num{ background: url("../source/img/icon_secondary.d99e73e.png") center 4px no-repeat; background-size: 168%;}
-            &:nth-child(3) .song-rank .rank-num{ background: url("../source/img/icon_third.8abbb65.png") center 4px no-repeat; background-size: 168%;}
             div {
               display: inline-block;
               vertical-align: top;
