@@ -86,16 +86,21 @@
       text-align: center;
       cursor: pointer;
       margin: 0 4px;
+      span {
+        color: #999;
+        font-size: 14px;
+      }
+    }
+    .num {
       &:hover {
         background-color: #FFDF1F;
         span {
           color: #333;
         }
       }
-      span {
-        color: #999;
-        font-size: 14px;
-      }
+    }
+    .notCursor {
+      cursor: default;
     }
     .current {
       background-color: #FFDF1F;
@@ -943,24 +948,29 @@
               width: 22%;
               height: 100%;
               line-height: 70px;
-              padding-left: 3.18%;
+              padding-left: 2%;
               min-width: 180px;
               padding-right: 20px;
               vertical-align: top;
               font-size: 0;
               .rank-num {
-                width: 20px;
+                width: 22px;
                 height: 33px;
                 line-height: 33px;
                 color: #333;
                 font-weight: 700;
                 text-align: center;
                 vertical-align: middle;
+                overflow: visible;
                 font-size: 14px;
+                z-index: 3;
+                position: relative;
               }
               .gap {
                 min-width: 60px;
                 width: calc(96.82% - 94px);
+                position: relative;
+                z-index: 2;
               }
               img {
                 height: 54px;

@@ -88,15 +88,18 @@
   cursor: pointer;
   margin: 0 4px;
 }
-.page-wrap ul li:hover {
-  background-color: #FFDF1F;
-}
-.page-wrap ul li:hover span {
-  color: #333;
-}
 .page-wrap ul li span {
   color: #999;
   font-size: 14px;
+}
+.page-wrap ul .num:hover {
+  background-color: #FFDF1F;
+}
+.page-wrap ul .num:hover span {
+  color: #333;
+}
+.page-wrap ul .notCursor {
+  cursor: default;
 }
 .page-wrap ul .current {
   background-color: #FFDF1F;
@@ -964,25 +967,30 @@
   width: 22%;
   height: 100%;
   line-height: 70px;
-  padding-left: 3.18%;
+  padding-left: 2%;
   min-width: 180px;
   padding-right: 20px;
   vertical-align: top;
   font-size: 0;
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item .song-rank .rank-num {
-  width: 20px;
+  width: 22px;
   height: 33px;
   line-height: 33px;
   color: #333;
   font-weight: 700;
   text-align: center;
   vertical-align: middle;
+  overflow: visible;
   font-size: 14px;
+  z-index: 3;
+  position: relative;
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item .song-rank .gap {
   min-width: 60px;
   width: calc(96.82% - 94px);
+  position: relative;
+  z-index: 2;
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item .song-rank img {
   height: 54px;

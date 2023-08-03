@@ -1853,7 +1853,6 @@
           switch (i) {
             case 0:
               if (clickjudge[i] === 0) {
-                clickjudge = [0, 0, 0, 0, 0]
                 clickjudge[i]++;
                 judgeArtist = true
                 judgeDevice = true
@@ -1880,10 +1879,8 @@
               break
             case 1:
               if (clickjudge[i] === 0) {
-                clickjudge = [0, 0, 0, 0, 0]
                 clickjudge[i]++;
                 /* 处理歌曲列表首次加载 */
-                currentSongPage = 1
                 judgeHotComment = true
                 var website = 'http://localhost:3000/musicList?' + '_page=' + page + '&_limit=20'
                 get(website).then(data => {
@@ -2370,232 +2367,387 @@
       })(i)
     }
   })()
+
+  
+  /* 分页按钮显示逻辑 */
+  var centerPageList = [0, 1, 2]
+  function changePageBtnList(type = 0, songPageWrap, songPageWrapper, songPageList, typeClick) {
+    var x
+    // 如果分页数大于当前数组选中值,数组右移一位
+    if (centerPageList[1] < songPageList.length && type === 1) {
+      for (x = 0; x < 3; x++) {
+        ++centerPageList[x]
+      }
+    }
+    // 如果左侧没有到1,数组左移一位
+    if (centerPageList[1] > 1 && type === 2 ) {
+      for (x = 0; x < 3; x++) {
+        centerPageList[x]--
+      }
+    }
+    // 点选数组, 数组中间为currentPage
+    if (type === 3) {
+      centerPageList = [currentSongPage-1, currentSongPage, currentSongPage+1]
+    }
+    console.log(centerPageList)
+    // 每次点击清空列表 列表第一项始终为
+    if (songPageList.length === 1) {
+      songPageWrapper.innerHTML = `<li class="num current"><span>1</span></li>`
+    } else if (centerPageList[1] === 1) {
+      songPageWrapper.innerHTML = `<li class="num current"><span>1</span></li>`
+    } else {
+      songPageWrapper.innerHTML = `<li class="num"><span>1</span></li>`
+    }
+
+    // 选中数字小于等于3
+    if (centerPageList[1] <= 3) {
+      // 分页标签增加到选中序号
+      for (let i = 2; i <= centerPageList[1]; i++) {
+        if (i === centerPageList[1]) {
+          songPageWrapper.innerHTML += `<li class="num current"><span>${i}</span></li>`
+        } else {
+          songPageWrapper.innerHTML += `<li class="num"><span>${i}</span></li>`
+        }
+      }
+      // 如果分页长度大于等于中间表第三项则再补一项
+      if (centerPageList[2] <= songPageList.length) {
+        songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[2]}</span></li>`
+      }
+    }
+    
+    // 选中页数大于等于4 加···
+    if (centerPageList[1] >= 4) {
+      songPageWrapper.innerHTML += `<li class="notCursor"><span>···</span></li>`
+      for (let i = 0; i < centerPageList.length - 1; i++) {
+        if (i === 1) {
+          songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>`
+        } else {
+          songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>`
+        }
+      }
+      // 如果分页长度大于等于中间表第三项则再补一项
+      if (centerPageList[2] <= songPageList.length) {
+        songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[2]}</span></li>`
+      }
+    }
+    
+    // 右侧逻辑 1. 分页数量等于中间表第三项 => 不进行任何操作  2. 分页数量等于中间表第三项加1 => 补上最后一个分页标签  2. 分页数量大于中间表第三项加1 => 补上...和最后一个分页标签
+    if (songPageList.length === centerPageList[2] + 1) {
+      songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
+    }
+    if (songPageList.length > centerPageList[2] + 1) {
+      songPageWrapper.innerHTML += `<li class="notCursor"><span>···</span></li>`
+      songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
+    }
+    var nums = songPageWrap.querySelectorAll('.num');
+    for (let i = 0; i < nums.length; i++) {
+      nums[i].addEventListener('click', (e) => {
+        currentSongPage = e.target.children[0] ? parseInt(e.target.children[0].innerHTML) : parseInt(e.target.innerHTML)
+        console.log(currentSongPage, 'Main')
+        loadingMask.style.display = 'block'
+        changePageBtnList(3, songPageWrap, songPageWrapper, songPageList)
+        var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
+        for (var k = 0; k < 20; k++) {
+          var img = itemsSong[k].querySelector('img')
+          img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+        }
+        website = 'http://localhost:3000/musicList?_page=' + currentSongPage + '&_limit=20';
+        get(website).then(data => {
+          if (data.length !== 20) {
+            rankList.innerHTML = '';
+            for (let i = 0; i < data.length; i++) {
+              var itemSong = `
+                <li class="song-item">
+                  <div class="song-rank">
+                    <div class="rank-num"></div>
+                    <div class="gap" style="background-color: #FFFFFF"></div>
+                    <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <div class="song-name">
+                    <a href="">${data[i].name}</a>
+                  </div>
+                  <div class="song-artist">
+                    <span>${data[i].artist}</span>
+                  </div>
+                  <div class="song-album">
+                    <span>${data[i].album}</span>
+                  </div>
+                  <div class="song-time">
+                    <span>${filterNum(data[i].duration, 2)}</span>
+                  </div>
+                  <div class="btns">
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                  </div>
+                </li>`
+              rankList.innerHTML += itemSong
+            }
+            /* 排行榜右侧歌曲列表斑马纹以及序号 */
+            var songItems = document.querySelectorAll('.song-item');
+            for (let i = 0; i < songItems.length; i++) {
+              if (i%2 !== 0) {
+                songItems[i].style.backgroundColor = '#FAFAFA'
+                songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
+              }
+              songItems[i].addEventListener('mouseenter', function() {
+                songItems[i].style.backgroundColor = '#F5F5F5'
+                songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#F5F5F5'
+              })
+              songItems[i].addEventListener('mouseleave', function() {
+                if (i%2 !== 0) {
+                  songItems[i].style.backgroundColor = '#FAFAFA'
+                  songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
+                } else {
+                  songItems[i].style.backgroundColor = '#FFF'
+                  songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FFF'
+                }
+              })
+            }
+          }
+          return data
+        }).then(data => {
+          var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
+          for (var i = 0; i < data.length; i++) {
+            var songName = itemsSong[i].querySelector('.song-name')
+            songName.innerHTML = `<a href=""></a>`
+            var songNameA = itemsSong[i].querySelector('.song-name').querySelector('a')
+            var songArtist = itemsSong[i].querySelector('.song-artist').querySelector('span')
+            var songAlbum = itemsSong[i].querySelector('.song-album').querySelector('span')
+            var songTime = itemsSong[i].querySelector('.song-time').querySelector('span')
+            var songRank = itemsSong[i].querySelector('.song-rank')
+            songNameA.innerHTML = data[i].name
+            songArtist.innerHTML = data[i].artist
+            songAlbum.innerHTML = data[i].album
+            songTime.innerHTML = filterNum(data[i].duration, 2)
+            if (i < 3 && currentSongPage === 1) {
+              switch (i) {
+                case 0:
+                  songRank.innerHTML = `
+                    <div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>
+                    <div class="gap"></div>
+                    <img src="${data[i].pic}" alt>
+                  `
+                  break
+                case 1:
+                  songRank.innerHTML = `
+                    <div class="rank-num" style="background: url(./source/img/icon_secondary.d99e73e.png) center 4px no-repeat; background-size: 168%;"></div>
+                    <div class="gap"></div>
+                    <img src="${data[i].pic}" alt>
+                  `
+                  break
+                case 2:
+                  songRank.innerHTML = `
+                    <div class="rank-num" style="background: url(./source/img/icon_third.8abbb65.png) center 4px no-repeat; background-size: 168%;"></div>
+                    <div class="gap"></div>
+                    <img src="${data[i].pic}" alt>
+                  `
+                  break
+              }
+            } else {
+              songRank.innerHTML = `
+                <div class="rank-num">${(currentSongPage - 1) * 20 + i + 1}</div>
+                <div class="gap"></div>
+                <img src="${data[i].pic}" alt>
+              `
+            }
+            if (data[i].hasLossless === true) {
+              songName.innerHTML += `<i class="wusun"></i>`
+            }
+            if (data[i].hasmv) {
+              songName.innerHTML += `<i class="mv"></i>`
+            }
+          }
+          loadingMask.style.display = 'none'
+        })
+      })
+    }
+  }
+  
   /* 飙升榜分页 */
-  var website
-  var lastSongPage;
-  var songPageList = [];
-  var centerPageList = [1, 2, 3];
-  var songPageWrap = document.querySelector('.con-r').querySelector('.page-wrap')
-  songPageWrap.innerHTML = `
+  get('http://localhost:3000/musicList').then(data => {
+    var website
+    var songPageWrap = document.querySelector('.con-r').querySelector('.page-wrap')
+    var songPageList = [];
+    // 中间表从0开始, 因为始终要保证中间的数字高亮
+    var centerPageList = [0, 1, 2];
+    songPageWrap.innerHTML = `
       <i class="buttonL forbidden"><</i>
       <ul>
       </ul>
       <i class="buttonR forbidden">></i>
     `
-  get('http://localhost:3000/musicList').then(data => {
-    for (var i = 0; i < data.length/20; i++) {
-      songPageList.push(i + 1)
-    }
+    var songPageWrapper = songPageWrap.querySelector('ul');
     /* 分页按钮初始状态 */
     var buttonL = songPageWrap.querySelector('.buttonL')
     var buttonR = songPageWrap.querySelector('.buttonR')
-    var songPageWrapper = songPageWrap.querySelector('ul');
+    for (var i = 0; i < data.length/20; i++) {
+      songPageList.push(i + 1)
+    }
     // 初始状态
-    for (i = 0; i < centerPageList.length; i++) {
-      if (i === 0) { songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>` }
-      else { songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>` }
+    // 表长为1, 只设置一页
+    if (songPageList.length === 1) {
+      songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[1]}</span></li>`
     }
-    if (songPageList.length - centerPageList.length > 2) {
-      songPageWrapper.innerHTML += `<li class="num"><span>···</span></li>`
-      songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
-    } else if (songPageList.length - centerPageList.length > 0) {
-      songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
+    // 选中1 加入1,2页
+    if (songPageList.length > 1) {
+      for (i = 1; i < centerPageList.length; i++) {
+        if (i === 1) { songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>` }
+        else { songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>` }
+      }
+      if (songPageList.length - centerPageList[2]  > 2) {
+        songPageWrapper.innerHTML += `<li class="num"><span>3</span></li>`
+      }
     }
-    
+    // 如果总页数大于5 则加入···
+    if (songPageList.length - centerPageList[2]  > 2) {
+      songPageWrapper.innerHTML += `<li class="notCursor"><span>···</span></li>`
+      songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
+    } else {
+      // 补上3-5的页数
+      for (var j = 3; j < songPageList.length + 1; j++) {
+        songPageWrapper.innerHTML += `<li class="num"><span>${j}</span></li>`
+      }
+    }
+    // 点击事件
     var nums = songPageWrap.querySelectorAll('.num');
-    (function() {
-      for (var i = 0; i < nums.length; i++) {
-        (function (i) {
-          nums[i].addEventListener('click', () => {
-            loadingMask.style.display = 'block'
-            for (var j = 0; j < nums.length; j++) {
-              nums[j].classList.remove("current")
+    for (let i = 0; i < nums.length; i++) {
+      nums[i].addEventListener('click', (e) => {
+        currentSongPage = e.target.children[0] ? parseInt(e.target.children[0].innerHTML) : parseInt(e.target.innerHTML)
+        console.log(currentSongPage, 'first')
+        loadingMask.style.display = 'block'
+        changePageBtnList(3, songPageWrap, songPageWrapper, songPageList)
+        var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
+        for (var k = 0; k < 20; k++) {
+          var img = itemsSong[k].querySelector('img')
+          img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+        }
+        website = 'http://localhost:3000/musicList?_page=' + currentSongPage + '&_limit=20';
+        get(website).then(data => {
+          if (data.length !== 20) {
+            rankList.innerHTML = '';
+            for (let i = 0; i < data.length; i++) {
+              var itemSong = `
+                <li class="song-item">
+                  <div class="song-rank">
+                    <div class="rank-num"></div>
+                    <div class="gap" style="background-color: #FFFFFF"></div>
+                    <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <div class="song-name">
+                    <a href="">${data[i].name}</a>
+                  </div>
+                  <div class="song-artist">
+                    <span>${data[i].artist}</span>
+                  </div>
+                  <div class="song-album">
+                    <span>${data[i].album}</span>
+                  </div>
+                  <div class="song-time">
+                    <span>${filterNum(data[i].duration, 2)}</span>
+                  </div>
+                  <div class="btns">
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                    <div class="gap"></div>
+                    <i></i>
+                  </div>
+                </li>`
+              rankList.innerHTML += itemSong
             }
-            nums[i].classList.add("current")
-            var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
-            for (var k = 0; k < 20; k++) {
-              var img = itemsSong[k].querySelector('img')
-              img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
-            }
-            currentSongPage = i + 1
-            website = 'http://localhost:3000/musicList?_page=' + currentSongPage + '&_limit=20';
-            get(website).then(data => {
-              if (data.length !== 20) {
-                rankList.innerHTML = '';
-                (function() {
-                  for (var i = 0; i < data.length; i++) {
-                    var itemSong = `
-                      <li class="song-item">
-                        <div class="song-rank">
-                          <div class="rank-num"></div>
-                          <div class="gap" style="background-color: #FFFFFF"></div>
-                          <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-                        </div>
-                        <div class="song-name">
-                          <a href="">${data[i].name}</a>
-                        </div>
-                        <div class="song-artist">
-                          <span>${data[i].artist}</span>
-                        </div>
-                        <div class="song-album">
-                          <span>${data[i].album}</span>
-                        </div>
-                        <div class="song-time">
-                          <span>${filterNum(data[i].duration, 2)}</span>
-                        </div>
-                        <div class="btns">
-                          <i></i>
-                          <div class="gap"></div>
-                          <i></i>
-                          <div class="gap"></div>
-                          <i></i>
-                          <div class="gap"></div>
-                          <i></i>
-                        </div>
-                      </li>`
-                    rankList.innerHTML += itemSong
-                  }
-                  /* 排行榜右侧歌曲列表斑马纹以及序号 */
-                  var songItems = document.querySelectorAll('.song-item');
-                  (function() {
-                    for (var i = 0; i < songItems.length; i++) {
-                      if (i%2 !== 0) {
-                        songItems[i].style.backgroundColor = '#FAFAFA'
-                        songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
-                      }
-                      (function(i) {
-                        songItems[i].addEventListener('mouseenter', function() {
-                          songItems[i].style.backgroundColor = '#F5F5F5'
-                          songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#F5F5F5'
-                        })
-                        songItems[i].addEventListener('mouseleave', function() {
-                          if (i%2 !== 0) {
-                            songItems[i].style.backgroundColor = '#FAFAFA'
-                            songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
-                          } else {
-                            songItems[i].style.backgroundColor = '#FFF'
-                            songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FFF'
-                          }
-                        })
-                      })(i)
-                    }
-                  })()
-                })()
+            /* 排行榜右侧歌曲列表斑马纹以及序号 */
+            var songItems = document.querySelectorAll('.song-item');
+            for (let i = 0; i < songItems.length; i++) {
+              if (i%2 !== 0) {
+                songItems[i].style.backgroundColor = '#FAFAFA'
+                songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
               }
-              return data
-            }).then(data => {
-              var loadingMask = document.querySelector('.loading-mask')
-              var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
-              for (var i = 0; i < data.length; i++) {
-                var songName = itemsSong[i].querySelector('.song-name')
-                songName.innerHTML = `
-                  <a href=""></a>
-                `
-                var songNameA = itemsSong[i].querySelector('.song-name').querySelector('a')
-                var songArtist = itemsSong[i].querySelector('.song-artist').querySelector('span')
-                var songAlbum = itemsSong[i].querySelector('.song-album').querySelector('span')
-                var songTime = itemsSong[i].querySelector('.song-time').querySelector('span')
-                var songRank = itemsSong[i].querySelector('.song-rank')
-                songNameA.innerHTML = data[i].name
-                songArtist.innerHTML = data[i].artist
-                songAlbum.innerHTML = data[i].album
-                songTime.innerHTML = filterNum(data[i].duration, 2)
-                if (i < 3 && currentSongPage === 1) {
-                  switch (i) {
-                    case 0:
-                      songRank.innerHTML = `
-                        <div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>
-                        <div class="gap"></div>
-                        <img src="${data[i].pic}" alt>
-                      `
-                      break
-                    case 1:
-                      songRank.innerHTML = `
-                        <div class="rank-num" style="background: url(./source/img/icon_secondary.d99e73e.png) center 4px no-repeat; background-size: 168%;"></div>
-                        <div class="gap"></div>
-                        <img src="${data[i].pic}" alt>
-                      `
-                      break
-                    case 2:
-                      songRank.innerHTML = `
-                        <div class="rank-num" style="background: url(./source/img/icon_third.8abbb65.png) center 4px no-repeat; background-size: 168%;"></div>
-                        <div class="gap"></div>
-                        <img src="${data[i].pic}" alt>
-                      `
-                      break
-                  }
+              songItems[i].addEventListener('mouseenter', function() {
+                songItems[i].style.backgroundColor = '#F5F5F5'
+                songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#F5F5F5'
+              })
+              songItems[i].addEventListener('mouseleave', function() {
+                if (i%2 !== 0) {
+                  songItems[i].style.backgroundColor = '#FAFAFA'
+                  songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
                 } else {
+                  songItems[i].style.backgroundColor = '#FFF'
+                  songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FFF'
+                }
+              })
+            }
+          }
+          return data
+        }).then(data => {
+          var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
+          for (var i = 0; i < data.length; i++) {
+            var songName = itemsSong[i].querySelector('.song-name')
+            songName.innerHTML = `<a href=""></a>`
+            var songNameA = itemsSong[i].querySelector('.song-name').querySelector('a')
+            var songArtist = itemsSong[i].querySelector('.song-artist').querySelector('span')
+            var songAlbum = itemsSong[i].querySelector('.song-album').querySelector('span')
+            var songTime = itemsSong[i].querySelector('.song-time').querySelector('span')
+            var songRank = itemsSong[i].querySelector('.song-rank')
+            songNameA.innerHTML = data[i].name
+            songArtist.innerHTML = data[i].artist
+            songAlbum.innerHTML = data[i].album
+            songTime.innerHTML = filterNum(data[i].duration, 2)
+            if (i < 3 && currentSongPage === 1) {
+              switch (i) {
+                case 0:
                   songRank.innerHTML = `
-                    <div class="rank-num">${(currentSongPage - 1) * 20 + i + 1}</div>
+                    <div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>
                     <div class="gap"></div>
                     <img src="${data[i].pic}" alt>
                   `
-                }
-                if (data[i].hasLossless === true) {
-                  songName.innerHTML += `<i class="wusun"></i>`
-                }
-                if (data[i].hasmv) {
-                  songName.innerHTML += `<i class="mv"></i>`
-                }
+                  break
+                case 1:
+                  songRank.innerHTML = `
+                    <div class="rank-num" style="background: url(./source/img/icon_secondary.d99e73e.png) center 4px no-repeat; background-size: 168%;"></div>
+                    <div class="gap"></div>
+                    <img src="${data[i].pic}" alt>
+                  `
+                  break
+                case 2:
+                  songRank.innerHTML = `
+                    <div class="rank-num" style="background: url(./source/img/icon_third.8abbb65.png) center 4px no-repeat; background-size: 168%;"></div>
+                    <div class="gap"></div>
+                    <img src="${data[i].pic}" alt>
+                  `
+                  break
               }
-              loadingMask.style.display = 'none'
-            })
-          })
-        })(i)
-      }
-    })()
+            } else {
+              songRank.innerHTML = `
+                <div class="rank-num">${(currentSongPage - 1) * 20 + i + 1}</div>
+                <div class="gap"></div>
+                <img src="${data[i].pic}" alt>
+              `
+            }
+            if (data[i].hasLossless === true) {
+              songName.innerHTML += `<i class="wusun"></i>`
+            }
+            if (data[i].hasmv) {
+              songName.innerHTML += `<i class="mv"></i>`
+            }
+          }
+          loadingMask.style.display = 'none'
+        })
+      })
+    }
     
+  
     buttonL.addEventListener('click', function () {
-      if (currentSongPage > 1) {
-        lastSongPage = currentSongPage
-        currentSongPage--
-        nums[currentSongPage].classList.remove("current")
-        nums[currentSongPage - 1].classList.add("current")
-        buttonR.classList.remove("forbidden")
-      }
-      if (currentSongPage === 1) {
-        buttonL.classList.add("forbidden")
-      }
+      changePageBtnList(2, songPageWrap, songPageWrapper, songPageList, 1)
     })
     buttonR.addEventListener('click', function () {
-      // 点击btnR后
-      for (var x = 0; x < 3; x++) {
-        centerPageList[x]++
-      }
-      songPageWrapper.innerHTML = `<li class="num"><span>1</span></li>`
-      if (centerPageList[0] < 4 && centerPageList[2] < songPageList.length) {
-        for (i = 0; i < centerPageList.length; i++) {
-          if (i === 0) { songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>` }
-          else { songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>` }
-        }
-        if (songPageList.length - centerPageList[2] > 2) {
-          songPageWrapper.innerHTML += `<li class="num"><span>···</span></li>`
-          songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
-        } else {
-          songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
-        }
-      } else if (centerPageList[2] > songPageList.length) {
-        for (i = 0; i < songPageList.length; i++) {
-          if (i === 0) { songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>` }
-          else { songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>` }
-        }
-      }
-      else  {
-        songPageWrapper.innerHTML += `<li class="num"><span>···</span></li>`
-        for (i = 0; i < centerPageList.length; i++) {
-          if (i === 0) {
-            songPageWrapper.innerHTML += `<li class="num current"><span>${centerPageList[i]}</span></li>`
-          } else {
-            songPageWrapper.innerHTML += `<li class="num"><span>${centerPageList[i]}</span></li>`
-          }
-        }
-        if (songPageList.length - centerPageList[2] > 2) {
-          songPageWrapper.innerHTML += `<li class="num"><span>···</span></li>`
-          songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
-        } else {
-          songPageWrapper.innerHTML += `<li class="num"><span>${songPageList.length}</span></li>`
-        }
-      }
+      changePageBtnList(1, songPageWrap, songPageWrapper, songPageList, 2)
     })
   })
 
