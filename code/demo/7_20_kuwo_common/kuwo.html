@@ -2371,7 +2371,7 @@
   
   /* 分页按钮显示逻辑 */
   var centerPageList = [0, 1, 2]
-  function changePageBtnList(type = 0, songPageWrap, songPageWrapper, songPageList, typeClick) {
+  function changePageBtnList(type = 0, songPageWrap, songPageWrapper, songPageList) {
     var x
     // 如果分页数大于当前数组选中值,数组右移一位
     if (centerPageList[1] < songPageList.length && type === 1) {
@@ -2744,10 +2744,12 @@
     
   
     buttonL.addEventListener('click', function () {
-      changePageBtnList(2, songPageWrap, songPageWrapper, songPageList, 1)
+      changePageBtnList(2, songPageWrap, songPageWrapper, songPageList)
+      songPageWrapper.querySelector('.current').click()
     })
     buttonR.addEventListener('click', function () {
-      changePageBtnList(1, songPageWrap, songPageWrapper, songPageList, 2)
+      changePageBtnList(1, songPageWrap, songPageWrapper, songPageList)
+      songPageWrapper.querySelector('.current').click()
     })
   })
 
