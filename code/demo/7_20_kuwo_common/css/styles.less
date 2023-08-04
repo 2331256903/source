@@ -68,6 +68,7 @@
   }
   .forbidden {
     color: #999;
+    cursor: default;
     &:hover {
       background-color: #FFF;
       color: #999;
@@ -1268,11 +1269,6 @@
         padding-right: 2%;
         margin-top: 40px;
         display: inline-block;
-        &:last-child {
-          margin-right: 0;
-          width: 13.5%;
-          padding-right: 0;
-        }
         .artist {
           text-align: center;
           .pic-out {
@@ -1317,6 +1313,11 @@
           }
         }
       }
+      .last {
+        margin-right: 0;
+        width: 13.5%;
+        padding-right: 0;
+      }
     }
     .artist-other {
       font-size: 0;
@@ -1329,10 +1330,6 @@
         font-size: 0;
         height: 38px;
         line-height: 38px;
-        &:last-child {
-          width: 13%;
-          margin-right: 0;
-        }
         .img-out {
           width: 38px;
           height: 38px;
@@ -1356,6 +1353,10 @@
           color: #333;
           font-size: 14px;
         }
+      }
+      .last {
+        width: 13%;
+        margin-right: 0;
       }
     }
   }
