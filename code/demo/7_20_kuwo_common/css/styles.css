@@ -108,6 +108,9 @@
 .page-wrap ul .current span {
   color: #333;
 }
+.song-list {
+  font-size: 0;
+}
 .song-list .gap {
   width: 1.43%;
   display: inline-block;
@@ -144,25 +147,23 @@
   color: #999;
   font-weight: 400;
 }
-.song-list .song-list-content {
-  font-size: 0;
-}
-.song-list .song-list-content .item {
+.song-list .item {
   width: 18.85%;
   display: inline-block;
   vertical-align: top;
+  margin-right: 1.43%;
 }
-.song-list .song-list-content .item:hover .pic-out .cover {
+.song-list .item:hover .pic-out .cover {
   display: block;
 }
-.song-list .song-list-content .item:hover .pic-out img {
+.song-list .item:hover .pic-out img {
   transform: scale(1.1);
 }
-.song-list .song-list-content .item .pic-out {
+.song-list .item .pic-out {
   position: relative;
   overflow: hidden;
 }
-.song-list .song-list-content .item .pic-out .cover {
+.song-list .item .pic-out .cover {
   position: absolute;
   left: 0;
   top: 0;
@@ -174,7 +175,7 @@
   cursor: pointer;
   display: none;
 }
-.song-list .song-list-content .item .pic-out .cover .play-icon {
+.song-list .item .pic-out .cover .play-icon {
   display: inline-block;
   position: absolute;
   top: 50%;
@@ -187,11 +188,11 @@
   background-color: #FFF;
   border-radius: 50%;
 }
-.song-list .song-list-content .item .pic-out .cover .play-icon i {
+.song-list .item .pic-out .cover .play-icon i {
   position: relative;
   color: #333;
 }
-.song-list .song-list-content .item .pic-out .cover .play-icon i:after {
+.song-list .item .pic-out .cover .play-icon i:after {
   position: absolute;
   height: 1px;
   width: 1px;
@@ -203,11 +204,11 @@
   border-style: solid;
   border-radius: 3px;
 }
-.song-list .song-list-content .item .pic-out img {
+.song-list .item .pic-out img {
   width: 100%;
   transition: transform 0.75s cubic-bezier(0, 1, 0.75, 1);
 }
-.song-list .song-list-content .item .name {
+.song-list .item .name {
   margin-top: 16px;
   font-size: 16px;
   line-height: 22px;
@@ -217,13 +218,13 @@
   word-break: break-all;
   color: #333333;
 }
-.song-list .song-list-content .item .count {
+.song-list .item .count {
   margin-top: 10px;
   color: #999;
   line-height: 17px;
   font-size: 14px;
 }
-.song-list .song-list-content .item .count i {
+.song-list .item .count i {
   position: relative;
   left: 4px;
   bottom: 2px;
@@ -236,7 +237,7 @@
   display: inline-block;
   vertical-align: middle;
 }
-.song-list .song-list-content .item .count i:after {
+.song-list .item .count i:after {
   content: '';
   position: absolute;
   left: -9px;
@@ -246,6 +247,9 @@
   border-width: 5.5px 7.5px;
   border-color: transparent transparent transparent #FFF;
   border-style: solid;
+}
+.song-list .last {
+  margin-right: 0;
 }
 .song-list .rec-list {
   font-size: 0;
@@ -1392,7 +1396,13 @@
   margin-left: 8px;
 }
 .main-con3 .song-list .song-list-content {
+  font-size: 0;
+}
+.main-con3 .song-list .song-list-content .item {
   margin-bottom: 26px;
+}
+.main-con3 .page-wrap {
+  margin-top: 0;
 }
 .main-con4 .tag-kind {
   margin-top: 22px;
@@ -1541,6 +1551,9 @@
 }
 .main-con4 .list-out .album-item .time span:hover {
   color: #333;
+}
+.main-con4 .page-wrap {
+  margin-top: 0;
 }
 @keyframes loading-mask-1 {
   0% {
