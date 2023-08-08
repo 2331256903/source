@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  function bindClickerr1() {
+    var allP = document.getElementById("test").getElementsByTagName("p"),
+      i = 0,
+      len = allP.length;
+    for (; i < len; i++) {
+      allP[i].onclick = AlertP;
+    }
+    function AlertP() {
+      //非匿名函数作为回调函数alert("you click the "+i+" P tag!");
+      // 发现i是未知的，沿着作用域查找i，但是i是经过for循环后得到的值, i=4
+    }
+  }bindClickerr1();//运行函数，绑定点击事件
+  /* 这个for循环中, 前面使用一个匿名函数作为click事件的回调函数, 这里使用的是一个非匿名函数作为回调, 始终是一个相同的结果 */
+  /* for循环中只是对每一个匹配的元素添加了一个click的回调函数, 并且回调函数都是AlertP函数, 全部添加完click后 i=length,
+  * 我们本意是希望触发事件时提示点击元素排列在第几个, 实际上这个时候click事件触发, 执行回调函数AlertP, 执行到i的时候发现这个变量在
+  * alert函数中位置, 并且在AlertP的局部作用域之中也没找到这个变量, 那么按照作用域链的查找方式, 向父级作用域查找, 这就找到了父级作用域中的
+  * 的变量i, 但是此时它的值是循环停止之后的i值, i=length, 因此最后的i始终为length
+  *  */
+  /* 解决方法很简单, 就是控制这个作用域的问题, 说白了就是在回调函数中用于各局部变量来记录这个i的值, 这样在局部作用域中使用到i变量时就会优先使用局部
+  * 作用域中i的值而不会再去寻找全局变量了, 定义索引值也是这个道理
+  * */
+  
+  /* 闭包, 说白了就是在函数执行结束, 作用域将函数弹出之后, 函数内部的一些变量或者方法, 还可以通过其他的方法引用, 但在这里当bindClick运行结束后,
+  * 依然可以通过click事件访问到bindClick函数内部的变量, 说明bindClick函数内部的i变量, 在bindClick结束后, 并没有被销毁, 这也就是闭包了
+  * */
+  
+  /* 具体解决方法 */
+  // 1. 使得绑定事件click的目标对象和变量i都变成局部变量, 这里可以直接把这两者作为形参, 传递给另外一个函数即可(闭包中的传参)
+  function bindClick1(){
+    var allP = document.getElementById("test").getElementsByTagName("p"),
+        i=0,
+        len = allP.length;
+    for( ;i<len;i++){
+      AlertP(allP[i],i);
+    }
+    function AlertP(obj,i){
+      obj.onclick = function(){
+        alert("you click the "+i+" P tag!");
+      }
+    }
+  }
+  bindClick1();
+  // 2. 类似于方法1, 使用自执行函数
+  function bindClick2(){
+    var allP = document.getElementById("test").getElementsByTagName("p"),
+      i=0,
+      len = allP.length;
+    for( ;i<len;i++){
+      allP[i].onclick = function (i){
+        return function(){
+          alert("you click the "+i+" P tag!");
+        }
+      }(i);
+    }
+  }
+  bindClick2();
+  /* 其他的闭包写法也有, 但是原理方面来说是相同的, 用到闭包的地方很多, 比如惰性载入函数, 单例模式中的对象定义等, 但是只要理解这个闭包的原理, 见到了也就更好理解了 */
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #cont{
+      margin: 12px;
+      max-width: 443px;
+    }
+    #cont .singleArea{
+      display: inline-block;
+      width: 128px;
+      text-align: center;
+      margin-right: 12px;
+      margin-bottom: 12px;
+    }
+    #cont .singleArea >img{
+      width: 128px;
+      height: 192px;
+    }
+    #cont .singleArea>span{
+      display: block;
+      width: 128px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    #pagination {
+      width: 443px;
+      text-align: center;
+    }
+    #pagination >span{
+      padding: 6px;
+      color: #000;
+      cursor: pointer;
+    }
+    #pagination .curPage{
+      color: #f5222d;
+    }
+  </style>
+  <script src="../../node_modules/axios/dist/axios.js"></script>
+</head>
+<body>
+<div>
+  <input id="searchInput" placeholder="请输入关键字" />
+  <button id="search">搜索</button>
+</div>
+<div id="cont">
+  <!--    <div class="singleArea">
+          <img src="https://via.placeholder.com/128x128" />
+          <span>标题</span>
+      </div>
+      <div class="singleArea">
+          <img src="https://via.placeholder.com/128x128" />
+          <span>标题</span>
+      </div>
+      <div class="singleArea">
+          <img src="https://via.placeholder.com/128x128" />
+          <span>标题</span>
+      </div>-->
+</div>
+<div id="pagination">
+  <!--    <span>1</span>
+      <span>2</span>
+      <span>3</span>
+      <span>...</span>-->
+</div>
+<script>
+  var search = ''
+  var page = 1
+  var limit = 9
+  function gainListHandler(){
+    axios.request({
+      url: 'http://192.168.1.131:3000/list',
+      method: 'get',
+      params: {
+        title_like: search,
+        _page: page,
+        _limit: limit
+      }
+    }).then(r=>{
+      var result = ''
+      if(r.data.length){
+        for(var i = 0;i<r.data.length;i++){
+          var imgUrl = 'http://192.168.1.131:3000/'+r.data[i].pic
+          var str = '<div class="singleArea">' +
+            '<img src="'+imgUrl+'">' +
+            '<span>'+r.data[i].title+'</span>'+
+            '</div>'
+          result+=str
+        }
+      }
+      document.getElementById('cont').innerHTML=result
+      paginationHandler(r.data.length?r.data[0].total:0)
+    })
+  }
+  function paginationHandler(total){
+    var result = ''
+    var lastPage = Math.ceil(total/page)
+    if(page===1){
+      result = '<span class="curPage" data-n="1">1</span>\n' +
+        '<span data-n="2">2</span>\n' +
+        '<span data-n="3">3</span>\n' +
+        '<span>...</span>'
+    } else if(page===lastPage){
+      result = '<span>...</span>'+
+        '<span data-n="'+(page-2)+'">'+(page-2)+'</span>\n' +
+        '<span data-n="'+(page-1)+'">'+(page-1)+'</span>\n' +
+        '<span class="curPage" data-n="'+(page)+'">'+page+'</span>\n'
+    } else {
+      result = '<span data-n="'+(page-1)+'">'+(page-1)+'</span>\n' +
+        '<span class="curPage" data-n="'+(page)+'">'+(page)+'</span>\n' +
+        '<span data-n="'+(page+1)+'">'+(page+1)+'</span>\n' +
+        '<span>...</span>'
+    }
+    document.getElementById('pagination').innerHTML = result
+  }
+  gainListHandler()
+  
+  document.getElementById('search').addEventListener('click',function () {
+    var _input =document.getElementById('searchInput').value.trim()
+    console.log(_input);
+    // if(){
+    //
+    // }
+    search = _input
+    page = 1
+    gainListHandler()
+  })
+  
+  document.getElementById('pagination').addEventListener('click', function (e) {
+    var n = e.target.getAttribute('data-n')
+    if(n&&Number(n)!==page){
+      console.log(n)
+      page = Number(n)
+      gainListHandler()
+    }
+  })
+
+</script>
+</body>
+</html>
+<script>
+  (function() {
+    var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadServiceClientId=74');
+    ws.onmessage = function (msg) {
+      if (msg.data === 'reload') {
+        window.location.reload();
+      }
+      if (msg.data.startsWith('update-css ')) {
+        var messageId = msg.data.substring(11);
+        var links = document.getElementsByTagName('link');
+        for (var i = 0; i < links.length; i++) {
+          var link = links[i];
+          if (link.rel !== 'stylesheet') continue;
+          var clonedLink = link.cloneNode(true);
+          var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+          if (newHref !== link.href) {
+            clonedLink.href = newHref;
+          }
+          else {
+            var indexOfQuest = newHref.indexOf('?');
+            if (indexOfQuest >= 0) {
+              // to support ?foo#hash
+              clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                newHref.substring(indexOfQuest + 1);
+            }
+            else {
+              clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+            }
+          }
+          link.replaceWith(clonedLink);
+        }
+      }
+    };
+  })();
+</script>

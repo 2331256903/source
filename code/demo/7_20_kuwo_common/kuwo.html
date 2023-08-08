@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/styles.css">
+  <script src="../../../node_modules/axios/dist/axios.js"></script>
   <title>酷我音乐-无损音质正版在线试听网站</title>
 </head>
 <body>
@@ -1061,14 +1062,37 @@
   </div>
 </body>
 <script>
+  /* 创建XMLHttpRequest()对象 */
+  function createXHR () {
+    var XHR = [
+      function () { return new XMLHttpRequest() },
+      function () { return new ActiveXObject("Msxml2.XMLHTTP") },
+      function () { return new ActiveXObject("Msxml3.XMLHTTP") },
+      function () { return new ActiveXObject("Microsoft.XMLHTTP") }
+    ]
+    var xhr = null
+    for (var i = 0; i < XHR.length; i++) {
+      try {
+        xhr = XHR[i]()
+      } catch (e) {
+        continue
+      }
+      break
+    }
+    return xhr
+  }
+  var XMLHttpRequest = createXHR()
+    // 只用get方法, 简单封装下xhr
+  var xhrs = {
+    get: function(url) {
+      XMLHttpRequest.open("GET", url, false)
+      XMLHttpRequest.send(null)
+      return XMLHttpRequest.responseText
+    }
+  }
   var currentPage = 0
   var currentSongPage = 1
   var loadingMask = document.querySelector('.loading-mask')
-  /* 使用fetch API */
-  async function get(url) {
-    var resp = await fetch(url)
-    return resp.json()
-  }
   /* 添加数字过滤 */
   function filterNum(number, type = 0) {
     var numberTxt = ''
@@ -1104,55 +1128,48 @@
     }
   }
   /* 顶部标签动态选中样式 */
+  /* 此处闭包导致所有情况下均将current赋值在 subNavTitle[subNavTitle.length]上, 使用立即执行函数, 见test下的for循环中的闭包问题及解决方案*/
   var subNavTitle = document.querySelector('.sub-nav').querySelectorAll('a');
-  (function () {
-    for (var i = 0; i < subNavTitle.length; i++) {
-      (function (i) {
-        subNavTitle[i].addEventListener('click', function () {
-          for (var t = 0; t < subNavTitle.length; t++) {
-            subNavTitle[t].classList = ''
-          }
-          subNavTitle[i].classList.add('current')
-        })
-      })(i)
-    }
-  })()
+  for (var i = 0; i < subNavTitle.length; i++) {
+    (function (i) {
+      subNavTitle[i].addEventListener('click', function () {
+        for (var t = 0; t < subNavTitle.length; t++) {
+          subNavTitle[t].className = ''
+        }
+        subNavTitle[i].className += 'current'
+      })
+    })(i)
+  }
   /* 首次打开加载首页内容 */
   function start() {
     var itemsDevice = document.querySelector('.song-list-device').querySelectorAll('.item')
-    for (var j = 0;j < 5; j++) {
-      var img = itemsDevice[j].querySelector('img')
+    for (var i = 0;i < 5; i++) {
+      var img = itemsDevice[i].querySelector('img')
       img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
     }
-    get('http://localhost:3000/playList').then(data => {
-      (function () {
-        for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
-          var name = itemsDevice[i].querySelector('.name')
-          var count = itemsDevice[i].querySelector('.count')
-          var img = itemsDevice[i].querySelector('img')
-          name.innerHTML = data[i].name
-          count.innerHTML = filterNum(data[i].listencnt)
-          img.src = (data[i].img).toString()
-        }
-      })()
-    })
+    var data = xhrs.get('http://localhost:3000/playList');
+    for (i = 0; i < data.length && i < itemsDevice.length; i++) {
+      var name = itemsDevice[i].querySelector('.name')
+      var count = itemsDevice[i].querySelector('.count')
+      img = itemsDevice[i].querySelector('img')
+      name.innerHTML = data[i].name
+      count.innerHTML = filterNum(data[i].listencnt)
+      img.src = (data[i].img).toString()
+    }
     var itemsArtict = document.querySelector('.song-list-artist').querySelectorAll('.artist-item')
-    for (var k = 0;k < 6; k++) {
-      var img2 = itemsArtict[k].querySelector('img')
+    for (i = 0;i < 6; i++) {
+      var img2 = itemsArtict[i].querySelector('img')
       img2.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
     }
-    get('http://localhost:3000/artistList').then(data => {
-      (function () {
-        for (var i = 0; i < data.length && i < itemsArtict.length; i++) {
-          var text = itemsArtict[i].querySelector('.name')
-          var num = itemsArtict[i].querySelector('.num')
-          var img = itemsArtict[i].querySelector('img')
-          text.innerHTML = data[i].name
-          num.innerHTML = filterNum(data[i].musicNum, 1)
-          img.src = (data[i].pic).toString()
-        }
-      })()
-    })
+    data = xhrs.get('http://localhost:3000/artistList')
+    for (i = 0; i < data.length && i < itemsArtict.length; i++) {
+      var text = itemsArtict[i].querySelector('.name')
+      var num = itemsArtict[i].querySelector('.num')
+      img = itemsArtict[i].querySelector('img')
+      text.innerHTML = data[i].name
+      num.innerHTML = filterNum(data[i].musicNum, 1)
+      img.src = (data[i].pic).toString()
+    }
   }
   start()
   /* 检测图片位置 */
@@ -1190,7 +1207,7 @@
                     img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
                   }
                 })()
-                get('http://localhost:3000/playList').then(data => {
+                axios.get('http://localhost:3000/playList').then(data => {
                   (function () {
                     for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
                       var name = itemsDevice[i].querySelector('.name')
@@ -1210,7 +1227,7 @@
                 /* 处理歌曲列表首次加载 */
                 judgeHotComment = true
                 var website = 'http://localhost:3000/musicList?' + '_page=' + page + '&_limit=20'
-                get(website).then(data => {
+                axios.get(website).then(data => {
                   (function() {
                     for (var i = 0; i < data.length; i++) {
                       var itemSong = `
@@ -1336,7 +1353,7 @@
                 commentPage = 1
                 var allComment = document.querySelectorAll('.all-comment')[0]
                 var allCommentCom = document.querySelectorAll('.all-comment')[1]
-                get('http://localhost:3000/hotComment').then(data => {
+                axios.get('http://localhost:3000/hotComment').then(data => {
                   for (var i = 0; i < data.length; i++) {
                     var hotCommentItem = `
                     <div class="comment-item">
@@ -1354,7 +1371,7 @@
                     allComment.innerHTML += hotCommentItem
                   }
                 })
-                get('http://localhost:3000/commonComment').then(data => {
+                axios.get('http://localhost:3000/commonComment').then(data => {
                   for (var i = 0; i < data.length && i < 5; i++) {
                     var commonComment1 = `
                     <div class="comment-item">
@@ -1395,20 +1412,23 @@
             case 2:
               if (clickjudge[i] === 0) {
                 clickjudge[i]++
-                let artistMain = document.querySelector('.artist-main')
-                let artistOther = document.querySelector('.artist-other')
-                get('http://localhost:3000/artistInfo').then(data => {
-                  for (let i = 0; i < data.length/60; i++) {
-                    if (i === 0) {
-                      artistInfoWrapper.innerHTML += `<li class="num current"><span>${i+1}</span></li>`
-                    } else {
-                      artistInfoWrapper.innerHTML += `<li class="num"><span>${i+1}</span></li>`
+                var artistMain = document.querySelector('.artist-main')
+                var artistOther = document.querySelector('.artist-other')
+                axios.get('http://localhost:3000/artistInfo').then(data => {
+                  (function() {
+                    for (var i = 0; i < data.length/60; i++) {
+                      if (i === 0) {
+                        artistInfoWrapper.innerHTML += `<li class="num current"><span>${i+1}</span></li>`
+                      } else {
+                        artistInfoWrapper.innerHTML += `<li class="num"><span>${i+1}</span></li>`
+                      }
                     }
-                  }
-                  for (let i = 0; i < data.length; i++) {
-                    if (i < 12) {
-                      if ((i+1)%6 === 0 && (i+1) !== 0) {
-                        artistMain.innerHTML += `
+                  })();
+                  (function () {
+                    for (var i = 0; i < data.length; i++) {
+                      if (i < 12) {
+                        if ((i+1)%6 === 0 && (i+1) !== 0) {
+                          artistMain.innerHTML += `
                         <div class="artist-item last">
                           <div class="artist">
                             <div class="pic-out">
@@ -1418,8 +1438,8 @@
                             <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                           </div>
                         </div>`
-                      } else {
-                        artistMain.innerHTML += `
+                        } else {
+                          artistMain.innerHTML += `
                         <div class="artist-item">
                           <div class="artist">
                             <div class="pic-out">
@@ -1429,45 +1449,52 @@
                             <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                           </div>
                         </div>`
+                        }
                       }
-                    }
-                    if (i >= 12 && i < 60) {
-                      if ((i+1)%6 === 0 && (i+1) !== 0) {
-                        artistOther.innerHTML += `
+                      if (i >= 12 && i < 60) {
+                        if ((i+1)%6 === 0 && (i+1) !== 0) {
+                          artistOther.innerHTML += `
                         <div class="artist-item last">
                           <div class="img-out"><img data-src="${data[i].pic}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                           <span>${data[i].name}</span>
                         </div>`
-                      } else {
-                        artistOther.innerHTML += `
+                        } else {
+                          artistOther.innerHTML += `
                         <div class="artist-item">
                           <div class="img-out"><img data-src="${data[i].pic}"  src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                           <span>${data[i].name}</span>
                         </div>`
+                        }
                       }
                     }
-                  }
-                  var artistInfoItems = artistInfoWrapper.querySelectorAll('li')
-                  for (let i = 0; i < artistInfoItems.length; i++) {
-                    artistInfoItems[i].addEventListener('click', e => {
-                      artistMain.innerHTML = ''
-                      artistOther.innerHTML = ''
-                      for (let t = 0; t < artistInfoItems.length; t++) {
-                        artistInfoItems[t].classList = ''
-                      }
-                      artistInfoItems[i].classList.add('current')
-                      if (judgeFirst === true) {
-                        secWebsiteArt = websiteArt + `?_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
-                      } else {
-                        secWebsiteArt = websiteArt + `&_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
-                      }
-                      get(secWebsiteArt).then(data => {
-                        if (artistInfoItems[i].children[0].innerHTML === '1') {
-                          currentInfoPage = 1
-                          for (let i = 0; i < data.length; i++) {
-                            if (i < 12) {
-                              if ((i+1)%6 === 0 && (i+1) !== 0) {
-                                artistMain.innerHTML += `
+                  })()
+                  var artistInfoItems = artistInfoWrapper.querySelectorAll('li');
+                  (function () {
+                    for (var i = 0; i < artistInfoItems.length; i++) {
+                      artistInfoItems[i].addEventListener('click', e => {
+                        artistMain.innerHTML = ''
+                        artistOther.innerHTML = '';
+                        (function () {
+                          for (var t = 0; t < artistInfoItems.length; t++) {
+                            artistInfoItems[t].classList = ''
+                          }
+                        })();
+                        (function(i){
+                          artistInfoItems[i].classList.add('current')
+                        })(i)
+                        if (judgeFirst === true) {
+                          secWebsiteArt = websiteArt + `?_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
+                        } else {
+                          secWebsiteArt = websiteArt + `&_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
+                        }
+                        axios.get(secWebsiteArt).then(data => {
+                          if (artistInfoItems[i].children[0].innerHTML === '1') {
+                            currentInfoPage = 1;
+                            (function () {
+                              for (var i = 0; i < data.length; i++) {
+                                if (i < 12) {
+                                  if ((i+1)%6 === 0 && (i+1) !== 0) {
+                                    artistMain.innerHTML += `
                                 <div class="artist-item last">
                                   <div class="artist">
                                     <div class="pic-out">
@@ -1477,8 +1504,8 @@
                                     <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                                   </div>
                                 </div>`
-                              } else {
-                                artistMain.innerHTML += `
+                                  } else {
+                                    artistMain.innerHTML += `
                                 <div class="artist-item">
                                   <div class="artist">
                                     <div class="pic-out">
@@ -1488,54 +1515,56 @@
                                     <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                                   </div>
                                 </div>`
-                              }
-                            }
-                            if (i >= 12 && i < 60) {
-                              if ((i+1)%6 === 0 && (i+1) !== 0) {
-                                artistOther.innerHTML += `
+                                  }
+                                }
+                                if (i >= 12 && i < 60) {
+                                  if ((i+1)%6 === 0 && (i+1) !== 0) {
+                                    artistOther.innerHTML += `
                                 <div class="artist-item last">
                                   <div class="img-out"><img data-src="${data[i].pic}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                   <span>${data[i].name}</span>
                                 </div>`
-                              } else {
-                                artistOther.innerHTML += `
+                                  } else {
+                                    artistOther.innerHTML += `
                                 <div class="artist-item">
                                   <div class="img-out"><img data-src="${data[i].pic}"  src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                   <span>${data[i].name}</span>
                                 </div>`
+                                  }
+                                }
                               }
-                            }
-                          }
-                        } else {
-                          currentInfoPage = i + 1
-                          for (let i = 0; i < data.length; i++) {
-                            if ((i+1)%6 === 0 && (i+1) !== 0) {
-                              artistOther.innerHTML += `
+                            })()
+                          } else {
+                            currentInfoPage = i + 1
+                            for (let i = 0; i < data.length; i++) {
+                              if ((i+1)%6 === 0 && (i+1) !== 0) {
+                                artistOther.innerHTML += `
                               <div class="artist-item last">
                                 <div class="img-out"><img data-src="${data[i].pic}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                 <span>${data[i].name}</span>
                               </div>`
-                            } else {
-                              artistOther.innerHTML += `
+                              } else {
+                                artistOther.innerHTML += `
                               <div class="artist-item">
                                 <div class="img-out"><img data-src="${data[i].pic}"  src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                 <span>${data[i].name}</span>
                               </div>`
+                              }
                             }
                           }
-                        }
-                        artistImages = [...document.querySelectorAll('.artist-container img')]
-                        for (let i = 0; i < artistImages.length; i++) {
-                          if (isVisible(artistImages[i])) {
-                            artistImages[i].src = artistImages[i].dataset.src
-                            // 防止重复遍历
-                            artistImages.splice(i, 1)
-                            i--
+                          artistImages = [...document.querySelectorAll('.artist-container img')]
+                          for (let i = 0; i < artistImages.length; i++) {
+                            if (isVisible(artistImages[i])) {
+                              artistImages[i].src = artistImages[i].dataset.src
+                              // 防止重复遍历
+                              artistImages.splice(i, 1)
+                              i--
+                            }
                           }
-                        }
+                        })
                       })
-                    })
-                  }
+                    }
+                  })()
                   var artistImages = [...document.querySelectorAll('.artist-container img')]
                   for (let i = 0; i < artistImages.length; i++) {
                     if (isVisible(artistImages[i])) {
@@ -1551,7 +1580,7 @@
             case 3:
               if (clickjudge[i] === 0) {
                 clickjudge[i]++
-                get('http://localhost:3000/rcmPlayList').then(data => {
+                axios.get('http://localhost:3000/rcmPlayList').then(data => {
                   for (let i = 0; i < data.length/20; i++) {
                     if (i === 0) {
                       songListWrapper.innerHTML += `<li class="num current"><span>${i + 1}</span></li>`
@@ -1627,7 +1656,7 @@
             var img = itemsDevice[j].querySelector('img')
             img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
           }
-          get('http://localhost:3000/playList').then(data => {
+          axios.get('http://localhost:3000/playList').then(data => {
             (function () {
               for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
                 var name = itemsDevice[i].querySelector('.name')
@@ -1648,7 +1677,7 @@
             var img2 = itemsArtict[k].querySelector('img')
             img2.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
           }
-          get('http://localhost:3000/artistList').then(data => {
+          axios.get('http://localhost:3000/artistList').then(data => {
             (function () {
               for (var i = 0; i < data.length && i < itemsArtict.length; i++) {
                 var text = itemsArtict[i].querySelector('.name')
@@ -1666,7 +1695,7 @@
         if (document.documentElement.scrollTop > 1000 && document.documentElement.scrollTop < 1400 && judgeHotComment === true) {
           judgeHotComment = false
           var commentItems = document.querySelector('.all-comment').querySelectorAll('.comment-item')
-          get('http://localhost:3000/hotComment').then(data => {
+          axios.get('http://localhost:3000/hotComment').then(data => {
             for (var i = 0; i < data.length && i < 5; i++) {
               var nickname = commentItems[i].querySelector('span')
               var text = commentItems[i].querySelector('.text')
@@ -1679,7 +1708,7 @@
             }
           })
           var commonCommentItems = document.querySelectorAll('.all-comment')[1].querySelectorAll('.comment-item')
-          get('http://localhost:3000/commonComment').then(data => {
+          axios.get('http://localhost:3000/commonComment').then(data => {
             for (var i = 0; i < data.length && i < 5; i++) {
               var nickname = commonCommentItems[i].querySelector('span')
               var text = commonCommentItems[i].querySelector('.text')
@@ -1934,7 +1963,7 @@
           }
           playListTitle[i].classList.add('current')
           var website = i ? 'http://localhost:3000/playList'  + i : 'http://localhost:3000/playList'
-          get(website).then(data => {
+          axios.get(website).then(data => {
             (function () {
               for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
                 var name = itemsDevice[i].querySelector('.name')
@@ -1967,7 +1996,7 @@
           }
           singerListTitle[i].classList.add('current')
           var website = i ? 'http://localhost:3000/artistList' + i : 'http://localhost:3000/artistList'
-          get(website).then(data => {
+          axios.get(website).then(data => {
             (function () {
               for (var i = 0; i < data.length && i < itemsArtict.length; i++) {
                 var text = itemsArtict[i].querySelector('.name')
@@ -2091,7 +2120,7 @@
         loadingMask.style.display = 'block'
         changePageBtnList(3, songPageWrap, songPageWrapper, songPageList)
         var website = 'http://localhost:3000/musicList?_page=' + currentSongPage + '&_limit=20';
-        get(website).then(data => {
+        axios.get(website).then(data => {
           if (currentSongPage >= songPageList.length - 1 || currentSongPage === 1) {
             rankList.innerHTML = '';
             for (let i = 0; i < data.length; i++) {
@@ -2213,7 +2242,7 @@
   }
   
   /* 飙升榜分页 */
-  get('http://localhost:3000/musicList').then(data => {
+  axios.get('http://localhost:3000/musicList').then(data => {
     var website
     var songPageWrap = document.querySelector('.con-r').querySelector('.page-wrap')
     var songPageList = [];
@@ -2262,7 +2291,7 @@
         loadingMask.style.display = 'block'
         changePageBtnList(3, songPageWrap, songPageWrapper, songPageList)
         website = 'http://localhost:3000/musicList?_page=' + currentSongPage + '&_limit=20';
-        get(website).then(data => {
+        axios.get(website).then(data => {
           if (data.length !== 20) {
             rankList.innerHTML = '';
             for (let i = 0; i < data.length; i++) {
@@ -2422,7 +2451,7 @@
         }
         currentCommitPage = i + 1
         commentPageWrap[i].classList.add('current')
-        get(website).then(data => {
+        axios.get(website).then(data => {
           allCommentCom.innerHTML = `
             <div class="type recent" id="commonCommit">
             <span class="title">最新评论</span>
@@ -2540,7 +2569,7 @@
         websiteArt = 'http://localhost:3000/artistInfo'
         judgeFirst = true
       }
-      get(websiteArt).then(data => {
+      axios.get(websiteArt).then(data => {
         artistMain.innerHTML = ''
         artistOther.innerHTML = ''
         artistInfoWrapper.innerHTML = ''
@@ -2608,7 +2637,7 @@
             } else {
               secWebsiteArt = websiteArt + `&_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
             }
-            get(secWebsiteArt).then(data => {
+            axios.get(secWebsiteArt).then(data => {
               if (artistInfoItems[i].children[0].innerHTML === '1') {
                 currentInfoPage = 1
                 for (let i = 0; i < data.length; i++) {
@@ -2720,7 +2749,7 @@
         websiteArt = 'http://localhost:3000/artistInfo'
         judgeFirst = true
       }
-      get(websiteArt).then(data => {
+      axios.get(websiteArt).then(data => {
         artistMain.innerHTML = ''
         artistOther.innerHTML = ''
         artistInfoWrapper.innerHTML = ''
@@ -2788,7 +2817,7 @@
             } else {
               secWebsiteArt = websiteArt + `&_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
             }
-            get(secWebsiteArt).then(data => {
+            axios.get(secWebsiteArt).then(data => {
               if (artistInfoItems[i].children[0].innerHTML === '1') {
                 currentInfoPage = 1
                 for (let i = 0; i < data.length; i++) {
@@ -2892,7 +2921,137 @@
   /* 歌单页筛选 */
   var songListContent = document.querySelector('.song-list-content')
   var songListWrapper = document.querySelector('.main-con3 .page-wrap ul')
+  var songListItems
+  var songListCurrentType = 0
    // 歌单页类型筛选
+  var songListType = document.querySelectorAll('.main-con3 .sub-nav a')
+  let judge
+  const promise = new Promise((resolve, reject) => {
+    judge = function(val) {
+      val ? resolve(val) : reject()
+    }
+  })
+  for (let i = 0; i < songListType.length; i++) {
+    songListType[i].addEventListener('click', function() {
+      songListCurrentType = i
+      songListContent.innerHTML = ''
+      songListWrapper.innerHTML = ''
+      for (let i = 0; i < songListType.length; i++) {
+        songListType[i].classList.remove("current")
+      }
+      songListType[i].classList.add("current")
+      if (i === 0) {
+        axios.get('http://localhost:3000/rcmPlayList').then(data => {
+          for (let i = 0; i < data.length/20; i++) {
+            if (i === 0) {
+              songListWrapper.innerHTML += `<li class="num current"><span>${i + 1}</span></li>`
+            } else {
+              songListWrapper.innerHTML += `<li class="num"><span>${i + 1}</span></li>`
+            }
+          }
+          songListItems = songListWrapper.querySelectorAll('.num')
+          judge = true
+          for (let i = 0; i < data.length && i < 20; i++) {
+            if ((i + 1)%5 === 0) {
+              songListContent.innerHTML += `
+                <div class="item last">
+                  <div class="pic-out">
+                    <div class="cover">
+                      <span class="play-icon">
+                        <i class="icon-front"></i>
+                      </span>
+                    </div>
+                    <img data-src="${data[i].img}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <p class="name">${data[i].name}</p>
+                  <p class="count"><i></i>${data[i].listencnt}</p>
+                </div>`
+            } else {
+              songListContent.innerHTML += `
+                <div class="item">
+                  <div class="pic-out">
+                    <div class="cover">
+                      <span class="play-icon">
+                        <i class="icon-front"></i>
+                      </span>
+                    </div>
+                    <img data-src="${data[i].img}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <p class="name">${data[i].name}</p>
+                  <p class="count"><i></i>${data[i].listencnt}</p>
+                </div>`
+            }
+          }
+          var songListImages = [...document.querySelectorAll('.song-list-content img')]
+          for (let i = 0; i < songListImages.length; i++) {
+            if (isVisible(songListImages[i])) {
+              songListImages[i].src = songListImages[i].dataset.src
+              // 防止重复遍历
+              songListImages.splice(i, 1)
+              i--
+            }
+          }
+        })
+      } else {
+        axios.get('http://localhost:3000/rcmPlayListHot').then(data => {
+          for (let i = 0; i < data.length/20; i++) {
+            if (i === 0) {
+              songListWrapper.innerHTML += `<li class="num current"><span>${i + 1}</span></li>`
+            } else {
+              songListWrapper.innerHTML += `<li class="num"><span>${i + 1}</span></li>`
+            }
+          }
+          songListItems = songListWrapper.querySelectorAll('.num')
+          judge = true
+          for (let i = 0; i < data.length && i < 20; i++) {
+            if ((i + 1)%5 === 0) {
+              songListContent.innerHTML += `
+                <div class="item last">
+                  <div class="pic-out">
+                    <div class="cover">
+                      <span class="play-icon">
+                        <i class="icon-front"></i>
+                      </span>
+                    </div>
+                    <img data-src="${data[i].img}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <p class="name">${data[i].name}</p>
+                  <p class="count"><i></i>${data[i].listencnt}</p>
+                </div>`
+            } else {
+              songListContent.innerHTML += `
+                <div class="item">
+                  <div class="pic-out">
+                    <div class="cover">
+                      <span class="play-icon">
+                        <i class="icon-front"></i>
+                      </span>
+                    </div>
+                    <img data-src="${data[i].img}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
+                  </div>
+                  <p class="name">${data[i].name}</p>
+                  <p class="count"><i></i>${data[i].listencnt}</p>
+                </div>`
+            }
+          }
+          var songListImages = [...document.querySelectorAll('.song-list-content img')]
+          for (let i = 0; i < songListImages.length; i++) {
+            if (isVisible(songListImages[i])) {
+              songListImages[i].src = songListImages[i].dataset.src
+              // 防止重复遍历
+              songListImages.splice(i, 1)
+              i--
+            }
+          }
+        })
+      }
+    })
+  }
+  promise.then (async () => {
+    console.log(1)
+    for (let i = 0; i < songListItems.length; i++) {
+    }
+  })
 /*  var songListBtnL = songListWrapper.querySelector('.BtnL')
   var songListBtnR = songListWrapper.querySelector('.BtnR')*/
 

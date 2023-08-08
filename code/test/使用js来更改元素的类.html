@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/* 1.现代浏览器增加了classList, 提供了无需库即可更轻松地操作类的方法 */
+document.getElementById("MyElement").classList.add('MyClass');
+document.getElementById("MyElement").classList.remove('MyClass');
+if ( document.getElementById("MyElement").classList.contains('MyClass') )
+  document.getElementById("MyElement").classList.toggle('MyClass');
+/* 但是这些在v10之前的IE中不起作用, 尽管有一个shim来添加对IE8和IE9的支持, 可以从this page获得,但是它变得越来越多supported */
+
+/* 以下是简单的跨浏览器解决方案 */
+/* 使用document.getElementById获取元素 */
+  // 1. 将所有现有类替换为一个或者多个新类: 设置className属性, 可以使用空格分隔来应用多个类
+  document.getElementById("MyElement").className = "MyClass"
+  // 2. 向元素附加类, 将类添加到元素, 而不删除或影响现有的值, 请附加一个空格和新的类名
+  document.getElementById("MyElement").className += " MyClass";
+  // 3. 从元素中删除一个类, 如果想要将单个类删除到元素, 而不影响其他潜在类, 需要使用简单的正则表达式进行替换
+  document.getElementById("MyElement").className.replace(
+    /(?:^)/g
+  )
+</script>
+</body>
+</html>

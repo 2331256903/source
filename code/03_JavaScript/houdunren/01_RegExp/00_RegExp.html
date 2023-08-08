@@ -5,13 +5,14 @@
     <title>Title</title>
   </head>
   <body>
-    <p>后盾人</p>
-    <h1>houdunren.com</h1>
-    <h2>hdcms.com</h2>
+  <p>后盾人</p>
+  <h1>houdunren.com</h1>
+  <h2>hdcms.com</h2>
+  <label>
     <input type="text" name="mail"
            value="2331256903@qq.com.cn" />
-    <span></span>
-  </body>
+  </label>
+  <span></span>
   <script>
     /* 正则表达式是一种用来匹配字符串的强有力的武器, 它的设计思想是用一种描述性的语言来给字符串定义一个规则,凡是符合规则的字符串
     * ,我们就认为它匹配了, 否则该字符串就是不合法的 */
@@ -20,7 +21,7 @@
     *   2. 用该正则表达式去匹配用户的输入来判断是否合法
     *  因为正则表达式也是用字符串表示的, 所以我们要首先了解如何使用字符来描述字符
     *  在正则表达式中, 如果直接给出字符就是精确匹配, 用\d可以匹配一个数字, \w可以匹配一个字母或数字, 所以
-    *   而大写的\D则表示不匹配数字,\d的反向,正则中很多大小写关系都是如此
+    *   而大写的\D则表示不匹配数字,与\d相反,正则中很多都是这种大小写相反的关系
     *   '00\d'可以匹配'007'而不能匹配'00w'
     *   '\d\d\d'可以匹配'010'
     *   '\w\w'可以匹配'js'
@@ -37,66 +38,66 @@
     *   如果要匹配'010-12345'这样的特殊号码呢?由于'-'是特殊字符,在正则表达式中,要用'\'转义,所以上面的正则是\d{3}\-\d{3,8}
     *   但是,任然无法匹配'010 - 12345' ,因为带有空格,所以我们要更复杂的匹配方式
     *  */
-
+  
     /* 进阶:
     *   要做更精确的匹配,可以用[]表示范围,比如:
     *     [0-9a-zA-Z\_] 可以匹配一个数字,字母或下划线
     *     [0-9a-zA-Z\_]+ 可以匹配至少由一个数字,字母或下划线组成的字符串,比如'a100','0_z'等
     *     [a-zA-Z\_\$][0-9a-zA-Z\_\$]* 可以匹配由字母或下划线,$开头,后接任意一个由数字,字母,下划线或者$组成的字符串,也就是JS允许的变量名
     *     [a-zA-Z\_\$][0-9a-zA-Z\_\$]{0,19} 更精确地限制了变量的长度是1-20个字符
-    *   A|B可以匹配A或B,此处或的对象是|两侧的全部内容直到找到()或结束,/010|020\-\d{7}/,会匹配010或者020\-\d{7}, 有优先级的问题,所以(J|j)ava(S|s)cript 可以匹配'JavaScript', 'javaScript', 'Javascript', 'javascript'
+    *   A|B可以匹配A或B,此处或的对象是|两侧的全部内容直到找到()或开始和结束,例如/010|020\-\d{7}/,会匹配010或者020\-\d{7}, 有优先级的问题,所以(J|j)ava(S|s)cript 可以匹配'JavaScript', 'javaScript', 'Javascript', 'javascript'
     *   ^表示行的开头,^\d表示必须以数字开头
     *   $表示行的结尾,\d$表示必须以数字结束
-    *     js也可以匹配'jsp',但加上^js$就变成了整行匹配,就只能匹配'js'了
+    *     js也可以匹配'jsp',但加上^js$就变成了整行匹配,就只能匹配'js'了, 也就是规定前后匹配限制长度的话加上^$即可, 见97行
     *  */
-
+  
     /*
     * 原子表[]和原子组()
     * /[123456]/ 此时[]中包的只表示1个数(只匹配一个),有点 '或' 的意思
     * /(12|34)/ 此时12(一个整体)或者34(一个整体),匹配带'12'或者'34'的
     *
-    * 同时,使用原子表时,[]中的() . + 均是普通的符号( ) . +,而不具有原子组,取全部和匹配0个或1个的意思
+    * 同时,使用原子表时,[]中的 ( ) .和+ 均是普通的符号 ( ) .和+, 而不是 原子组,取全部和匹配0个或1个的意思, 即这几个特殊字符不需要使用转义字符
     *
     * 原子组 用()包住原子组, 使用时会为每个组编号,编号的方式有多种,还可以起别名编号
+    *   (?<name>) 给原子组起别名, 详见后续别名
     * */
     let hd2 = `
       张三:010-99999999,李四:020-88888888
     `
-    console.log(hd2.match(/[^-\d:,\s]/g)) // []中出现的就要,但是[^]是除了出现的全要.不要[]中出现的(反选),此时匹配 ["张三","李四"]
-
+    console.log(hd2.match(/[^-\d:,\s]/g)) // []中出现的就要,但是[^]是除了出现的全要.不要[]中出现的(反选),此时匹配 ["张","三","李","四"]
+  
     let hd5 = "houdunren"
     console.log(hd5.match(/ue/g)) // 匹配连续ue 没有,返回null
     console.log(hd5.match(/[ue]/g)) // 匹配u或者e 匹配到 ["u", "u", "e"]
-
+  
     let tel = '2022-02-23'
     // let reg = /^\d{4}[-\/]\d{2}[-\/]\d{2}$/
-    let reg = /^\d{4}([-\/])\d{2}\1\d{2}$/ // 实际上由于前后的日期符号应当一致,所以使用原子组
+    let reg = /^\d{4}([-\/])\d{2}\1\d{2}$/ // 实际上由于前后的日期符号应当一致,所以使用原子组 , \1 代替前面的原子组
     console.log(tel.match(reg))
     /* RegExp
     *   JS中有两种方式创建一个正则表达式:
     *     第一种方法是直接通过/正则表达式/写出来,第二种方式是通过new RegExp('正则表达式')创建一个RegExp对象
     *  */
     let re1 = /ABC\-001/
-    let re2 = new RegExp('ABC\\-001') // 使用该方法因为字符串的转义问题,字符串的两个\\实际上是一个\
-    let re = /^d{3}\-\d{3,8}$/
+    let re2 = new RegExp('ABC\\-001') // 使用该方法因为在字符串中需要转义的问题, 字符串的两个\\实际上是一个转义字符\带上要转义的字符\, 最后表达为一个\, 见93行
+    let re = /^\d{3}\-\d{3,8}$/
     /* 原子组邮箱验证 */
-    let mail = document
-      .querySelector(`[name="mail"]`)
-      .addEventListener('keyup', function (){
-      let reg2 = /^[\w-]+@([\w-]+\.)+(com|org|cc|cn|net)$/i
+    // 使用模板字符串加正则匹配进行元素选择
+    let test = document.querySelector(`[name="mail"]`)
+    test.addEventListener('keyup', function (){
+      let reg2 = /^(\w+)(.[\w]+)*@([\w-]+\.)+(com|org|cc|cn|net)$/i
       document.querySelector("span").innerHTML = reg2.test(this.value) ? "正确" : "错误"
     })
-
-
+    
     /* 字符串的转义问题 */
     console.log("\d" === "d") // true, 字符串中\d等于d
     /* 因此字符串中 "\d+\.\d+" 实际上就是 "d+.d+",此时就有转义的问题,所以在new RegExp时使用字符串转义则需要两个 \\ */
-
+  
     /* 正则边界问题
     *  /[a-z]{3,6}/ 此时只要匹配到3-6位的字母,即验证通过,不会限制长度
     *  使用^$包起来即可 /^[a-z]{3,6}$/
     *  */
-
+  
     /* 元字符
     *  let hd = houdunren 2010
     *  hd.match(/\d/) 匹配 "2"
@@ -108,21 +109,22 @@
     * \w 匹配字母,数字,下划线 \W 匹配除了字母数字下划线
     * . 包含除了换行符外的任何字符
     *  */
-
+  
     /* [^] 排除匹配 */
     let hd6 = 'houdunren.com'
     console.log(hd6.match(/[ue]/gi)) // 除了u和e统统匹配
-
+  
     /* 匹配所有字符
     *  [\s\S] [\d\D] [^]
     *  */
-
+  
     /* 模式修正符(匹配模式) 多个模式可以一起使用,且不分前后
     * s 单行匹配 全部视作一行
     * m 多行匹配 每行单独进行匹配
     * i 不区分大小写
     * g 贪婪匹配,会匹配满足条件的所有元素
     * y 用的很少,只匹配一次就停止,大型文本检索时效率更高
+    * u 按照utf-8来匹配, 结合\p{L} \p{P}登进行使用
     * */
     let hd = `
       #1 js,200元 #
@@ -138,38 +140,39 @@
       return {name, price}
     })
     console.log(JSON.stringify(lesson, null, 2))
-
+  
     /* 字符属性和中文匹配  任何字符都有相应属性进行区分 a [L]  L属性证明它是一个字母 */
     let hd3 = 'houdunren2010.不断发布教程,加油!'
     console.log(hd3.match(/\p{L}/gu)) // \p{L} 匹配字母类别的单个字符 此处u表示按照UTF-8来匹配,两者必须结合使用,其次u还可以设置按照宽字节匹配
     console.log(hd3.match(/\p{P}/gu)) // \p{P} 只匹配标点符号
     console.log(hd3.match(/\p{sc=Han}/gu)) // sc 匹配对应语言
-
+  
     /* match()和exec()的区别 */
     let hd4 = "houdunren"
-    console.log(hd4.match(/\w/g)) // 此时贪婪模式获取所有的字母会损失每个匹配字符的主属性
+    console.log(hd4.match(/\w/g)) // 此时贪婪模式获取所有的字母会损失每个匹配字符的主属性, 即最后只匹配Array["h","o","u","d","u","n","r","e","n"]
     let reg4 = /\w/g
-    console.log(reg4.lastIndex) // 正则当中有一个属性,从零开始走,每次搜索完加一直到搜索完成
-    console.log(reg4.exec(hd4))
-    console.log(reg4.exec(hd4))
+    console.log(reg4.lastIndex) // 正则当中有一个属性lastIndex,从零开始走,每次匹配完成加一直到搜索完成 下方两次匹配index增加
+    console.log(reg4.exec(hd4)) // [0: "h",groups: undefined,index: 0,input: "houdunren",length: 1,[[Prototype]]: Array(0)]
+    console.log(reg4.exec(hd4)) // [0: "o",groups: undefined,index: 1,input: "houdunren",length: 1,[[Prototype]]: Array(0)]
     /* 因此想得到每次搜索的主信息循环exec()即可 */
     while((res = reg4.exec(hd4))) { // 直到null赋值给res循环时停止
       console.log(res)
     }
-
+  
     /* 使用正则操作dom元素 */
     let body = document.body
     let reg3 = /<(h[1-6])>[\d\D]+<\/\1>/gi
     body.innerHTML = body.innerHTML.replace(reg3,"")
-
+  
     /* 重复匹配 */
     let hd7 = "hdddddd"
     console.log(hd7.match(/hd+/)) // + 匹配一个或多个,贪婪匹配后面所有的d, 会匹配"hdddddd"
     console.log(hd7.match(/hd*/)) // * 匹配零个或多个,贪婪匹配后面所有的d, 会匹配"hdddddd"
     console.log(hd7.match(/hd{1,3}/)) // {} 匹配{}中的限定数量,贪婪匹配后面所有的d, 会匹配"hddd"
     console.log(hd7.match(/hd?/)) // ? 匹配零个或一个, 会匹配"hd",其实也是贪婪的,贪到最大的1
-
+  
     // 例子太多,变量名不好取,分到同文件夹下同名文件中
+  
     /* 使用正则替换标签 */
     /* 不记录分组 */
     /* 重复匹配对原子组影响和电话号正则 */
@@ -185,4 +188,5 @@
     /* 断言匹配 */
 
   </script>
+  </body>
 </html>
