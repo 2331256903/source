@@ -20,9 +20,41 @@ if ( document.getElementById("MyElement").classList.contains('MyClass') )
   // 2. 向元素附加类, 将类添加到元素, 而不删除或影响现有的值, 请附加一个空格和新的类名
   document.getElementById("MyElement").className += " MyClass";
   // 3. 从元素中删除一个类, 如果想要将单个类删除到元素, 而不影响其他潜在类, 需要使用简单的正则表达式进行替换
+  //  此处?:表示不记录分组
   document.getElementById("MyElement").className.replace(
-    /(?:^)/g
+    /(?:^|\s)MyClass(?!\S)/g, ''
   )
+
+
+/* 2. 封装成函数 */
+function hasClass(ele, cls) {
+  return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)', 'ig'))
+}
+function addClass(ele, cls) {
+  if (!this.hasClass(ele, cls)) ele.className += '' + cls
+}
+function removeClass(ele, cls) {
+  if (hasClass(ele, cls)) {
+    var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)', 'ig')
+    ele.className = ele.className.replace(reg, '')
+  }
+}
+function replaceClass(ele, oldClass, newClass) {
+  if (hasClass(ele, oldClass)) {
+    removeClass(ele, oldClass)
+    addClass(ele, newClass)
+  }
+}
+function toggleClass(ele, cls1, cls2) {
+  if (hasClass(ele, cls1)) {
+    replaceClass(ele, cls1, cls2)
+  } else if (hasClass(ele, cls2)) {
+    replaceClass(ele, cls1, cls2)
+  } else {
+    addClass(ele, cls1)
+  }
+}
+
 </script>
 </body>
 </html>
