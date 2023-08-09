@@ -928,35 +928,6 @@
   </div>
 </body>
 <script>
-  /* 创建XMLHttpRequest()对象 */
-  /*function createXHR () {
-    var XHR = [
-      function () { return new XMLHttpRequest() },
-      function () { return new ActiveXObject("Msxml2.XMLHTTP") },
-      function () { return new ActiveXObject("Msxml3.XMLHTTP") },
-      function () { return new ActiveXObject("Microsoft.XMLHTTP") }
-    ]
-    var xhr = null
-    for (var i = 0; i < XHR.length; i++) {
-      try {
-        xhr = XHR[i]()
-      } catch (e) {
-        continue
-      }
-      break
-    }
-    return xhr
-  }
-  var XMLHttpRequest = createXHR()
-    // 只用get方法, 简单封装下xhr
-  var xhrs = {
-    get: function(url) {
-      XMLHttpRequest.open("GET", url, false)
-      XMLHttpRequest.send(null)
-      return XMLHttpRequest.responseText
-    }
-  }*/
-  
   var currentPage = 0
   var currentSongPage = 1
   var loadingMask = document.querySelector('.loading-mask')
@@ -1111,7 +1082,7 @@
   }
   start()
 
-  /*/!* 顶部标签切换 *!/
+  /* 顶部标签切换 */
   var mainButton = document.querySelector('.sub-nav').querySelectorAll('a')
   var main = document.querySelectorAll('.main-container')
   var page = 1
@@ -1156,7 +1127,7 @@
             case 1:
               if (clickjudge[i] === 0) {
                 clickjudge[i]++;
-                /!* 处理歌曲列表首次加载 *!/
+                /* 处理歌曲列表首次加载 */
                 judgeHotComment = true
                 var website = 'http://localhost:3000/musicList?' + '_page=' + page + '&_limit=20'
                 axios.get(website).then(data => {
@@ -1193,7 +1164,7 @@
                       </li>`
                       rankList.innerHTML += itemSong
                     }
-                    /!* 排行榜右侧歌曲列表斑马纹以及序号 *!/
+                    /* 排行榜右侧歌曲列表斑马纹以及序号 */
                     var songItems = document.querySelectorAll('.song-item');
                     (function() {
                       for (var i = 0; i < songItems.length; i++) {
@@ -1281,7 +1252,7 @@
                     }
                   }
                 })
-                /!* 处理评论列表加载 *!/
+                /* 处理评论列表加载 */
                 commentPage = 1
                 var allComment = document.querySelectorAll('.all-comment')[0]
                 var allCommentCom = document.querySelectorAll('.all-comment')[1]
@@ -1571,7 +1542,7 @@
     }
   
   
-  /!* 绑定滚轮事件异步加载图片 *!/
+  /* 绑定滚轮事件异步加载图片 */
   var judgeDevice = true
   var judgeArtist = true
   var judgeHotComment = true
@@ -1688,7 +1659,7 @@
   })
  
   
-  /!* 顶部滚动轮播图 *!/
+  /* 顶部滚动轮播图 */
   var box = document.getElementsByClassName('swiper-container')[0]
   var BtnL = document.getElementsByClassName('BtnL')[0]
   var BtnR = document.getElementsByClassName('BtnR')[0]
@@ -1721,7 +1692,7 @@
     clearInterval(timer)
   };
   // 动态生成按钮 按钮点击逻辑
-    /!* 7张图对应5个按钮, 需要分别设置状态, 判断两个边界时直接改值 *!/
+    /* 7张图对应5个按钮, 需要分别设置状态, 判断两个边界时直接改值 */
   (function () {
     for (var i = 0; i < swiperSlide.length - 2; i++) {
       var span = document.createElement('span')
@@ -1824,7 +1795,7 @@
     firstTime = new Date().getTime()
     window.addEventListener('mousemove', move)
   })
-    /!* move事件绑定到window上,避免滑动时超出容器导致后续操作不生效 *!/
+    /* move事件绑定到window上,避免滑动时超出容器导致后续操作不生效 */
   function move (e) {
     if(counter === 0 && (e.clientX - downMouseLeft) > 0) {}
     else if (counter === 7 && (e.clientX - downMouseLeft) < 0) {}
@@ -1856,7 +1827,7 @@
   })
 
   
-  /!* 视窗浮动下载框 *!/
+  /* 视窗浮动下载框 */
   var model = document.getElementsByClassName('model')[0]
   var close = document.getElementsByClassName('close')[0]
   var downloadAndroid = document.getElementsByClassName('downloadAndroid')[0]
@@ -1878,7 +1849,7 @@
   })
   
   
-  /!* 推荐歌单栏标签动态选中效果 *!/
+  /* 推荐歌单栏标签动态选中效果 */
   var playListTitle = document.querySelectorAll('.sub-nav')[1].querySelectorAll('a');
   (function () {
     for (var i = 0; i < playListTitle.length; i++) {
@@ -1911,7 +1882,7 @@
     }
   })()
 
-  /!* 推荐歌手栏标签动态选中效果 *!/
+  /* 推荐歌手栏标签动态选中效果 */
   var singerListTitle = document.querySelectorAll('.sub-nav')[2].querySelectorAll('a');
   (function () {
     for (var i = 0; i < singerListTitle.length; i++) {
@@ -1945,7 +1916,7 @@
   })()
 
 
-  /!* 排行榜左侧标题标签动态选中效果 *!/
+  /* 排行榜左侧标题标签动态选中效果 */
   var conLListTitle = document.querySelectorAll('.sub-nav')[3].querySelectorAll('a');
   (function () {
     for (var i = 0; i < conLListTitle.length; i++) {
@@ -1959,7 +1930,7 @@
       })(i)
     }
   })()
-  /!* 排行榜左侧列表标签动态选中效果 *!/
+  /* 排行榜左侧列表标签动态选中效果 */
   var conLItemListTitle = document.querySelector('.con-list').querySelectorAll('li');
   (function () {
     for (var i = 0; i < conLItemListTitle.length; i++) {
@@ -1975,7 +1946,7 @@
   })()
 
   
-  /!* 分页按钮显示逻辑 *!/
+  /* 分页按钮显示逻辑 */
   var centerPageList = [0, 1, 2]
   function changePageBtnList(type = 0, songPageWrap, songPageWrapper, songPageList) {
     var x
@@ -2086,7 +2057,7 @@
                 </li>`
               rankList.innerHTML += itemSong
             }
-            /!* 排行榜右侧歌曲列表斑马纹以及序号 *!/
+            /* 排行榜右侧歌曲列表斑马纹以及序号 */
             var songItems = document.querySelectorAll('.song-item');
             for (let i = 0; i < songItems.length; i++) {
               if (i%2 !== 0) {
@@ -2172,7 +2143,7 @@
     return nums
   }
   
-  /!* 飙升榜分页 *!/
+  /* 飙升榜分页 */
   axios.get('http://localhost:3000/musicList').then(data => {
     var website
     var songPageWrap = document.querySelector('.con-r').querySelector('.page-wrap')
@@ -2186,7 +2157,7 @@
       <i class="buttonR">></i>
     `
     var songPageWrapper = songPageWrap.querySelector('ul');
-    /!* 分页按钮初始状态 *!/
+    /* 分页按钮初始状态 */
     var buttonL = songPageWrap.querySelector('.buttonL')
     var buttonR = songPageWrap.querySelector('.buttonR')
     for (var i = 0; i < data.length/20; i++) {
@@ -2257,7 +2228,7 @@
                 </li>`
               rankList.innerHTML += itemSong
             }
-            /!* 排行榜右侧歌曲列表斑马纹以及序号 *!/
+            /* 排行榜右侧歌曲列表斑马纹以及序号 */
             var songItems = document.querySelectorAll('.song-item');
             for (let i = 0; i < songItems.length; i++) {
               if (i%2 !== 0) {
@@ -2344,27 +2315,27 @@
       if (songPageWrapper.querySelector('.current').querySelector('span').innerHTML > 1) {
         changePageBtnList(2, songPageWrap, songPageWrapper, songPageList)
         songPageWrapper.querySelector('.current').click()
-        /!*buttonL.removeEventListener('click',clickL)
-        buttonL.classList.add('forbidden')*!/
+        /*buttonL.removeEventListener('click',clickL)
+        buttonL.classList.add('forbidden')*/
       }
-      /!*buttonR.addEventListener('click', clickR)
-      buttonR.classList.remove('forbidden')*!/
+      /*buttonR.addEventListener('click', clickR)
+      buttonR.classList.remove('forbidden')*/
     }
     function clickR() {
       if (songPageWrapper.querySelector('.current').querySelector('span').innerHTML < songPageList.length) {
         changePageBtnList(1, songPageWrap, songPageWrapper, songPageList)
         songPageWrapper.querySelector('.current').click()
-        /!*buttonR.removeEventListener('click',clickR)
-        buttonR.classList.add('forbidden')*!/
+        /*buttonR.removeEventListener('click',clickR)
+        buttonR.classList.add('forbidden')*/
       }
-      /!*buttonL.addEventListener('click', clickL)
-      buttonL.classList.remove('forbidden')*!/
+      /*buttonL.addEventListener('click', clickL)
+      buttonL.classList.remove('forbidden')*/
     }
     buttonL.addEventListener('click', clickL)
     buttonR.addEventListener('click', clickR)
   })
   
-  /!* 普通评论分页 *!/
+  /* 普通评论分页 */
   let commentPageWrap = document.querySelectorAll('.con-r>.page-wrap')[1].querySelectorAll('.num');
   let website
   let currentCommitPage = 1
@@ -2462,7 +2433,7 @@
     }
   })
   
-  /!* 歌手页筛选 *!/
+  /* 歌手页筛选 */
   var artistMain = document.querySelector('.artist-main')
   var artistOther = document.querySelector('.artist-other')
   var artistInfoWrapper = document.querySelector('.main-con2 .artist-container ul')
@@ -2849,7 +2820,7 @@
   })
   
   
-  /!* 歌单页筛选 *!/
+  /* 歌单页筛选 */
   var songListContent = document.querySelector('.song-list-content')
   var songListWrapper = document.querySelector('.main-con3 .page-wrap ul')
   var songListItems
@@ -2982,9 +2953,9 @@
     console.log(1)
     for (let i = 0; i < songListItems.length; i++) {
     }
-  })*/
-/*  var songListBtnL = songListWrapper.querySelector('.BtnL')
-  var songListBtnR = songListWrapper.querySelector('.BtnR')*/
+  })
+  var songListBtnL = songListWrapper.querySelector('.BtnL')
+  var songListBtnR = songListWrapper.querySelector('.BtnR')
 
 </script>
 </html>
