@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <input type = "text" name="password">
+  <script>
+    let input = document.querySelector(`[name="password"]`)
+    input.addEventListener('keyup', (e) => {
+      const value = e.target.value
+      const regs = [
+        /^[a-z0-9]{5,10}$/i,
+        /[A-Z]/,
+        /0-9/
+      ]
+      /* every方法,Array的方法,结果全部为真时整个表达式为真,用于对多条规则的验证,也可以用于对密码强度进行校验
+      *   every的第一个参数是函数,使用指定函数检测数组中的所有元素, 检测到一个为false就停止检测并返回false, 全为true才返回true, 不检测空数组, 不改变原数组
+      * */
+      let status = regs.every(temp => {
+        temp.test(value) // 此处传的参数也是regs
+      })
+      console.log(status ? "正确" : "密码错误")
+    })
+  </script>
+</body>
+</html>

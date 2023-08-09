@@ -7,6 +7,15 @@
 <body>
 <main>在线教育是一种高效的学习方式,教育是一生的事业</main>
 <script>
+  /* replace方法  不替换原字符串, 返回一个替换后的字符串
+  *   1. str.replace(字符串, 字符串) // 后面的字符串替换前者, 但是若str中出现多次该字符串只会替换第一个
+  *   2. str.replace(正则表达, 字符串) // 替换str中所有匹配正则表达式的部分
+  *   3. str.replace(正则表达式, function) // replace的核心用法, 对str使用正则表达式进行match匹配, 如果匹配到多项结果, 对每一个结果执行一次function函数, 并用该函数的返回值替代str中被匹配的结果
+  *       其中function有参数, 在函数内可使用argument进行访问, arguments[0]为匹配到的字符串整体, arguments[1]为匹配到的子串索引位置,  arguments[2]为源字符串本身, 每次匹配都会产生一个arguments参数
+  *   4. str.replace(分组正则表达式(带原子组的正则表达式), function) 执行流程同上
+  *       其中function的参数不, argument[0]为匹配到的字符串整体, 后续argument[1]开始是匹配到的对应原子组字符串(顺序数括号), 假设只有该正则表达式只有三个原子组, 再之后的arguments[4]为匹配到的字符串位置, argument[5]为源字符串
+  *  */
+  
   // 使用正则替换字符串,功能更强
   let tel = "2020/12/18"
   console.log(tel.replace(/\//g, "-"))

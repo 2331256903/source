@@ -7,11 +7,31 @@
 <body>
   <main>
     <a id="" href = "https://www.houdunren.com">后盾人</a>
-    <a href = "https://www.hdcms.com">hdms</a>
+    <a href = 'https://www.hdcms.com'>hdms</a>
     <a href = "https://www.sina.com.cn">新浪</a>
   </main>
 </body>
 <script>
+  /* 原子组别名是对原子组重新命名, 默认情况下原子组编号从1递增
+  *   使用原子组命名:
+  *     原子命名: ?<key>
+  *     原子组引用: \k<key>
+  *   其中key值为原子组别名, 前后需要一致
+  * */
+  // 例如将第一个分组命名为tagName, 在后续就可以通过\k<tagName>进行反向引用
+  const regx = /<(?<tagName>\w*)>.*<\/(\k<tagName>)>/
+  const str1 = '<div>哈哈</div>'
+  const result1 = str1.match(regx)
+
+  // 0: "<div>哈哈</div>"
+  // 1: "div"
+  // 2: "div"
+  // groups: {tagName: 'div'}
+  // index: 0
+  // input: "<div>哈哈</div>"
+  // length: 3
+  
+  
   let hd = `
       <h1>houdunren</h1>
       <span>后盾人</span>
@@ -26,6 +46,12 @@
   const main = document.querySelector("body main")
   const links = []
   const reg2 = /<a.*?href=(['"])(?<link>.*?)\1>(?<title>.*?)<\/a>/gi
+  // 此处的.*?,   复习: .表示匹配一个任意字符, *匹配0个及以上, ?放*后禁止贪婪,
+  // .*匹配任何数量的任何字符, 但本身具有贪婪的性质, 首先匹配到不能再匹配为止, 根据后面的正则表达式再进行回溯,
+  // .*?表示匹配任意字符到下一个符合条件的字符, 由于禁止贪婪, 与.*相反, 一个匹配之后就往下进行, 所以不会进行回溯, 具有最小匹配的性质
+  
+  /* 上面命名别名后, match的结果中的group属性就会有内容了, group为一个数组,内容是 每个别名和该别名的原子组匹配到的字符串 组成的键值对 */
+  
   for (const iterator of main.innerHTML.matchAll(reg2)) {
     links.push(iterator["groups"])
   }

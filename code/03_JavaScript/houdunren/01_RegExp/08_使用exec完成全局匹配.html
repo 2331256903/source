@@ -3,29 +3,35 @@
 <head>
   <meta charset = "UTF-8">
   <title>Title</title>
-  <script>
-    let hd = "houdunren"
-    let reg = /u/gi
-    /* let result = []
-    console.log(reg.exec(hd))
-    console.log(reg.exec(hd))
-    while (res = reg.exec(hd)) {
-      result.push(res)
-    }
-    console.log(result) */
-    // 封装到函数中
-    function search(string, reg) {
-      let result = []
-      while ((res = reg.exec(string))) {
-        result.push(res)
-      }
-      return result
-    }
-    let matchs = search(document.body.innerHTML, /<(h[1-6])>[\s\S]+?<\/\1>/g)
-    console.log(matchs)
-  </script>
 </head>
 <body>
-
+  <h1>好好好</h1>
+  <h2>匹配</h2>
+  <h3>正则</h3>
 </body>
+<script>
+  /* 前面提过, exec每次匹配一项后输出完成字段且index增加, 直到最后一项匹配完成后返回null  利用这个特性使用循环进行匹配 */
+  
+  let hd = "houdunren"
+  let reg = /u/gi
+  
+  /* let result = []
+  console.log(reg.exec(hd))
+  console.log(reg.exec(hd))
+  while (res = reg.exec(hd)) {
+    result.push(res)
+  }
+  console.log(result) */
+  // 封装到函数中
+  function search(string, reg) {
+    let result = []
+    let res
+    while ((res = reg.exec(string))) {
+      result.push(res)
+    }
+    return result
+  }
+  let matchs = search(document.body.innerHTML, /<(h[1-6])>[\s\S]+?<\/\1>/g)
+  console.log(matchs)
+</script>
 </html>

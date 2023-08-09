@@ -3,16 +3,16 @@
 <head>
   <meta charset = "UTF-8">
   <title>Title</title>
-  <script>
-    document.querySelector(`[name="username"]`)
-    .addEventListener('keyup', (e) => {
-      const value = e.target.value
-      let reg = /^[a-z][\w-]{2,7}$/i
-      console.log(reg.test(value))
-    })
-  </script>
 </head>
 <body>
   <input type = "text" name="username">
+  <script>
+    document.querySelector(`[name="username"]`)
+      .addEventListener('keyup', (e) => {
+        const value = e.target.value
+        let reg = /^[a-z][\w-]{2,7}$/i // [\w-]匹配字母和 -号, -号放最后为了避免混淆a-z的-
+        console.log(reg.test(value))
+      })
+  </script>
 </body>
 </html>

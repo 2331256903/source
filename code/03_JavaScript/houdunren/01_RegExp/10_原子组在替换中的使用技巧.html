@@ -3,15 +3,6 @@
 <head>
   <meta charset = "UTF-8">
   <title>Title</title>
-  <script>
-    const main = document.querySelector('body main')
-    const reg = /(<a.*href=['"])(http)(:\/\/)(www\.)?(hdcms|houdunren)/gi
-    main.innerHTML = main.innerHTML.replace(reg, (v,...args) => {  // 使用展开语法接取原子组
-      args[1]+='s'
-      args[3] = args[3] || 'www.'
-      return args.splice(0,5).join('')
-    })
-  </script>
 </head>
 <body>
   <main>
@@ -22,5 +13,15 @@
     <a href = "http://yahoo.com">雅虎</a>
     <h4>http://www.hdcms.com</h4>
   </main>
+  <script>
+    const main = document.querySelector('body main')
+    const reg = /(<a.*href=['"])(http)(:\/\/)(www\.)?(hdcms|houdunren)/gi
+    main.innerHTML = main.innerHTML.replace(reg, (v,...args) => {  // 使用展开符...接取原子组
+      console.log(args)
+      args[1]+='s'
+      args[3] = args[3] || 'www.'
+      return args.splice(0,5).join('')
+    })
+  </script>
 </body>
 </html>

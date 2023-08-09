@@ -20,10 +20,11 @@
   })
   let reg = /后盾人/g
   const main = document.querySelector("body main")
-  console.log(main.innerHTML.match(reg)) // 使用g查询的时候 这种方法会把匹配到的全部拿下来,但是细节就看不到了
-  console.log(reg.exec(main.innerHTML)) // 这个在g查询的时候 细节还在,但需要循环遍历
-  console.log(reg.lastIndex) // exec连续执行,执行到lastIndex会暂停,继续执行会继续搜索,利用这个特性使用循环接收
+  console.log(main.innerHTML.match(reg)) // match使用g查询的时候 这种方法会把匹配到的全部拿下来,但是细节就看不到了
+  console.log(reg.exec(main.innerHTML)) // exec使用g查询的时候 细节还在,但需要循环遍历
+  console.log(reg.lastIndex) // exec连续执行,执行到lastIndex会暂停,继续执行会继续搜索但返回null,利用这个特性使用循环接收
   let count = 0 // 计数器
+  let res
   while (res = reg.exec(main.innerHTML)) {
     count++ // 用于统计出现次数等
   }

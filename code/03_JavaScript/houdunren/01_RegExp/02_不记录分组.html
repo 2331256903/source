@@ -9,15 +9,33 @@
       http://houdunwang.com
       https://hdcms.com
     `
-    let reg = /https:\/\/\w+\.\w+\.(com|org|cn)/i
+
     // 此时只想匹配 www.houdunren.com 则匹配时增加括号分组
+    let reg = /https:\/\/(\w+\.\w+\.(com|org|cn))/i
+    console.log(hd.match(reg))
+    /* match输出数组, 索引0是整个匹配的内容, 后续索引数括号对应每个原子组 */
+    /* 这里输出
+    *   Array: [
+    *     'https://www.houdunren.com',
+    *     'www.houdunren.com',
+    *     'com'
+    *   ]
+    * */
+    
     let reg2 = /https:\/\/(\w+\.\w+\.(?:com|org|cn))/i
-    // 此时只想匹配 www.houdunren  在第二个原子组中增加?:,忽略com部分,此时第二个参数就用不了了
+    // 此时只想匹配 www.houdunren  在第二个原子组中增加?:,忽略com部分
+    /*
+    * 这里输出
+    *   Array: [
+    *     'https://www.houdunren.com',
+    *     'www.houdunren.com',
+    *   ]
+    * */
+    
     console.dir(hd.match(reg)) //console.dir在控制台中显示指定JS对象的属性,并通过类似文件树样式的交互列表显示
     // 综上,某些组不想记录的话加上"?:"即可
     let reg3 = /https?:\/\/((?:\w+\.)?\w+\.(?:com|org|cn))/gi
-
-    // exec除了完整匹配外,还会额外匹配被记录的原子组, 匹配到最后为null,利用这个特性使用循环操作
+    
     console.dir(reg3.exec(hd))
     console.log(reg3.lastIndex)
     console.dir(reg3.exec(hd))
@@ -26,10 +44,9 @@
     console.log(reg3.lastIndex)
     console.dir(reg3.exec(hd))
     console.log(reg.lastIndex)
-
-    console.dir(reg3.exec(hd))
+    // exec除了完整匹配外,还会额外匹配被记录的原子组, 匹配到最后为null,利用这个特性使用循环操作
     let urls = []
-    while (res = reg.exec(hd)) {
+    while ((res = reg3.exec(hd))) { // 此处res是未声明变量, 自动在全局定义该变量
       urls.push(res[1])
     }
     console.log(urls)
