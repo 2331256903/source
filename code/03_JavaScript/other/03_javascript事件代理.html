@@ -58,7 +58,11 @@
 *  */
   // 比如有一个无序列表, 在无序列表里面有五个li, 想要个每个li添加一个点击事件
     // 常规操作是通过循环给每个li添加点击事件, 的确可以实现, 但每次都要给li添加点击事件, 造成访问DOM的次数过多, 会延长整个页面的交互就绪时间
-    // 所以这里使用时间委托, 即给ul注册点击事件, 然后利用事件对象的target来找到当前点击的li, 因为点击li时事件会冒泡到ul上, ul有注册事件, 这个时候就会触发事件监听器
+    // 所以这里使用事件委托, 即给ul注册点击事件, 然后利用事件对象的target来找到当前点击的li, 因为点击li时事件会冒泡到ul上, ul有注册事件, 这个时候就会触发事件监听器
+    var ul = document.querySelector('ul')
+    ul.addEventListener('click',function(e) {
+      e.target.style.color = 'orange'
+    })
 </script>
 </body>
 </html>
