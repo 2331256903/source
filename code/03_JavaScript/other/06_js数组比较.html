@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* js中不能用 == 或者 === 操作符直接比较两个数组是否相等
+* */
+console.log([] == []) // false
+console.log([] === []) // false
+/* 因为js中的数组是对象, == 和 === 操作符只能比较两个对象是否是同一个实例(同一个对象引用) 目前js没有内置的操作符用于判断两个对象是否相等 */
+/* 想要比较数组是否相等, 建议遍历数组内容进行比较, 如果使用转化成JSON的方法比较, 一旦数组内容顺序不同结果也为false */
+</script>
+</body>
+</html>

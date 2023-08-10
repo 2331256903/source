@@ -912,24 +912,6 @@
       "pic300": "https://img1.kuwo.cn/star/starheads/300/1/88/3631922686.jpg"
     }
   ],
-  "artistListTags": [
-    {
-      "name": "华语",
-      "id": "11"
-    },
-    {
-      "name": "欧美",
-      "id": "13"
-    },
-    {
-      "name": "日韩",
-      "id": "12"
-    },
-    {
-      "name": "组合",
-      "id": "16"
-    }
-  ],
   "musicList": [
     {
       "musicrid": "MUSIC_289947177",

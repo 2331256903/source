@@ -385,11 +385,9 @@
       <div class="con-l">
         <div class="con">
           <div class="sub-nav">
-            <a href="javascript:" class="current"><span>官方</span></a>
-            <div class="gap"></div>
-            <a href="javascript:"><span>特色</span></a>
-            <div class="gap"></div>
-            <a href="javascript:"><span>场景</span></a>
+            <a href="javascript:" class="current">官方</a>
+            <a href="javascript:">特色</a>
+            <a href="javascript:">场景</a>
           </div>
           <ul class="con-list">
             <li class="active">
@@ -437,12 +435,11 @@
           </ul>
         </div>
       </div>
-      <div class="gap"></div>
       <div class="con-r">
         <div class="content">
           <div class="content-title">
             <span class="title">酷我飙升榜</span>
-            <span class="update-time">更新时间: 2023-7-27</span>
+            <span class="update-time">更新时间: </span>
           </div>
         </div>
         <div class="btns">
@@ -505,12 +502,12 @@
         <div class="page-wrap">
           <i class="commitBtnL"><</i>
           <ul>
-            <li class="num current"><span>1</span></li>
-            <li class="num"><span>2</span></li>
-            <li class="num"><span>3</span></li>
-            <li class="num"><span>4</span></li>
-            <li class="num"><span>5</span></li>
-            <li class="num"><span>6</span></li>
+            <li class="num current">1</li>
+            <li class="num">2</li>
+            <li class="num">3</li>
+            <li class="num">4</li>
+            <li class="num">5</li>
+            <li class="num">6</li>
           </ul>
           <i class="commitBtnR">></i>
         </div>
@@ -929,6 +926,7 @@
 </body>
 <script>
   var currentPage = 0
+  var currentListPage = 0
   var loadingMask = document.querySelector('.loading-mask')
   /* 添加数字过滤 */
   function filterNum(number, type) {
@@ -955,10 +953,10 @@
       case 3:
         var d1 = new Date(number)
         var now = new Date();
-        if (parseInt(now - d1)/1000/60 < 60) {
-          return (parseInt(now - d1)/1000/60).toFixed(0) + '分钟前'
-        } else if (parseInt(now - d1)/1000/60 >= 60 && parseInt(now - d1)/1000/60/60 < 24) {
-          return (parseInt(now - d1)/1000/60/60).toFixed(0) + '小时前'
+        if (Number(now - d1)/1000/60 < 60) {
+          return (Number(now - d1)/1000/60).toFixed(0) + '分钟前'
+        } else if (Number(now - d1)/1000/60 >= 60 && Number(now - d1)/1000/60/60 < 24) {
+          return (Number(now - d1)/1000/60/60).toFixed(0) + '小时前'
         } else {
           return number
         }
@@ -1018,8 +1016,119 @@
       }
     }
   })
-  /* 首次打开加载首页内容 */
-  gainListHandler(0)
+
+  /* 获取飙升榜歌曲列表 */
+  async function gainRankList(page) {
+    var judge = false
+    var rankList = document.querySelector('.rank-list')
+    rankList.innerHTML = ''
+    await axios.request({
+      url: 'http://localhost:3000/musicList',
+      method: 'get',
+      params: {
+        _page: page,
+        _limit: 20
+      }
+    }).then(function(r) {
+      if (r.status === 200) {
+        for (var i = 0; i < r.data.length; i++) {
+          if (i % 2 !== 0) {
+            var str = '<li class="song-item dark">'
+          } else {
+            str = '<li class="song-item">'
+          }
+          str += '<div class="song-rank">'
+          switch (currentListPage * 20 + i + 1) {
+            case 1: {
+              str +=
+                '<div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>' +
+                '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>'
+              break
+            }
+            case 2: {
+              str +=
+                '<div class="rank-num" style="background: url(./source/img/icon_secondary.d99e73e.png) center 4px no-repeat; background-size: 168%;"></div>' +
+                '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>'
+              break
+            }
+            case 3: {
+              str +=
+                '<div class="rank-num" style="background: url(./source/img/icon_third.8abbb65.png) center 4px no-repeat; background-size: 168%;"></div>' +
+                '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>'
+              break
+            }
+            default: {
+              str +=
+                '<div class="rank-num">' + (currentListPage * 20 + i + 1) + '</div>' +
+                '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>'
+            }
+          }
+          str +=
+            '</div>' +
+            '<div class="song-name" title="' + r.data[i].name + '">' +
+            '<a href="">' + r.data[i].name + '</a>'
+          if (r.data[i].hasLossless) {
+            str += '<i class="wusun"></i>'
+          }
+          if (r.data[i].hasmv) {
+            str += '<i class="mv"></i>'
+          }
+          str +=
+            '</div>' +
+            '<div class="song-artist" title="' + r.data[i].artist + '">' +
+            '<span>' + r.data[i].artist + '</span>' +
+            '</div>' +
+            '<div class="song-album" title="' + r.data[i].album + '">' +
+            '<span>' + r.data[i].album + '</span>' +
+            '</div>' +
+            '<div class="song-time">' +
+            '<span>' + filterNum(r.data[i].duration, 2) + '</span>' +
+            '</div>' +
+            '<div class="btns">' +
+            '<i></i>' +
+            '<i></i>' +
+            '<i></i>' +
+            '<i></i>' +
+            '</div>'
+          rankList.innerHTML += str
+        }
+        // 动态加载
+        var img = []
+        var imgs = document.querySelectorAll('.rank-list .song-rank img')
+        for (i = 0; i < imgs.length; i++) {
+          img.push(imgs[i])
+        }
+        for (i = 0; i < img.length; i++) {
+          if (isVisible(img[i])) {
+            img[i].src = img[i].dataset.src
+            img.splice(i, 1)
+            i--
+          }
+        }
+        judge =  true
+      } else judge = false
+    })
+    return judge
+  }
+  /* 获取飙升榜歌曲分页按钮 */
+  function gainRankListPage(ul, rPage) {
+    if (currentListPage <= 2 && rPage >= 5) {
+      var str = ''
+      for (var i = 1; i <= rPage; i++) {
+        if (i <= 3) {
+          if (i === currentListPage) {
+            str += '<li class="num current">' + i + '</li>'
+          } else {
+            str += '<li class="num">' + i + '</li>'
+          }
+        }
+        str +=
+          '<li class="notCursor">···</li>' +
+          '<li class="num">' + rPage + '</li>'
+      }
+    }
+  }
+  
   /* 获取当前页面 */
   function gainListHandler(currentPage) {
     for (var i = 0; i < mainContainer.length; i++) {
@@ -1027,189 +1136,320 @@
     }
     mainContainer[currentPage].style.display = 'block'
     switch (currentPage) {
-      case 0:
-        var songListDevice = document.querySelector('.song-list-device .song-list-content')
-        var itemsArtist = document.querySelector('.song-list-artist .artist-list')
-        var subNavDevice = document.querySelector('.sub-nav-device')
-        var artistDevice = document.querySelector('.song-list-artist')
-        var currentListType = 0
-        var currentArtistType = 0
-        axios.request({
-          url: 'http://localhost:3000/playList',
-          method: 'get',
-        }).then( function(r) {
-          if (r.status === 200) {
-            for (i = 0; i < r.data.length && i < 5; i++) {
-              str =
-                '<div class="item">' +
-                '<div class="pic-out">' +
-                '<div class="cover">' +
-                '<span class="play-icon">' +
-                '<i class="icon-front"></i>' +
-                '</span>' +
-                '</div>' +
-                '<img data-src="' + r.data[i].img + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
-                '</div>' +
-                '<p class="name">' + r.data[i].name + '</p>' +
-                '<p class="count"><i></i>' + r.data[i].listencnt + '</p>' +
-                '</div>'
-              songListDevice.innerHTML += str
+      case 0: {
+        if (firstAccess[currentPage] === 0) {
+          var subNavDevice = document.querySelector('.sub-nav-device')
+          var songListDevice = document.querySelector('.song-list-device .song-list-content')
+          var artistDevice = document.querySelector('.song-list-artist .sub-nav')
+          var itemsArtist = document.querySelector('.song-list-artist .artist-list')
+          var currentListType = 0
+          var currentArtistType = 0
+          axios.request({
+            url: 'http://localhost:3000/playList',
+            method: 'get',
+          }).then(function (r) {
+            if (r.status === 200) {
+              for (i = 0; i < r.data.length && i < 5; i++) {
+                str =
+                  '<div class="item">' +
+                  '<div class="pic-out">' +
+                  '<div class="cover">' +
+                  '<span class="play-icon">' +
+                  '<i class="icon-front"></i>' +
+                  '</span>' +
+                  '</div>' +
+                  '<img data-src="' + r.data[i].img + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                  '</div>' +
+                  '<p class="name">' + r.data[i].name + '</p>' +
+                  '<p class="count"><i></i>' + r.data[i].listencnt + '</p>' +
+                  '</div>'
+                songListDevice.innerHTML += str
+              }
+              // 动态加载
+              var img = []
+              var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
+              for (i = 0; i < imgs.length; i++) {
+                img.push(imgs[i])
+              }
+              for (i = 0; i < img.length; i++) {
+                if (isVisible(img[i])) {
+                  img[i].src = img[i].dataset.src
+                  img.splice(i, 1)
+                  i--
+                }
+              }
+            } else {
+              alert(r.statusText)
             }
-            // 动态加载
-            var img = []
-            var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
-            for (i = 0; i < imgs.length; i++) {
-              img.push(imgs[i])
+          })
+          axios.request({
+            url: 'http://localhost:3000/artistList',
+            method: 'get'
+          }).then(function (r) {
+            if (r.status === 200) {
+              for (var i = 0; i < r.data.length && i < 6; i++) {
+                var str =
+                  '<div class="artist-item">' +
+                  '<div class="artist">' +
+                  '<div class="pic-out">' +
+                  '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                  '</div>' +
+                  '<p class="name">' +
+                  '<span class="text">' + r.data[i].name + '</span>' +
+                  '</p>' +
+                  '<p class="num">' + filterNum(r.data[i].musicNum, 1) + '</p>' +
+                  '</div>' +
+                  '</div>'
+                itemsArtist.innerHTML += str
+              }
+              // 动态加载
+              var img = []
+              var imgs = document.querySelectorAll('.song-list-artist .artist-list img')
+              for (i = 0; i < imgs.length; i++) {
+                img.push(imgs[i])
+              }
+              for (i = 0; i < img.length; i++) {
+                if (isVisible(img[i])) {
+                  img[i].src = img[i].dataset.src
+                  img.splice(i, 1)
+                  i--
+                }
+              }
+            } else {
+              alert(r.statusText)
             }
-            for (i = 0; i < img.length; i++) {
-              if (isVisible(img[i])) {
-                img[i].src = img[i].dataset.src
-                img.splice(i, 1)
-                i--
+          })
+          subNavDevice.addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+              songListDevice.innerHTML = ''
+              for (var i = 0; i < subNavDevice.children.length; i++) {
+                removeClass(subNavDevice.children[i], 'current')
+              }
+              addClass(e.target, 'current')
+              var n = e.target.getAttribute('list-type')
+              if (Number(n) !== currentListType) {
+                currentListType = Number(n)
+                var requestAPI = currentListType === 0 ? 'http://localhost:3000/playList' : 'http://localhost:3000/playList' + currentListType
+                axios.request({
+                  url: requestAPI,
+                  method: 'get'
+                }).then(function (r) {
+                  if (r.status === 200) {
+                    for (i = 0; i < r.data.length && i < 5; i++) {
+                      str =
+                        '<div class="item">' +
+                        '<div class="pic-out">' +
+                        '<div class="cover">' +
+                        '<span class="play-icon">' +
+                        '<i class="icon-front"></i>' +
+                        '</span>' +
+                        '</div>' +
+                        '<img data-src="' + r.data[i].img + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                        '</div>' +
+                        '<p class="name">' + r.data[i].name + '</p>' +
+                        '<p class="count"><i></i>' + r.data[i].listencnt + '</p>' +
+                        '</div>'
+                      songListDevice.innerHTML += str
+                    }
+                    // 动态加载
+                    var img = []
+                    var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
+                    for (i = 0; i < imgs.length; i++) {
+                      img.push(imgs[i])
+                    }
+                    for (i = 0; i < img.length; i++) {
+                      if (isVisible(img[i])) {
+                        img[i].src = img[i].dataset.src
+                        img.splice(i, 1)
+                        i--
+                      }
+                    }
+                  }
+                })
               }
             }
+          })
+          artistDevice.addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+              itemsArtist.innerHTML = ''
+              for (var i = 0; i < artistDevice.children.length; i++) {
+                removeClass(artistDevice.children[i], 'current')
+              }
+              addClass(e.target, 'current')
+              var n = e.target.getAttribute('list-type')
+              if (Number(n) !== currentArtistType) {
+                currentArtistType = Number(n)
+                var requestAPI = currentArtistType === 0 ? 'http://localhost:3000/artistList' : 'http://localhost:3000/artistList' + currentArtistType
+                axios.request({
+                  url: requestAPI,
+                  method: 'get'
+                }).then(function (r) {
+                  if (r.status === 200) {
+                    for (i = 0; i < r.data.length && i < 6; i++) {
+                      str =
+                        '<div class="artist-item">' +
+                        '<div class="artist">' +
+                        '<div class="pic-out">' +
+                        '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                        '</div>' +
+                        '<p class="name">' +
+                        '<span class="text">' + r.data[i].name + '</span>' +
+                        '</p>' +
+                        '<p class="num">' + filterNum(r.data[i].musicNum, 1) + '</p>' +
+                        '</div>' +
+                        '</div>'
+                      itemsArtist.innerHTML += str
+                    }
+                    // 动态加载
+                    var img = []
+                    var imgs = document.querySelectorAll('.song-list-artist .artist-list img')
+                    for (i = 0; i < imgs.length; i++) {
+                      img.push(imgs[i])
+                    }
+                    for (i = 0; i < img.length; i++) {
+                      console.log(isVisible(img[i]))
+                      if (isVisible(img[i])) {
+                        img[i].src = img[i].dataset.src
+                        img.splice(i, 1)
+                        i--
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }
+        firstAccess[currentPage] = 1
+        break;
+      }
+      case 1: {
+        if (firstAccess[currentPage] === 0) {
+          var rankListNav = document.querySelector('.main-con1 .sub-nav')
+          var loadingMask = document.querySelector('.loading-mask')
+          var updateTime = document.querySelector('.update-time')
+          var pageWrap = document.querySelectorAll('.con-r .page-wrap')[0]
+          rankListNav.addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+              for (var i = 0; i < rankListNav.children.length; i++) {
+                removeClass(rankListNav.children[i], 'current')
+              }
+              addClass(e.target, 'current')
+            }
+          })
+          var time = new Date()
+          var date
+          if (time.getMonth() < 10) {
+            date = time.getFullYear() + '-0' + (time.getMonth() + 1) + '-' + time.getDate()
           } else {
-            alert(r.statusText)
+            date = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
           }
-        })
-        axios.request({
-          url: 'http://localhost:3000/artistList',
-          method: 'get'
-        }).then(function(r) {
-          if (r.status === 200) {
-            for (var i = 0; i < r.data.length && i < 6; i++) {
-              var str =
-                '<div class="artist-item">' +
-                '<div class="artist">' +
-                '<div class="pic-out">' +
-                '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
-                '</div>' +
-                '<p class="name">' +
-                '<span class="text">' + r.data[i].name + '</span>' +
-                '</p>' +
-                '<p class="num">' + filterNum(r.data[i].musicNum, 1) + '</p>' +
-                '</div>' +
-                '</div>'
-              itemsArtist.innerHTML += str
-            }
-            // 动态加载
-            var img = []
-            var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
-            for (i = 0; i < imgs.length; i++) {
-              img.push(imgs[i])
-            }
-            for (i = 0; i < img.length; i++) {
-              if (isVisible(img[i])) {
-                img[i].src = img[i].dataset.src
-                img.splice(i, 1)
-                i--
+          updateTime.innerHTML += date
+          var promise = new Promise(function (resolve, reject) {
+            gainRankList(currentListPage + 1).then(function (res) {
+              if (res) {
+                resolve()
+              } else {
+                reject()
               }
-            }
-          }
-          else {
-            alert (r.statusText)
-          }
-        })
-        subNavDevice.addEventListener('click', function (e) {
-          if (e.target.tagName === 'A') {
-            songListDevice.innerHTML = ''
-            for (var i = 0; i < subNavDevice.children.length; i++) {
-              removeClass(subNavDevice.children[i], 'current')
-            }
-            addClass(e.target, 'current')
-            var n = e.target.getAttribute('list-type')
-            if (Number(n) !== currentListType) {
-              currentListType = Number(n)
-              var requestAPI = currentListType === 0 ? 'http://localhost:3000/playList' : 'http://localhost:3000/playList' + currentListType
-              axios.request({
-                url: requestAPI,
-                method: 'get'
-              }).then( function(r) {
-                if (r.status === 200) {
-                  for (i = 0; i < r.data.length && i < 5; i++) {
-                    str =
-                      '<div class="item">' +
-                      '<div class="pic-out">' +
-                      '<div class="cover">' +
-                      '<span class="play-icon">' +
-                      '<i class="icon-front"></i>' +
-                      '</span>' +
-                      '</div>' +
-                      '<img data-src="' + r.data[i].img + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
-                      '</div>' +
-                      '<p class="name">' + r.data[i].name + '</p>' +
-                      '<p class="count"><i></i>' + r.data[i].listencnt + '</p>' +
-                      '</div>'
-                    songListDevice.innerHTML += str
-                  }
-                  // 动态加载
-                  var img = []
-                  var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
-                  for (i = 0; i < imgs.length; i++) {
-                    img.push(imgs[i])
-                  }
-                  for (i = 0; i < img.length; i++) {
-                    if (isVisible(img[i])) {
-                      img[i].src = img[i].dataset.src
-                      img.splice(i, 1)
-                      i--
-                    }
+            })
+          })
+          promise.then(function () {
+            loadingMask.style.display = 'none'
+            axios.request({
+              url: 'http://localhost:3000/musicList',
+              method: 'get'
+            }).then(function(r) {
+              pageWrap.innerHTML =
+                '<i class="BtnL forbidden"><</i>' +
+                '<ul>' +
+                '</ul>' +
+                '<i class="BtnR">></i>'
+              var btnL = pageWrap.querySelector('.BtnL')
+              var btnR = pageWrap.querySelector('.BtnR')
+              var ul = pageWrap.querySelector('ul')
+              for (var i = 1; i< r.data.length/20; i++) {
+                if (i <= 4) {
+                  if (i === 1) {
+                    ul.innerHTML += '<li class="num current">' + i + '</li>'
+                  } else {
+                    ul.innerHTML += '<li class="num">' + i + '</li>'
                   }
                 }
-              })
-            }
-          }
-        })
-        artistDevice.addEventListener('click', function (e) {
-          if (e.target.tagName === 'A') {
-            subNavDevice.innerHTML = ''
-            for (var i = 0; i < subNavDevice.children.length; i++) {
-              removeClass(subNavDevice.children[i], 'current')
-            }
-            addClass(e.target, 'current')
-            var n = e.target.getAttribute('list-type')
-            if (Number(n) !== currentArtistType) {
-              currentArtistType = Number(n)
-              var requestAPI = currentArtistType === 0 ? 'http://localhost:3000/artistList' : 'http://localhost:3000/artistList' + currentArtistType
-              axios.request({
-                url: requestAPI,
-                method: 'get'
-              }).then(function(r) {
-                if (r.status === 200) {
-                  for (i = 0; i < r.data.length && i < 6; i++) {
-                    str =
-                      '<div class="artist-item">' +
-                      '<div class="artist">' +
-                      '<div class="pic-out">' +
-                      '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
-                      '</div>' +
-                      '<p class="name">' +
-                      '<span class="text">' + r.data[i].name + '</span>' +
-                      '</p>' +
-                      '<p class="num">' + filterNum(r.data[i].musicNum, 1) + '</p>' +
-                      '</div>' +
-                      '</div>'
-                    subNavDevice.innerHTML += str
+              }
+              ul.innerHTML +=
+                '<li class="notCursor">···</li>' +
+                '<li class="num">'+ Number((r.data.length/20).toFixed(0)) +'</li>'
+              pageWrap.addEventListener('click', function(e) {
+                console.log(e)
+                if (e.target.tagName === 'LI' && hasClass(e.target, 'num')) {
+                  for (var i = 0; i < pageWrap.children; i++) {
+                    removeClass(pageWrap.children[i], 'current')
                   }
-                  // 动态加载
-                  var img = []
-                  var imgs = document.querySelectorAll('.song-list-device .song-list-content img')
-                  for (i = 0; i < imgs.length; i++) {
-                    img.push(imgs[i])
-                  }
-                  for (i = 0; i < img.length; i++) {
-                    if (isVisible(img[i])) {
-                      img[i].src = img[i].dataset.src
-                      img.splice(i, 1)
-                      i--
-                    }
-                  }
+                  addClass(e.target, 'current')
+                  currentListPage = Number(e.target.innerHTML) - 1
+                  gainRankList(Number(e.target.innerHTML))
                 }
               })
-            }
-          }
-        })
+            })
+            firstAccess[currentPage] = 1
+          }, function() {alert('Something wrong! Check your network!')})
+        }
+        break
+      }
     }
   }
+
+  /* 首次打开加载首页内容 */
+  gainListHandler(0)
+  
+  /* 图片懒加载 */
+  window.addEventListener('scroll', function() {
+    var img = []
+    var imgs
+    switch (currentPage) {
+      case 0: {
+        imgs = document.querySelectorAll('.song-list-device .song-list-content img')
+        for (i = 0; i < imgs.length; i++) {
+          img.push(imgs[i])
+        }
+        for (i = 0; i < img.length; i++) {
+          if (isVisible(img[i])) {
+            img[i].src = img[i].dataset.src
+            img.splice(i, 1)
+            i--
+          }
+        }
+        img = []
+        imgs = document.querySelectorAll('.song-list-artist .artist-list img')
+        for (i = 0; i < imgs.length; i++) {
+          img.push(imgs[i])
+        }
+        for (i = 0; i < img.length; i++) {
+          if (isVisible(img[i])) {
+            img[i].src = img[i].dataset.src
+            img.splice(i, 1)
+            i--
+          }
+        }
+        break
+      }
+      case 1: {
+        // 动态加载
+        imgs = document.querySelectorAll('.rank-list .song-rank img')
+        for (i = 0; i < imgs.length; i++) {
+          img.push(imgs[i])
+        }
+        for (i = 0; i < img.length; i++) {
+          if (isVisible(img[i])) {
+            img[i].src = img[i].dataset.src
+            img.splice(i, 1)
+            i--
+          }
+        }
+        break
+      }
+    }
+  })
 </script>
 </html>

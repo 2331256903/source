@@ -82,17 +82,13 @@
       text-align: center;
       cursor: pointer;
       margin: 0 4px;
-      span {
-        color: #999;
-        font-size: 14px;
-      }
+      color: #999;
+      font-size: 14px;
     }
     .num {
       &:hover {
         background-color: #FFDF1F;
-        span {
-          color: #333;
-        }
+        color: #333;
       }
     }
     .notCursor {
@@ -100,9 +96,7 @@
     }
     .current {
       background-color: #FFDF1F;
-      span {
-        color: #333;
-      }
+      color: #333;
     }
   }
 }
@@ -750,21 +744,23 @@
   width: 100%;
   font-size: 0;
   .con-l {
-    width: 21.875%;
+    width: 18.85%;
     overflow: hidden;
-    min-width: 210px;
     background-color: #FFF;
     box-shadow: 0 0 20px 0 rgba(65, 67, 70, .05);
     display: inline-block;
     vertical-align: top;
+    margin-right: 5%;
     .sub-nav {
       margin: 20px 9.09% 14px;
       border-bottom: 1px solid #F2F2F2;
       padding: 0;
-      width: auto;
+      width: 81.8%;
       font-size: 0;
+      box-sizing: border-box;
       a {
-        margin: 0;
+        margin-right: calc(50% - 42px);
+        &:last-child { margin-right: 0; }
         span {
           font-size: 16px;
           color: #333;
@@ -832,14 +828,9 @@
       }
     }
   }
-  .gap {
-    display: inline-block;
-    width: 3.1%;
-    vertical-align: top;
-  }
   .con-r {
     display: inline-block;
-    width: 74.56%;
+    width: 76.14%;
     z-index: 10;
     position: relative;
     .content .content-title{
@@ -965,12 +956,7 @@
                 font-size: 14px;
                 z-index: 3;
                 position: relative;
-              }
-              .gap {
-                min-width: 60px;
-                width: calc(96.82% - 94px);
-                position: relative;
-                z-index: 2;
+                margin-right: calc(96.82% - 94px);
               }
               img {
                 height: 54px;
@@ -1070,13 +1056,14 @@
                 width: 20px;
                 display: inline-block;
                 background-color: #777;
-                margin: 0;
                 cursor: pointer;
-              }
-              .gap {
-                width: calc(33.3% - 27px);
+                margin-right: calc(33.3% - 27px);
+                &:last-child { margin-right: 0;}
               }
             }
+          }
+          .dark {
+            background-color: #FAFAFA;
           }
           .active {
             background-color: #F2F2F2;

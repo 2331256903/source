@@ -83,15 +83,11 @@
   text-align: center;
   cursor: pointer;
   margin: 0 4px;
-}
-.page-wrap ul li span {
   color: #999;
   font-size: 14px;
 }
 .page-wrap ul .num:hover {
   background-color: #FFDF1F;
-}
-.page-wrap ul .num:hover span {
   color: #333;
 }
 .page-wrap ul .notCursor {
@@ -99,8 +95,6 @@
 }
 .page-wrap ul .current {
   background-color: #FFDF1F;
-}
-.page-wrap ul .current span {
   color: #333;
 }
 .song-list {
@@ -759,23 +753,27 @@
   font-size: 0;
 }
 .main-con1 .con-l {
-  width: 21.875%;
+  width: 18.85%;
   overflow: hidden;
-  min-width: 210px;
   background-color: #FFF;
   box-shadow: 0 0 20px 0 rgba(65, 67, 70, 0.05);
   display: inline-block;
   vertical-align: top;
+  margin-right: 5%;
 }
 .main-con1 .con-l .sub-nav {
   margin: 20px 9.09% 14px;
   border-bottom: 1px solid #F2F2F2;
   padding: 0;
-  width: auto;
+  width: 81.8%;
   font-size: 0;
+  box-sizing: border-box;
 }
 .main-con1 .con-l .sub-nav a {
-  margin: 0;
+  margin-right: calc(50% - 42px);
+}
+.main-con1 .con-l .sub-nav a:last-child {
+  margin-right: 0;
 }
 .main-con1 .con-l .sub-nav a span {
   font-size: 16px;
@@ -841,14 +839,9 @@
 .main-con1 .con-l .con-list .active:hover {
   background-color: #F2F2F2;
 }
-.main-con1 .gap {
-  display: inline-block;
-  width: 3.1%;
-  vertical-align: top;
-}
 .main-con1 .con-r {
   display: inline-block;
-  width: 74.56%;
+  width: 76.14%;
   z-index: 10;
   position: relative;
 }
@@ -991,12 +984,7 @@
   font-size: 14px;
   z-index: 3;
   position: relative;
-}
-.main-con1 .con-r .list-out .list-in .rank-list .song-item .song-rank .gap {
-  min-width: 60px;
-  width: calc(96.82% - 94px);
-  position: relative;
-  z-index: 2;
+  margin-right: calc(96.82% - 94px);
 }
 .main-con1 .con-r .list-out .list-in .rank-list .song-item .song-rank img {
   height: 54px;
@@ -1096,11 +1084,14 @@
   width: 20px;
   display: inline-block;
   background-color: #777;
-  margin: 0;
   cursor: pointer;
+  margin-right: calc(33.3% - 27px);
 }
-.main-con1 .con-r .list-out .list-in .rank-list .song-item .btns .gap {
-  width: calc(33.3% - 27px);
+.main-con1 .con-r .list-out .list-in .rank-list .song-item .btns i:last-child {
+  margin-right: 0;
+}
+.main-con1 .con-r .list-out .list-in .rank-list .dark {
+  background-color: #FAFAFA;
 }
 .main-con1 .con-r .list-out .list-in .rank-list .active {
   background-color: #F2F2F2;
