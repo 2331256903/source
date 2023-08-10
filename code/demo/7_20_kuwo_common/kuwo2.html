@@ -1111,21 +1111,140 @@
     return judge
   }
   /* 获取飙升榜歌曲分页按钮 */
-  function gainRankListPage(ul, rPage) {
+  function gainRankListPage(pageWrap, rPage) {
+    var ul = pageWrap.querySelector('ul')
+    var BtnL = pageWrap.querySelector('.BtnL')
+    var BtnR = pageWrap.querySelector('.BtnR')
+    var str
+    /* 当前页小于等于2时 */
     if (currentListPage <= 2 && rPage >= 5) {
-      var str = ''
-      for (var i = 1; i <= rPage; i++) {
-        if (i <= 3) {
-          if (i === currentListPage) {
-            str += '<li class="num current">' + i + '</li>'
-          } else {
-            str += '<li class="num">' + i + '</li>'
-          }
+      console.log(1)
+      str = ''
+      for (var i = 1; i <= 3; i++) {
+        if (i === currentListPage) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
         }
-        str +=
-          '<li class="notCursor">···</li>' +
-          '<li class="num">' + rPage + '</li>'
       }
+      str +=
+        '<li class="notCursor">···</li>' +
+        '<li class="num">' + rPage + '</li>'
+      ul.innerHTML = str
+    } else if (currentListPage <= 2 && rPage < 5) {
+      console.log(2)
+      str = ''
+      for (i = 1; i <= rPage; i++) {
+        if (i === currentListPage) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+        ul.innerHTML = str
+      }
+    }
+    /* 当前页等于3时 */
+    if (currentListPage === 3 && rPage >= 6) {
+      console.log(3)
+      str = ''
+      for (i = 1; i <= 4; i++) {
+        if (i === 3) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+      }
+      str +=
+        '<li class="notCursor">···</li>' +
+        '<li class="num">' + rPage + '</li>'
+      ul.innerHTML = str
+    } else if (currentListPage === 3 && rPage <= 5) {
+      console.log(4)
+      for (i = 1; i <= rPage; i++) {
+        if (i === currentListPage) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+        ul.innerHTML = str
+      }
+    }
+    /* 当前页大于3 且小于rPage-2时 */
+    if (currentListPage > 3 && currentListPage < rPage - 2 && currentListPage + 2 < rPage) {
+      console.log(5)
+      str =
+        '<li class="num">1</li>' +
+        '<li class="notCursor">···</li>' +
+        '<li class="num">' + (currentListPage - 1) + '</li>' +
+        '<li class="num current">' + currentListPage + '</li>' +
+        '<li class="num">' + (currentListPage + 1) + '</li>' +
+        '<li class="notCursor">···</li>' +
+        '<li class="num">' + rPage + '</li>'
+      ul.innerHTML = str
+    } else if (currentListPage > 3 && currentListPage <  currentListPage + 2 >= rPage) {
+      console.log(6)
+      str =
+        '<li class="num">1</li>' +
+        '<li class="notCursor">···</li>' +
+        '<li class="num">' + (currentListPage - 1) + '</li>' +
+        '<li class="num current">' + currentListPage + '</li>' +
+        '<li class="num">' + (currentListPage + 1) + '</li>' +
+        '<li class="num">' + rPage + '</li>'
+      ul.innerHTML = str
+    }
+    /* 当前页等于rPage-2时 */
+    if (currentListPage === rPage - 2  && rPage > 5) {
+      console.log(7)
+      str =
+        '<li class="num">1</li>' +
+        '<li class="notCursor">···</li>'
+      for (i = currentListPage - 1; i <= rPage; i++) {
+        if (i === currentListPage) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+      }
+      ul.innerHTML = str
+    } else if (currentListPage === rPage-2 && rPage <= 5) {
+      console.log(8)
+      str = ''
+      for (i = 1; i <= rPage; i++) {
+        if (currentListPage === i) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+      }
+      ul.innerHTML = str
+    }
+    /* 当前页面大于rPage-2时 */
+    if (currentListPage > rPage-2 && currentListPage >= 4) {
+      console.log(9)
+      str =
+        '<li class="num">1</li>' +
+        '<li class="notCursor">···</li>'
+      for (i = currentListPage - 1; i <= rPage; i++) {
+        if (currentListPage === i) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+      }
+      ul.innerHTML = str
+    } else if (currentListPage > rPage-2 && currentListPage < 4) {
+      console.log(10)
+      str = ''
+      for (i = 1; i <= rPage; i++) {
+        if (currentListPage === i) {
+          str += '<li class="num current">' + i + '</li>'
+        } else {
+          str += '<li class="num">' + i + '</li>'
+        }
+      }
+      ul.innerHTML = str
+    }
+    if (currentPage !== 0) {
     }
   }
   
@@ -1381,14 +1500,14 @@
                 '<li class="notCursor">···</li>' +
                 '<li class="num">'+ Number((r.data.length/20).toFixed(0)) +'</li>'
               pageWrap.addEventListener('click', function(e) {
-                console.log(e)
                 if (e.target.tagName === 'LI' && hasClass(e.target, 'num')) {
                   for (var i = 0; i < pageWrap.children; i++) {
                     removeClass(pageWrap.children[i], 'current')
                   }
                   addClass(e.target, 'current')
-                  currentListPage = Number(e.target.innerHTML) - 1
+                  currentListPage = Number(e.target.innerHTML)
                   gainRankList(Number(e.target.innerHTML))
+                  gainRankListPage(pageWrap, Number((r.data.length/20).toFixed(0)))
                 }
               })
             })
