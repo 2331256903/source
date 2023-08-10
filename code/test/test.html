@@ -1,1185 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/styles.css">
-  <script src="../../../node_modules/axios/dist/axios.js"></script>
-  <title>酷我音乐-无损音质正版在线试听网站</title>
+  <title>Title</title>
 </head>
 <body>
-  <div class="container">
-    <div class="sub-nav">
-      <a href="javascript:" class="current"><span>推荐</span></a>
-      <a href="javascript:"><span>排行榜</span></a>
-      <a href="javascript:"><span>歌手</span></a>
-      <a href="javascript:"><span>歌单</span></a>
-      <a href="javascript:"><span>MV</span></a>
-    </div>
-    <div class="main main-container" style="display: none">
-      <div class="banner-out">
-        <div class="swiper-out">
-          <div class="swiper-inn">
-            <div class="swiper-container">
-              <!-- ondragstart="return false" 禁止鼠标选中后拖动有半透明图片跟随 -->
-              <div class="swiper-wrapper" style="left: -1400px" ondragstart="return false">
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3460417394"><img src="./source/img/1684069467445_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href=""><img src="./source/img/1677749209264_.png" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3480039720"><img src="./source/img/1689402762005_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3468351866"><img src="./source/img/1689402854175_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3464313714"><img src="./source/img/1689330791866_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3467025335"><img src="./source/img/1689303067197_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="https://www.kuwo.cn/playlist_detail/3460417394"><img src="./source/img/1684069467445_.jpg" alt></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href=""><img src="./source/img/1677749209264_.png" alt></a>
-                </div>
-              </div>
-              <div class="swiper-pagination">
-                <ul class="swiper-bullets"></ul>
-              </div>
-              <div class="BtnL"><i><</i></div>
-              <div class="BtnR"><i>></i></div>
-            </div>
-          </div>
-          <div class="blur">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200%" viewBox="0 0 1680 480" preserveAspectRatio="none">
-              <defs>
-                <filter id="blur">
-                  <feGaussianBlur in="SourceGraph" stdDeviation="30"></feGaussianBlur>
-                </filter>
-              </defs>
-              <image href="./source/img/1677749209264_.png" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-              <image href="./source/img/1689402762005_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-              <image href="./source/img/1689402854175_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-              <image href="./source/img/1689330791866_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-              <image href="./source/img/1689303067197_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-              <image href="./source/img/1684069467445_.jpg" x="0" y="-400" width="100%" height="200%" externalResourcesRequired="true" preserveAspectRatio="none" style="filter: ;display: none" externalresourcesrequired="true"></image>
-            </svg>
-          </div>
-        </div>
-        <div class="download">
-          <ul class="btns">
-            <li><a href=""><i></i><span>下载PC版</span></a></li>
-            <li class="split"></li>
-            <li class="downloadAndroid"><a href="javascript:"><i></i><span>下载Android版</span></a></li>
-            <li class="split"></li>
-            <li class="downloadIphone"><a href="javascript:"><i></i><span>下载iphone版</span></a></li>
-            <li class="split"></li>
-            <li><a href="https://www.kuwo.cn/down"><i></i><span>下载其他版本</span></a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="model" style="display: none">
-        <div class="title">
-          <span class="androidTitle" style>酷我音乐Android最新版</span>
-          <span class="iphoneTitle" style="display: none">酷我音乐iphone最新版</span>
-          <i class="close">x</i>
-        </div>
-        <div class="content">
-          <div class="btns">
-            <div class="button-container"><a href=""><i></i>下载安装包</a></div>
-            <div class="split"></div>
-            <div class="img-container">
-              <img src="./source/img/Snipaste_2023-07-21_15-27-50.png" alt>
-              <p class="tip">扫描二维码下载</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="song-list song-list-device">
-        <div class="song-list-nav">
-          <h3>推荐歌单</h3>
-          <div class="sub-nav sub-nav-device">
-            <a href="javascript:" class="current"><span>每日推荐</span></a>
-            <a href="javascript:"><span>翻唱</span></a>
-            <a href="javascript:"><span>网络</span></a>
-            <a href="javascript:"><span>伤感</span></a>
-            <a href="javascript:"><span>欧美</span></a>
-          </div>
-          <a href="https://www.kuwo.cn/playlists" class="song-list-more">更多<i>></i></a>
-        </div>
-        <div class="item">
-          <div class="pic-out">
-            <div class="cover">
-            <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-          </div>
-          <p class="name"></p>
-          <p class="count"><i></i></p>
-        </div>
-        <div class="item">
-          <div class="pic-out">
-            <div class="cover">
-            <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-          </div>
-          <p class="name"></p>
-          <p class="count"><i></i></p>
-        </div>
-        <div class="item">
-          <div class="pic-out">
-            <div class="cover">
-            <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-          </div>
-          <p class="name"></p>
-          <p class="count"><i></i></p>
-        </div>
-        <div class="item">
-          <div class="pic-out">
-            <div class="cover">
-            <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-          </div>
-          <p class="name"></p>
-          <p class="count"><i></i></p>
-        </div>
-        <div class="item last">
-          <div class="pic-out">
-            <div class="cover">
-            <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-          </div>
-          <p class="name"></p>
-          <p class="count"><i></i></p>
-        </div>
-      </div>
-      <div class="song-list">
-        <div class="song-list-nav">
-          <h3>排行榜</h3>
-          <a href="https://www.kuwo.cn/rankList" class="song-list-more">更多<i>></i></a>
-        </div>
-        <div class="rec-list">
-          <div class="bang">
-            <div class="bang-top">
-              <div class="top-tip">
-                <img src="./source/img/d8faf807ce667092ef29f8d62237bfbf3a1f127a6370664705722a67c8f9e23b.png" alt>
-              </div>
-              <img src="./source/img/3144135490.jpg" alt>
-              <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <ul class="bang-list">
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">罗刹海市</p>
-                  <p class="artist">刀郎</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">向云端</p>
-                  <p class="artist">小霞&海洋Bo</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">笼</p>
-                  <p class="artist">张碧晨</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">4</div>
-                <div class="info">
-                  <p class="song-name">听悲伤的情歌</p>
-                  <p class="artist">苏星婕</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">5</div>
-                <div class="info">
-                  <p class="song-name">开往早晨的午夜</p>
-                  <p class="artist">张碧晨</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="gap"></div>
-          <div class="bang">
-            <div class="bang-top">
-              <div class="top-tip">
-                <img src="./source/img/fb29b783091117318dbb5dac53f8a7deee25b34054f7d00fb91640f6106773c6.png" alt>
-              </div>
-              <img src="./source/img/3144135490.jpg" alt>
-              <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <ul class="bang-list">
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">罗刹海市</p>
-                  <p class="artist">刀郎</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">一个人</p>
-                  <p class="artist">伯远</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">躺着真舒服</p>
-                  <p class="artist">时代少年团</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">4</div>
-                <div class="info">
-                  <p class="song-name">用情（深情版）</p>
-                  <p class="artist">en</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">5</div>
-                <div class="info">
-                  <p class="song-name">万物不如你</p>
-                  <p class="artist">张杰</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="gap"></div>
-          <div class="bang">
-            <div class="bang-top">
-              <div class="top-tip">
-                <img src="./source/img/fcd292e95c97704678ae6a77191df0b915dd9b9657296ca20b9f19047f672055.png" alt>
-              </div>
-              <img src="./source/img/3144135490.jpg" alt>
-              <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <ul class="bang-list">
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">罗刹海市</p>
-                  <p class="artist">刀郎</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">庄周一生梦一蝶</p>
-                  <p class="artist">黄静美</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">命运的思量</p>
-                  <p class="artist">GS大头</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">4</div>
-                <div class="info">
-                  <p class="song-name">万物不如你</p>
-                  <p class="artist">张杰</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">5</div>
-                <div class="info">
-                  <p class="song-name">花妖</p>
-                  <p class="artist">刀郎</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="gap"></div>
-          <div class="bang">
-            <div class="bang-top">
-              <div class="top-tip">
-                <img src="./source/img/8eef6e95406eb46f8ed544384bb457e20c8d66a33c3077c586e58537b620ecf5.png" alt>
-              </div>
-              <img src="./source/img/533516405.jpg" alt>
-              <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <ul class="bang-list">
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">If We Ever Broke Up</p>
-                  <p class="artist">Mae Stephens</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p title="I’ll Do It(Sped Up Version)" class="song-name">I’ll Do It(Sped Up Version)</p>
-                  <p class="artist">Heidi Montag</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">golden hour</p>
-                  <p class="artist">JVKE</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">4</div>
-                <div class="info">
-                  <p title="My Stupid Heart(Kids Version)" class="song-name">My Stupid Heart(Kids Version)</p>
-                  <p title="Walk Off the Earth&Luminati Suns" class="artist">Walk Off the Earth&Luminati Suns</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">5</div>
-                <div class="info">
-                  <p title="Move Your Body(RAIZHELL Remix)" class="song-name">Move Your Body(RAIZHELL Remix)</p>
-                  <p class="artist">Öwnboss&SEVEK</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="gap"></div>
-          <div class="bang">
-            <div class="bang-top">
-              <div class="top-tip">
-                <img src="./source/img/838f7519b40479695a6f5a22923704600d2dfceb4e8d6ad0099b5a169ae0df03.png" alt>
-              </div>
-              <img src="./source/img/546622733.jpg" alt>
-              <span class="play-icon">
-              <i class="icon-front"></i>
-            </span>
-            </div>
-            <ul class="bang-list">
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p title="如果你也想起我 (When The Wind Blows)" class="song-name">如果你也想起我 (When The Wind Blows)</p>
-                  <p class="artist">允儿</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p title="NO ONE (Feat. B.I of iKON)" class="song-name">NO ONE (Feat. B.I of iKON)</p>
-                  <p class="artist">李夏怡&B.I</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-img"></div>
-                <div class="info">
-                  <p class="song-name">Feedback</p>
-                  <p class="artist">BoA&Nucksal (넉살)</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">4</div>
-                <div class="info">
-                  <p title="너에게 못했던 내 마지막 말은" class="song-name">너에게 못했던 내 마지막 말은</p>
-                  <p title="DAVICHI (다비치)" class="artist">DAVICHI (다비치)</p>
-                </div>
-              </li>
-              <li>
-                <div class="index">5</div>
-                <div class="info">
-                  <p class="song-name">고고베베</p>
-                  <p class="artist">MAMAMOO</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="song-list song-list-artist">
-        <div class="song-list-nav">
-          <h3>歌手推荐</h3>
-          <div class="sub-nav">
-            <a href="javascript:" class="current"><span>华语</span></a>
-            <a href="javascript:"><span>欧美</span></a>
-            <a href="javascript:"><span>日韩</span></a>
-            <a href="javascript:"><span>组合</span></a>
-          </div>
-          <a href="https://www.kuwo.cn/singers" class="song-list-more">更多<i>></i></a>
-        </div>
-        <div class="artist-list">
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">周杰伦</span>
-              </p>
-              <p class="num">1515首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">程响</span>
-              </p>
-              <p class="num">622首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">GS大头</span>
-              </p>
-              <p class="num">21首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">周深</span>
-              </p>
-              <p class="num">1154首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">张碧晨</span>
-              </p>
-              <p class="num">563首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-          <div class="artist-item">
-            <div class="artist">
-              <div class="pic-out">
-                <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
-              </div>
-              <p class="name">
-                <span class="text">林俊杰</span>
-              </p>
-              <p class="num">1080首歌曲</p>
-            </div>
-          </div>
-          <div class="gap"></div>
-        </div>
-      </div>
-    </div>
-    <div class="main-con1 main-container" style="display: none">
-      <div class="con-l">
-        <div class="con">
-          <div class="sub-nav">
-            <a href="javascript:" class="current"><span>官方</span></a>
-            <div class="gap"></div>
-            <a href="javascript:"><span>特色</span></a>
-            <div class="gap"></div>
-            <a href="javascript:"><span>场景</span></a>
-          </div>
-          <ul class="con-list">
-            <li class="active">
-              <img src="./source/img/1690445603.png" alt>
-              <div class="item-info">
-                <p class="name">酷我飙升榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-            <li class="">
-              <img src="./source/img/1690445586.png" alt>
-              <div class="item-info">
-                <p class="name">酷我新歌榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-            <li class="">
-              <img src="./source/img/1690445597.png" alt>
-              <div class="item-info">
-                <p class="name">酷我热歌榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-            <li class="">
-              <img src="./source/img/1690445606.png" alt>
-              <div class="item-info">
-                <p class="name">抖音歌曲榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-            <li class="">
-              <img src="./source/img/1690445628.png" alt>
-              <div class="item-info">
-                <p class="name">万物DJ榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-            <li class="">
-              <img src="./source/img/1690445615.png" alt>
-              <div class="item-info">
-                <p class="name">会员畅听榜</p>
-                <p class="time">今日更新</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="gap"></div>
-      <div class="con-r">
-        <div class="content">
-          <div class="content-title">
-            <span class="title">酷我飙升榜</span>
-            <span class="update-time">更新时间: 2023-7-27</span>
-          </div>
-        </div>
-        <div class="btns">
-          <button class="play"><i></i>播放全部</button>
-          <button><i></i>添加</button>
-          <button><i></i>收藏</button>
-          <a href="#comment"><i></i>评论</a>
-        </div>
-        <div class="list-out">
-          <div class="list-in">
-            <div class="list-head">
-              <ul>
-                <li class="head-num">序号</li>
-                <li class="head-name">歌曲</li>
-                <li class="head-artist">歌手</li>
-                <li class="head-album">专辑</li>
-                <li class="head-time">时长</li>
-              </ul>
-            </div>
-            <ul class="rank-list">
-            </ul>
-          </div>
-          <div class="loading-mask" style>
-            <div class="loading-wrap">
-              <div class="load">
-                <span class="side1"></span>
-                <span class="side2"></span>
-                <span class="mid"></span>
-                <span class="side2"></span>
-                <span class="side1"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="page-wrap">
-          <!--<i><</i>
-          <ul>
-            <li><span>1</span></li>
-            <li><span>2</span></li>
-            <li><span>3</span></li>
-            <li><span>···</span></li>
-            <li><span>15</span></li>
-          </ul>
-          <i>></i>-->
-        </div>
-        <div class="comment" id="comment">
-          <div class="all-comment">
-            <div class="type">
-              <span class="title">热门评论</span>
-              <span class="num">82条</span>
-            </div>
-          </div>
-          <div class="all-comment">
-            <div class="type recent" id="commonCommit">
-              <span class="title">最新评论</span>
-              <span class="num">3234条</span>
-            </div>
-          </div>
-        </div>
-        <div class="page-wrap">
-          <i class="commitBtnL"><</i>
-          <ul>
-            <li class="num current"><span>1</span></li>
-            <li class="num"><span>2</span></li>
-            <li class="num"><span>3</span></li>
-            <li class="num"><span>4</span></li>
-            <li class="num"><span>5</span></li>
-            <li class="num"><span>6</span></li>
-          </ul>
-          <i class="commitBtnR">></i>
-        </div>
-      </div>
-    </div>
-    <div class="main-con2 main-container" style="display: none">
-      <ul class="tag-en">
-        <li class="current">热门</li>
-        <li>A</li>
-        <li>B</li>
-        <li>C</li>
-        <li>D</li>
-        <li>E</li>
-        <li>F</li>
-        <li>G</li>
-        <li>H</li>
-        <li>I</li>
-        <li>J</li>
-        <li>K</li>
-        <li>L</li>
-        <li>M</li>
-        <li>N</li>
-        <li>O</li>
-        <li>P</li>
-        <li>Q</li>
-        <li>R</li>
-        <li>S</li>
-        <li>T</li>
-        <li>U</li>
-        <li>V</li>
-        <li>W</li>
-        <li>X</li>
-        <li>Y</li>
-        <li>Z</li>
-        <li>#</li>
-      </ul>
-      <ul class="tag-kind">
-        <li class="current">全部</li>
-        <li>华语男</li>
-        <li>华语女</li>
-        <li>华语组合</li>
-        <li>日韩男</li>
-        <li>日韩女</li>
-        <li>日韩组合</li>
-        <li>欧美男</li>
-        <li>欧美女</li>
-        <li>欧美组合</li>
-        <li>其他</li>
-      </ul>
-      <div class="artist-container">
-        <div class="artist-main"></div>
-        <div class="artist-other"></div>
-        <div class="page-wrap">
-          <i class="artistBtnL"><</i>
-          <ul></ul>
-          <i class="artistBtnR">></i>
-        </div>
-      </div>
-    </div>
-    <div class="main-con3 main-container" style>
-      <div class="song-list">
-        <div class="song-list-nav">
-          <h3>精选歌单<i>></i></h3>
-          <div class="sub-nav">
-            <a href="javascript:" class="current"><span>最新</span></a>
-            <a href="javascript:"><span>最热</span></a>
-          </div>
-        </div>
-        <div class="song-list-content">
-        </div>
-        <div class="page-wrap">
-          <i class="BtnL"><</i>
-          <ul>
-          </ul>
-          <i class="BtnR">></i>
-        </div>
-      </div>
-    </div>
-    <div class="main-con4 main-container" style="display: none">
-      <ul class="tag-kind">
-        <li class="current">首播</li>
-        <li>华语</li>
-        <li>日韩</li>
-        <li>网络</li>
-        <li>欧美</li>
-        <li>现场</li>
-        <li>热舞</li>
-        <li>伤感</li>
-        <li>剧情</li>
-      </ul>
-      <div class="list-out">
-        <div class="album-item">
-          <div class="cover-out">
-            <div class="cover-play">
-              <span class="play"><i></i></span>
-            </div>
-            <img src="./source/img/4093527818.jpg" alt>
-            <p class="play-cut">
-              <i></i>
-              <span>2270</span>
-              <span>04:07</span>
-            </p>
-            <div class="shadow"></div>
-          </div>
-          <p class="name"><span>The Lighthouse Keeper</span></p>
-          <p class="time"><span>Sam Smith</span></p>
-        </div>
-        <div class="album-item">
-          <div class="cover-out">
-            <div class="cover-play">
-              <span class="play"><i></i></span>
-            </div>
-            <img src="./source/img/1214239470.jpg" alt>
-            <p class="play-cut">
-              <i></i>
-              <span>1.4万</span>
-              <span>03:43</span>
-            </p>
-            <div class="shadow"></div>
-          </div>
-          <p class="name"><span>Better</span></p>
-          <p class="time"><span>TWICE</span></p>
-        </div>
-        <div class="album-item">
-          <div class="cover-out">
-            <div class="cover-play">
-              <span class="play"><i></i></span>
-            </div>
-            <img src="./source/img/588659300.jpg" alt>
-            <p class="play-cut">
-              <i></i>
-              <span>7391</span>
-              <span>03:44</span>
-            </p>
-            <div class="shadow"></div>
-          </div>
-          <p class="name"><span>狮子山下</span></p>
-          <p class="time"><span>刘德华</span></p>
-        </div>
-        <div class="album-item">
-          <div class="cover-out">
-            <div class="cover-play">
-              <span class="play"><i></i></span>
-            </div>
-            <img src="./source/img/1448749776.jpg" alt>
-            <p class="play-cut">
-              <i></i>
-              <span>7.7万</span>
-              <span>03:46</span>
-            </p>
-            <div class="shadow"></div>
-          </div>
-          <p class="name"><span>吞噬星空</span></p>
-          <p class="time"><span>张杰</span></p>
-        </div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/1644018429.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>7041</span>
-							<span>03:00</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>以剑为期</span></p>
-					<p class="time"><span>张碧晨</span></p>
-				</div>
-      </div>
-      <div class="list-out">
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2094038573.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>2.2万</span>
-							<span>02:40</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>拉我</span></p>
-					<p class="time"><span>赵粤&陈卓璇&Nene郑乃馨&刘些宁&希林娜依高</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2974001597.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>7.5万</span>
-							<span>04:38</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>给电影人的情书</span></p>
-					<p class="time"><span>单依纯</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/878032042.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>1.2万</span>
-							<span>03:19</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>如虎</span></p>
-					<p class="time"><span>徐梦圆&双笙 (陈元汐)</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/1037643682.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>976</span>
-							<span>04:30</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>宁静海</span></p>
-					<p class="time"><span>吴青峰</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/613641438.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>2.0万</span>
-							<span>03:36</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>谁能明白我</span></p>
-					<p class="time"><span>刘德华</span></p>
-				</div>
-      </div>
-			<div class="list-out">
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/666342548.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>1.0万</span>
-							<span>04:54</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>若燕</span></p>
-					<p class="time"><span>尚雯婕</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2609659962.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>3966</span>
-							<span>03:11</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>Radio</span></p>
-					<p class="time"><span>HENRY刘宪华</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2420959501.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>9755</span>
-							<span>04:29</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>是但求其爱</span></p>
-					<p class="time"><span>陈奕迅</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2821963930.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>1.1万</span>
-							<span>05:07</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>风平浪静</span></p>
-					<p class="time"><span>伍佰</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/45930506.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>1.0万</span>
-							<span>03:22</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>别</span></p>
-					<p class="time"><span>周笔畅</span></p>
-				</div>
-			</div>
-			<div class="list-out">
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/3340744897.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>4.4万</span>
-							<span>03:08</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>Winner Winner（和平精英2020PEC年度盛典主题曲）</span></p>
-					<p class="time"><span>Tizzy T&Jony J&和平精英</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2241934977.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>2.1万</span>
-							<span>03:08</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>繁星追梦（王者荣耀梦想主题曲）</span></p>
-					<p class="time"><span>易烊千玺</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/2915905606.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>4.6万</span>
-							<span>03:50</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>孤独</span></p>
-					<p class="time"><span>G.E.M.邓紫棋</span></p>
-				</div>
-				<div class="album-item">
-					<div class="cover-out">
-						<div class="cover-play">
-							<span class="play"><i></i></span>
-						</div>
-						<img src="./source/img/823274720.jpg" alt>
-						<p class="play-cut">
-							<i></i>
-							<span>2438</span>
-							<span>02:46</span>
-						</p>
-						<div class="shadow"></div>
-					</div>
-					<p class="name"><span>Somebody</span></p>
-					<p class="time"><span>派伟俊</span></p>
-				</div>
-			</div>
-      <div class="page-wrap">
-        <i><</i>
-        <ul>
-          <li><span>1</span></li>
-          <li><span>2</span></li>
-          <li><span>3</span></li>
-          <li><span>···</span></li>
-          <li><span>28</span></li>
-        </ul>
-        <i>></i>
-      </div>
-    </div>
-  </div>
-</body>
 <script>
-  /* 创建XMLHttpRequest()对象 */
-  function createXHR () {
-    var XHR = [
-      function () { return new XMLHttpRequest() },
-      function () { return new ActiveXObject("Msxml2.XMLHTTP") },
-      function () { return new ActiveXObject("Msxml3.XMLHTTP") },
-      function () { return new ActiveXObject("Microsoft.XMLHTTP") }
-    ]
-    var xhr = null
-    for (var i = 0; i < XHR.length; i++) {
-      try {
-        xhr = XHR[i]()
-      } catch (e) {
-        continue
-      }
-      break
-    }
-    return xhr
-  }
-  
-  var currentPage = 0
-  var currentSongPage = 1
-  var loadingMask = document.querySelector('.loading-mask')
-  /* 添加数字过滤 */
-  function filterNum(number, type = 0) {
-    var numberTxt = ''
-    switch (type) {
-      case 0:
-        if (number > 9999) {
-          numberTxt += (number/10000).toFixed(1) + '万'
-          return numberTxt
-        } else {
-          return number
-        }
-      case 1:
-        return number + '首歌曲'
-      case 2:
-        if (number/60 > 0 && number%60 !== 0) {
-          return '0'+ (number/60).toFixed(0) + ':' + number%60
-        } else if (number/60 > 0 && number%60 === 0) {
-          return '0'+ (number/60).toFixed(0) + ':' + '00'
-        }
-        else {
-          return '00' + ':' + number
-        }
-      case 3:
-        var d1 = new Date(number)
-        var now = new Date();
-        if (parseInt(now - d1)/1000/60 < 60) {
-          return (parseInt(now - d1)/1000/60).toFixed(0) + '分钟前'
-        } else if (parseInt(now - d1)/1000/60 >= 60 && parseInt(now - d1)/1000/60/60 < 24) {
-          return (parseInt(now - d1)/1000/60/60).toFixed(0) + '小时前'
-        } else {
-          return number
-        }
-    }
-  }
-  /* 顶部标签动态选中样式 */
-  var subNavTitle = document.querySelector('.sub-nav').querySelectorAll('a');
-  (function () {
-    for (var i = 0; i < subNavTitle.length; i++) {
-      (function (i) {
-        subNavTitle[i].addEventListener('click', function () {
-          for (var t = 0; t < subNavTitle.length; t++) {
-            subNavTitle[t].classList = ''
-          }
-          subNavTitle[i].classList.add('current')
-        })
-      })(i)
-    }
-  })()
-  /* 首次打开加载首页内容 */
-  function start() {
-    var itemsDevice = document.querySelector('.song-list-device').querySelectorAll('.item')
-    for (var j = 0;j < 5; j++) {
-      var img = itemsDevice[j].querySelector('img')
-      img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
-    }
-    var xhr = createXHR()
-    xhr.open ("GET", "http://localhost:3000/playList", false)
-    axios.get('http://localhost:3000/playList').then(data =>
-    {
-      (function () {
-        for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
-          var name = itemsDevice[i].querySelector('.name')
-          var count = itemsDevice[i].querySelector('.count')
-          var img = itemsDevice[i].querySelector('img')
-          name.innerHTML = data[i].name
-          count.innerHTML = filterNum(data[i].listencnt)
-          img.src = (data[i].img).toString()
-        }
-      })()
-    })
-    var itemsArtict = document.querySelector('.song-list-artist').querySelectorAll('.artist-item')
-    for (var k = 0;k < 6; k++) {
-      var img2 = itemsArtict[k].querySelector('img')
-      img2.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
-    }
-    axios.get('http://localhost:3000/artistList').then(data => {
-      (function () {
-        for (var i = 0; i < data.length && i < itemsArtict.length; i++) {
-          var text = itemsArtict[i].querySelector('.name')
-          var num = itemsArtict[i].querySelector('.num')
-          var img = itemsArtict[i].querySelector('img')
-          text.innerHTML = data[i].name
-          num.innerHTML = filterNum(data[i].musicNum, 1)
-          img.src = (data[i].pic).toString()
-        }
-      })()
-    })
-  }
-  start()
-  /* 检测图片位置 */
-  function isVisible(img) {
-    var imgRect = img.getBoundingClientRect()
-    return imgRect.bottom > 0 && imgRect.top < window.innerHeight && imgRect.right > 0 && imgRect.left < window.innerWidth
-  }
-
   /* 顶部标签切换 */
   var mainButton = document.querySelector('.sub-nav').querySelectorAll('a')
   var main = document.querySelectorAll('.main-container')
@@ -1187,52 +13,51 @@
   var commentPage = 1
   var clickjudge = [0, 0, 0, 0, 0]
   var rankList = document.querySelector('.rank-list');
-  (function() {
-    for (var i = 0; i < mainButton.length; i++) {
-      (function (i) {
-        mainButton[i].addEventListener('click', function () {
-          for (var j = 0; j < main.length; j++) {
-            main[j].style.display = 'none'
-          }
-          main[i].style.display = 'block'
-          currentPage = i
-          switch (i) {
-            case 0:
-              if (clickjudge[i] === 0) {
-                clickjudge[i]++;
-                judgeArtist = true
-                judgeDevice = true
-                var itemsDevice = document.querySelector('.song-list-device').querySelectorAll('.item');
+  for (var i = 0; i < mainButton.length; i++) {
+    (function (i) {
+      mainButton[i].addEventListener('click', function () {
+        for (var j = 0; j < main.length; j++) {
+          main[j].style.display = 'none'
+        }
+        main[i].style.display = 'block'
+        currentPage = i
+        switch (i) {
+          case 0:
+            if (clickjudge[i] === 0) {
+              clickjudge[i]++;
+              judgeArtist = true
+              judgeDevice = true
+              var itemsDevice = document.querySelector('.song-list-device').querySelectorAll('.item');
+              (function () {
+                for (var k = 0;k < 5; k++) {
+                  var img = itemsDevice[k].querySelector('img')
+                  img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+                }
+              })()
+              axios.get('http://localhost:3000/playList').then(data => {
                 (function () {
-                  for (var k = 0;k < 5; k++) {
-                    var img = itemsDevice[k].querySelector('img')
-                    img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+                  for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
+                    var name = itemsDevice[i].querySelector('.name')
+                    var count = itemsDevice[i].querySelector('.count')
+                    var img = itemsDevice[i].querySelector('img')
+                    name.innerHTML = data[i].name
+                    count.innerHTML = filterNum(data[i].listencnt)
+                    img.src = (data[i].img).toString()
                   }
                 })()
-                axios.get('http://localhost:3000/playList').then(data => {
-                  (function () {
-                    for (var i = 0; i < data.length && i < itemsDevice.length; i++) {
-                      var name = itemsDevice[i].querySelector('.name')
-                      var count = itemsDevice[i].querySelector('.count')
-                      var img = itemsDevice[i].querySelector('img')
-                      name.innerHTML = data[i].name
-                      count.innerHTML = filterNum(data[i].listencnt)
-                      img.src = (data[i].img).toString()
-                    }
-                  })()
-                })
-              }
-              break
-            case 1:
-              if (clickjudge[i] === 0) {
-                clickjudge[i]++;
-                /* 处理歌曲列表首次加载 */
-                judgeHotComment = true
-                var website = 'http://localhost:3000/musicList?' + '_page=' + page + '&_limit=20'
-                axios.get(website).then(data => {
-                  (function() {
-                    for (var i = 0; i < data.length; i++) {
-                      var itemSong = `
+              })
+            }
+            break
+          case 1:
+            if (clickjudge[i] === 0) {
+              clickjudge[i]++;
+              /* 处理歌曲列表首次加载 */
+              judgeHotComment = true
+              var website = 'http://localhost:3000/musicList?' + '_page=' + page + '&_limit=20'
+              axios.get(website).then(data => {
+                (function() {
+                  for (var i = 0; i < data.length; i++) {
+                    var itemSong = `
                       <li class="song-item">
                         <div class="song-rank">
                           <div class="rank-num"></div>
@@ -1261,103 +86,103 @@
                           <i></i>
                         </div>
                       </li>`
-                      rankList.innerHTML += itemSong
+                    rankList.innerHTML += itemSong
+                  }
+                  /* 排行榜右侧歌曲列表斑马纹以及序号 */
+                  var songItems = document.querySelectorAll('.song-item');
+                  (function() {
+                    for (var i = 0; i < songItems.length; i++) {
+                      if (i%2 !== 0) {
+                        songItems[i].style.backgroundColor = '#FAFAFA'
+                        songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
+                      }
+                      (function(i) {
+                        songItems[i].addEventListener('mouseenter', function() {
+                          songItems[i].style.backgroundColor = '#F5F5F5'
+                          songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#F5F5F5'
+                        })
+                        songItems[i].addEventListener('mouseleave', function() {
+                          if (i%2 !== 0) {
+                            songItems[i].style.backgroundColor = '#FAFAFA'
+                            songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
+                          } else {
+                            songItems[i].style.backgroundColor = '#FFF'
+                            songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FFF'
+                          }
+                        })
+                      })(i)
                     }
-                    /* 排行榜右侧歌曲列表斑马纹以及序号 */
-                    var songItems = document.querySelectorAll('.song-item');
-                    (function() {
-                      for (var i = 0; i < songItems.length; i++) {
-                        if (i%2 !== 0) {
-                          songItems[i].style.backgroundColor = '#FAFAFA'
-                          songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
-                        }
-                        (function(i) {
-                          songItems[i].addEventListener('mouseenter', function() {
-                            songItems[i].style.backgroundColor = '#F5F5F5'
-                            songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#F5F5F5'
-                          })
-                          songItems[i].addEventListener('mouseleave', function() {
-                            if (i%2 !== 0) {
-                              songItems[i].style.backgroundColor = '#FAFAFA'
-                              songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FAFAFA'
-                            } else {
-                              songItems[i].style.backgroundColor = '#FFF'
-                              songItems[i].childNodes[1].childNodes[3].style.backgroundColor = '#FFF'
-                            }
-                          })
-                        })(i)
-                      }
-                      for (var k = 0; k < songItems.length; k++) {
-                        var img = songItems[k].querySelector('img')
-                        img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
-                      }
-                    })()
+                    for (var k = 0; k < songItems.length; k++) {
+                      var img = songItems[k].querySelector('img')
+                      img.src = './source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+                    }
                   })()
-                  return data
-                }).then(data => {
-                  var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
-                  loadingMask.style.display = 'none'
-                  for (var i = 0; i < data.length; i++) {
-                    if (i > 2) {
-                      var rankNums = itemsSong[i].querySelector('.song-rank').querySelector('.rank-num')
-                      rankNums.innerHTML = i+1
-                    }
-                    var songName = itemsSong[i].querySelector('.song-name')
-                    var songNameA = itemsSong[i].querySelector('.song-name').querySelector('a')
-                    var songArtist = itemsSong[i].querySelector('.song-artist').querySelector('span')
-                    var songAlbum = itemsSong[i].querySelector('.song-album').querySelector('span')
-                    var songTime = itemsSong[i].querySelector('.song-time').querySelector('span')
-                    var songRank = itemsSong[i].querySelector('.song-rank')
-                    songNameA.innerHTML = data[i].name
-                    songArtist.innerHTML = data[i].artist
-                    songAlbum.innerHTML = data[i].album
-                    songTime.innerHTML = filterNum(data[i].duration, 2)
-                    if (i < 3) {
-                      switch (i) {
-                        case 0:
-                          songRank.innerHTML = `
+                })()
+                return data
+              }).then(data => {
+                var itemsSong = document.querySelector('.rank-list').querySelectorAll('.song-item')
+                loadingMask.style.display = 'none'
+                for (var i = 0; i < data.length; i++) {
+                  if (i > 2) {
+                    var rankNums = itemsSong[i].querySelector('.song-rank').querySelector('.rank-num')
+                    rankNums.innerHTML = i+1
+                  }
+                  var songName = itemsSong[i].querySelector('.song-name')
+                  var songNameA = itemsSong[i].querySelector('.song-name').querySelector('a')
+                  var songArtist = itemsSong[i].querySelector('.song-artist').querySelector('span')
+                  var songAlbum = itemsSong[i].querySelector('.song-album').querySelector('span')
+                  var songTime = itemsSong[i].querySelector('.song-time').querySelector('span')
+                  var songRank = itemsSong[i].querySelector('.song-rank')
+                  songNameA.innerHTML = data[i].name
+                  songArtist.innerHTML = data[i].artist
+                  songAlbum.innerHTML = data[i].album
+                  songTime.innerHTML = filterNum(data[i].duration, 2)
+                  if (i < 3) {
+                    switch (i) {
+                      case 0:
+                        songRank.innerHTML = `
                           <div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>
                           <div class="gap"></div>
                           <img src="${data[i].pic}" alt>
                         `
-                          break
-                        case 1:
-                          songRank.innerHTML = `
+                        break
+                      case 1:
+                        songRank.innerHTML = `
                           <div class="rank-num" style="background: url(./source/img/icon_secondary.d99e73e.png) center 4px no-repeat; background-size: 168%;"></div>
                           <div class="gap"></div>
                           <img src="${data[i].pic}" alt>
                         `
-                          break
-                        case 2:
-                          songRank.innerHTML = `
+                        break
+                      case 2:
+                        songRank.innerHTML = `
                           <div class="rank-num" style="background: url(./source/img/icon_third.8abbb65.png) center 4px no-repeat; background-size: 168%;"></div>
                           <div class="gap"></div>
                           <img src="${data[i].pic}" alt>
                         `
-                          break
-                      }
-                    } else {
-                      songRank.innerHTML = `
+                        break
+                    }
+                  } else {
+                    songRank.innerHTML = `
                       <div class="rank-num">${i+1}</div>
                       <div class="gap"></div>
                       <img src="${data[i].pic}" alt>
                     `
-                    }
-                    if (data[i].hasLossless === true) {
-                      songName.innerHTML += `<i class="wusun"></i>`
-                    }
-                    if (data[i].hasmv) {
-                      songName.innerHTML += `<i class="mv"></i>`
-                    }
                   }
-                })
-                /* 处理评论列表加载 */
-                commentPage = 1
-                var allComment = document.querySelectorAll('.all-comment')[0]
-                var allCommentCom = document.querySelectorAll('.all-comment')[1]
-                axios.get('http://localhost:3000/hotComment').then(data => {
-                  for (var i = 0; i < data.length; i++) {
-                    var hotCommentItem = `
+                  if (data[i].hasLossless === true) {
+                    songName.innerHTML += `<i class="wusun"></i>`
+                  }
+                  if (data[i].hasmv) {
+                    songName.innerHTML += `<i class="mv"></i>`
+                  }
+                }
+              })
+              /* 处理评论列表加载 */
+              commentPage = 1
+              var allComment = document.querySelectorAll('.all-comment')[0]
+              var allCommentCom = document.querySelectorAll('.all-comment')[1]
+              axios.get('http://localhost:3000/hotComment').then(data => {
+                for (var i = 0; i < data.length; i++) {
+                  var hotCommentItem = `
                     <div class="comment-item">
                       <div class="avatar">
                         <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
@@ -1370,12 +195,12 @@
                         <div class="time"></div>
                       </div>
                     </div>`
-                    allComment.innerHTML += hotCommentItem
-                  }
-                })
-                axios.get('http://localhost:3000/commonComment').then(data => {
-                  for (var i = 0; i < data.length && i < 5; i++) {
-                    var commonComment1 = `
+                  allComment.innerHTML += hotCommentItem
+                }
+              })
+              axios.get('http://localhost:3000/commonComment').then(data => {
+                for (var i = 0; i < data.length && i < 5; i++) {
+                  var commonComment1 = `
                     <div class="comment-item">
                       <div class="avatar">
                         <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
@@ -1389,7 +214,7 @@
                         <div class="time"></div>
                       </div>
                     </div>`
-                    var commonComment2 = `
+                  var commonComment2 = `
                     <div class="comment-item">
                       <div class="avatar">
                         <img src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>
@@ -1402,29 +227,32 @@
                         <div class="time"></div>
                       </div>
                     </div>`
-                    if (data[i].reply) {
-                      allCommentCom.innerHTML += commonComment1
-                    } else {
-                      allCommentCom.innerHTML += commonComment2
-                    }
+                  if (data[i].reply) {
+                    allCommentCom.innerHTML += commonComment1
+                  } else {
+                    allCommentCom.innerHTML += commonComment2
                   }
-                })
-              }
-              break
-            case 2:
-              if (clickjudge[i] === 0) {
-                clickjudge[i]++
-                let artistMain = document.querySelector('.artist-main')
-                let artistOther = document.querySelector('.artist-other')
-                axios.get('http://localhost:3000/artistInfo').then(data => {
-                  for (let i = 0; i < data.length/60; i++) {
+                }
+              })
+            }
+            break
+          case 2:
+            if (clickjudge[i] === 0) {
+              clickjudge[i]++
+              var artistMain = document.querySelector('.artist-main')
+              var artistOther = document.querySelector('.artist-other')
+              axios.get('http://localhost:3000/artistInfo').then(data => {
+                (function() {
+                  for (var i = 0; i < data.length/60; i++) {
                     if (i === 0) {
                       artistInfoWrapper.innerHTML += `<li class="num current"><span>${i+1}</span></li>`
                     } else {
                       artistInfoWrapper.innerHTML += `<li class="num"><span>${i+1}</span></li>`
                     }
                   }
-                  for (let i = 0; i < data.length; i++) {
+                })();
+                (function () {
+                  for (var i = 0; i < data.length; i++) {
                     if (i < 12) {
                       if ((i+1)%6 === 0 && (i+1) !== 0) {
                         artistMain.innerHTML += `
@@ -1466,15 +294,21 @@
                       }
                     }
                   }
-                  var artistInfoItems = artistInfoWrapper.querySelectorAll('li')
-                  for (let i = 0; i < artistInfoItems.length; i++) {
+                })()
+                var artistInfoItems = artistInfoWrapper.querySelectorAll('li');
+                (function () {
+                  for (var i = 0; i < artistInfoItems.length; i++) {
                     artistInfoItems[i].addEventListener('click', e => {
                       artistMain.innerHTML = ''
-                      artistOther.innerHTML = ''
-                      for (let t = 0; t < artistInfoItems.length; t++) {
-                        artistInfoItems[t].classList = ''
-                      }
-                      artistInfoItems[i].classList.add('current')
+                      artistOther.innerHTML = '';
+                      (function () {
+                        for (var t = 0; t < artistInfoItems.length; t++) {
+                          artistInfoItems[t].classList = ''
+                        }
+                      })();
+                      (function(i){
+                        artistInfoItems[i].classList.add('current')
+                      })(i)
                       if (judgeFirst === true) {
                         secWebsiteArt = websiteArt + `?_page=${e.target.children.length ? +(e.target.children[0].innerHTML) : + (e.target.innerHTML)}&_limit=60`
                       } else {
@@ -1482,11 +316,12 @@
                       }
                       axios.get(secWebsiteArt).then(data => {
                         if (artistInfoItems[i].children[0].innerHTML === '1') {
-                          currentInfoPage = 1
-                          for (let i = 0; i < data.length; i++) {
-                            if (i < 12) {
-                              if ((i+1)%6 === 0 && (i+1) !== 0) {
-                                artistMain.innerHTML += `
+                          currentInfoPage = 1;
+                          (function () {
+                            for (var i = 0; i < data.length; i++) {
+                              if (i < 12) {
+                                if ((i+1)%6 === 0 && (i+1) !== 0) {
+                                  artistMain.innerHTML += `
                                 <div class="artist-item last">
                                   <div class="artist">
                                     <div class="pic-out">
@@ -1496,8 +331,8 @@
                                     <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                                   </div>
                                 </div>`
-                              } else {
-                                artistMain.innerHTML += `
+                                } else {
+                                  artistMain.innerHTML += `
                                 <div class="artist-item">
                                   <div class="artist">
                                     <div class="pic-out">
@@ -1507,24 +342,25 @@
                                     <p class="num">${filterNum(data[i].musicNum, 1)}</p>
                                   </div>
                                 </div>`
+                                }
                               }
-                            }
-                            if (i >= 12 && i < 60) {
-                              if ((i+1)%6 === 0 && (i+1) !== 0) {
-                                artistOther.innerHTML += `
+                              if (i >= 12 && i < 60) {
+                                if ((i+1)%6 === 0 && (i+1) !== 0) {
+                                  artistOther.innerHTML += `
                                 <div class="artist-item last">
                                   <div class="img-out"><img data-src="${data[i].pic}" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                   <span>${data[i].name}</span>
                                 </div>`
-                              } else {
-                                artistOther.innerHTML += `
+                                } else {
+                                  artistOther.innerHTML += `
                                 <div class="artist-item">
                                   <div class="img-out"><img data-src="${data[i].pic}"  src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt></div>
                                   <span>${data[i].name}</span>
                                 </div>`
+                                }
                               }
                             }
-                          }
+                          })()
                         } else {
                           currentInfoPage = i + 1
                           for (let i = 0; i < data.length; i++) {
@@ -1555,32 +391,33 @@
                       })
                     })
                   }
-                  var artistImages = [...document.querySelectorAll('.artist-container img')]
-                  for (let i = 0; i < artistImages.length; i++) {
-                    if (isVisible(artistImages[i])) {
-                      artistImages[i].src = artistImages[i].dataset.src
-                      // 防止重复遍历
-                      artistImages.splice(i, 1)
-                      i--
-                    }
+                })()
+                var artistImages = [...document.querySelectorAll('.artist-container img')]
+                for (let i = 0; i < artistImages.length; i++) {
+                  if (isVisible(artistImages[i])) {
+                    artistImages[i].src = artistImages[i].dataset.src
+                    // 防止重复遍历
+                    artistImages.splice(i, 1)
+                    i--
                   }
-                })
-              }
-              break
-            case 3:
-              if (clickjudge[i] === 0) {
-                clickjudge[i]++
-                axios.get('http://localhost:3000/rcmPlayList').then(data => {
-                  for (let i = 0; i < data.length/20; i++) {
-                    if (i === 0) {
-                      songListWrapper.innerHTML += `<li class="num current"><span>${i + 1}</span></li>`
-                    } else {
-                      songListWrapper.innerHTML += `<li class="num"><span>${i + 1}</span></li>`
-                    }
+                }
+              })
+            }
+            break
+          case 3:
+            if (clickjudge[i] === 0) {
+              clickjudge[i]++
+              axios.get('http://localhost:3000/rcmPlayList').then(data => {
+                for (let i = 0; i < data.length/20; i++) {
+                  if (i === 0) {
+                    songListWrapper.innerHTML += `<li class="num current"><span>${i + 1}</span></li>`
+                  } else {
+                    songListWrapper.innerHTML += `<li class="num"><span>${i + 1}</span></li>`
                   }
-                  for (let i = 0; i < data.length && i < 20; i++) {
-                    if ((i + 1)%5 === 0) {
-                      songListContent.innerHTML += `
+                }
+                for (let i = 0; i < data.length && i < 20; i++) {
+                  if ((i + 1)%5 === 0) {
+                    songListContent.innerHTML += `
                         <div class="item last">
                           <div class="pic-out">
                             <div class="cover">
@@ -1594,8 +431,8 @@
                           <p class="count"><i></i>${data[i].listencnt}</p>
                         </div>
                       `
-                    } else {
-                      songListContent.innerHTML += `
+                  } else {
+                    songListContent.innerHTML += `
                         <div class="item">
                           <div class="pic-out">
                             <div class="cover">
@@ -1609,25 +446,24 @@
                           <p class="count"><i></i>${data[i].listencnt}</p>
                         </div>
                       `
-                    }
                   }
-                  var songListImages = [...document.querySelectorAll('.song-list-content img')]
-                  for (let i = 0; i < songListImages.length; i++) {
-                    if (isVisible(songListImages[i])) {
-                      songListImages[i].src = songListImages[i].dataset.src
-                      // 防止重复遍历
-                      songListImages.splice(i, 1)
-                      i--
-                    }
+                }
+                var songListImages = [...document.querySelectorAll('.song-list-content img')]
+                for (let i = 0; i < songListImages.length; i++) {
+                  if (isVisible(songListImages[i])) {
+                    songListImages[i].src = songListImages[i].dataset.src
+                    // 防止重复遍历
+                    songListImages.splice(i, 1)
+                    i--
                   }
-                })
-              }
-              break
-          }
-        })
-      })(i)
-    }
-  })()
+                }
+              })
+            }
+            break
+        }
+      })
+    })(i)
+  }
   
   
   /* 绑定滚轮事件异步加载图片 */
@@ -1745,7 +581,7 @@
         }
     }
   })
- 
+  
   
   /* 顶部滚动轮播图 */
   var box = document.getElementsByClassName('swiper-container')[0]
@@ -1780,7 +616,7 @@
     clearInterval(timer)
   };
   // 动态生成按钮 按钮点击逻辑
-    /* 7张图对应5个按钮, 需要分别设置状态, 判断两个边界时直接改值 */
+  /* 7张图对应5个按钮, 需要分别设置状态, 判断两个边界时直接改值 */
   (function () {
     for (var i = 0; i < swiperSlide.length - 2; i++) {
       var span = document.createElement('span')
@@ -1883,7 +719,7 @@
     firstTime = new Date().getTime()
     window.addEventListener('mousemove', move)
   })
-    /* move事件绑定到window上,避免滑动时超出容器导致后续操作不生效 */
+  /* move事件绑定到window上,避免滑动时超出容器导致后续操作不生效 */
   function move (e) {
     if(counter === 0 && (e.clientX - downMouseLeft) > 0) {}
     else if (counter === 7 && (e.clientX - downMouseLeft) < 0) {}
@@ -1913,7 +749,7 @@
     }
     swiperJudge = false
   })
-
+  
   
   /* 视窗浮动下载框 */
   var model = document.getElementsByClassName('model')[0]
@@ -1969,7 +805,7 @@
       })(i)
     }
   })()
-
+  
   /* 推荐歌手栏标签动态选中效果 */
   var singerListTitle = document.querySelectorAll('.sub-nav')[2].querySelectorAll('a');
   (function () {
@@ -2002,8 +838,8 @@
       })(i)
     }
   })()
-
-
+  
+  
   /* 排行榜左侧标题标签动态选中效果 */
   var conLListTitle = document.querySelectorAll('.sub-nav')[3].querySelectorAll('a');
   (function () {
@@ -2032,7 +868,7 @@
       })(i)
     }
   })()
-
+  
   
   /* 分页按钮显示逻辑 */
   var centerPageList = [0, 1, 2]
@@ -2062,7 +898,7 @@
     } else {
       songPageWrapper.innerHTML = `<li class="num"><span>1</span></li>`
     }
-
+    
     // 选中数字小于等于3
     if (centerPageList[1] <= 3) {
       // 分页标签增加到选中序号
@@ -2528,10 +1364,10 @@
   var artistEn = ''
   var artistType = ''
   var judgeFirst = true
-   // 歌手页英文筛选选中样式
+  // 歌手页英文筛选选中样式
   var tagEn = document.querySelectorAll('.tag-en li')
   var websiteArt = 'http://localhost:3000/artistInfo'
-   // 拼接查询接口的备份, 便于分页的时候使用
+  // 拼接查询接口的备份, 便于分页的时候使用
   var secWebsiteArt
   var currentInfoPage = 1
   var artisrtInfoBtnL = document.querySelector('.artistBtnL')
@@ -2713,8 +1549,8 @@
       })
     })
   }
-
-   // 歌手页类型筛选
+  
+  // 歌手页类型筛选
   var tagKind = document.querySelectorAll('.tag-kind li')
   for (let i = 0; i < tagKind.length; i++) {
     tagKind[i].addEventListener('click', function () {
@@ -2913,7 +1749,7 @@
   var songListWrapper = document.querySelector('.main-con3 .page-wrap ul')
   var songListItems
   var songListCurrentType = 0
-   // 歌单页类型筛选
+  // 歌单页类型筛选
   var songListType = document.querySelectorAll('.main-con3 .sub-nav a')
   let judge
   const promise = new Promise((resolve, reject) => {
@@ -3042,8 +1878,8 @@
     for (let i = 0; i < songListItems.length; i++) {
     }
   })
-/*  var songListBtnL = songListWrapper.querySelector('.BtnL')
-  var songListBtnR = songListWrapper.querySelector('.BtnR')*/
-
+  var songListBtnL = songListWrapper.querySelector('.BtnL')
+  var songListBtnR = songListWrapper.querySelector('.BtnR')
 </script>
+</body>
 </html>
