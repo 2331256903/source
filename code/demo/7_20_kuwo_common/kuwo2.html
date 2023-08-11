@@ -926,7 +926,7 @@
 </body>
 <script>
   var currentPage = 0
-  var currentListPage = 0
+  var currentListPage = 1
   var loadingMask = document.querySelector('.loading-mask')
   /* 添加数字过滤 */
   function filterNum(number, type) {
@@ -967,7 +967,7 @@
     return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)', 'ig'))
   }
   function addClass(ele, cls) {
-    if (!this.hasClass(ele, cls)) ele.className += '' + cls
+    if (!this.hasClass(ele, cls)) ele.className += ' ' + cls
   }
   function removeClass(ele, cls) {
     if (hasClass(ele, cls)) {
@@ -1038,7 +1038,7 @@
             str = '<li class="song-item">'
           }
           str += '<div class="song-rank">'
-          switch (currentListPage * 20 + i + 1) {
+          switch ((currentListPage - 1) * 20 + i + 1) {
             case 1: {
               str +=
                 '<div class="rank-num" style="background: url(./source/img/icon_first.df06fb1.png) center 4px no-repeat; background-size: 168%;"></div>' +
@@ -1059,7 +1059,7 @@
             }
             default: {
               str +=
-                '<div class="rank-num">' + (currentListPage * 20 + i + 1) + '</div>' +
+                '<div class="rank-num">' + ((currentListPage - 1) * 20 + i + 1) + '</div>' +
                 '<img data-src="' + r.data[i].pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>'
             }
           }
@@ -1219,12 +1219,12 @@
       ul.innerHTML = str
     }
     /* 当前页面大于rPage-2时 */
-    if (currentListPage > rPage-2 && currentListPage >= 4) {
+    if (currentListPage > rPage - 2 && currentListPage >= 4) {
       console.log(9)
       str =
         '<li class="num">1</li>' +
         '<li class="notCursor">···</li>'
-      for (i = currentListPage - 1; i <= rPage; i++) {
+      for (i = rPage - 2; i <= rPage; i++) {
         if (currentListPage === i) {
           str += '<li class="num current">' + i + '</li>'
         } else {
@@ -1244,8 +1244,10 @@
       }
       ul.innerHTML = str
     }
-    if (currentPage !== 0) {
-    }
+    if (currentListPage !== 1) { removeClass(BtnL, 'forbidden') }
+    if (currentListPage === 1) { addClass(BtnL, 'forbidden') }
+    if (currentListPage !== rPage) { removeClass(BtnR, 'forbidden') }
+    if (currentListPage === rPage) { addClass(BtnR, 'forbidden') }
   }
   
   /* 获取当前页面 */
@@ -1465,7 +1467,7 @@
           }
           updateTime.innerHTML += date
           var promise = new Promise(function (resolve, reject) {
-            gainRankList(currentListPage + 1).then(function (res) {
+            gainRankList(currentListPage).then(function (res) {
               if (res) {
                 resolve()
               } else {
@@ -1488,7 +1490,7 @@
               var btnR = pageWrap.querySelector('.BtnR')
               var ul = pageWrap.querySelector('ul')
               for (var i = 1; i< r.data.length/20; i++) {
-                if (i <= 4) {
+                if (i <= 3) {
                   if (i === 1) {
                     ul.innerHTML += '<li class="num current">' + i + '</li>'
                   } else {
@@ -1507,6 +1509,14 @@
                   addClass(e.target, 'current')
                   currentListPage = Number(e.target.innerHTML)
                   gainRankList(Number(e.target.innerHTML))
+                  gainRankListPage(pageWrap, Number((r.data.length/20).toFixed(0)))
+                }
+                if (hasClass(e.target, 'BtnL') && currentListPage !== 1) {
+                  gainRankList(--currentListPage)
+                  gainRankListPage(pageWrap, Number((r.data.length/20).toFixed(0)))
+                }
+                if (hasClass(e.target, 'BtnR') && currentListPage !== Number((r.data.length/20).toFixed(0))) {
+                  gainRankList(++currentListPage)
                   gainRankListPage(pageWrap, Number((r.data.length/20).toFixed(0)))
                 }
               })
