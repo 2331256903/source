@@ -475,15 +475,15 @@
           </div>
         </div>
         <div class="page-wrap">
-          <!--<i><</i>
+          <!--<i class="BtnL"><</i>
           <ul>
-            <li><span>1</span></li>
-            <li><span>2</span></li>
-            <li><span>3</span></li>
-            <li><span>···</span></li>
-            <li><span>15</span></li>
+            <li class="num current">1</li>
+            <li class="num">2</li>
+            <li class="num">3</li>
+            <li class="notCursor">···</li>
+            <li class="num">9</li>
           </ul>
-          <i>></i>-->
+          <i class="BtnR">></i>-->
         </div>
         <div class="comment" id="comment">
           <div class="all-comment">
@@ -1446,6 +1446,7 @@
       }
       case 1: {
         if (firstAccess[currentPage] === 0) {
+          /* 飙升榜及其分页 */
           var rankListNav = document.querySelector('.main-con1 .sub-nav')
           var loadingMask = document.querySelector('.loading-mask')
           var updateTime = document.querySelector('.update-time')
@@ -1523,6 +1524,94 @@
             })
             firstAccess[currentPage] = 1
           }, function() {alert('Something wrong! Check your network!')})
+          /* 热门评论 */
+          var hotComment = document.querySelectorAll('.all-comment')[0]
+          axios.request({
+            url: 'http://localhost:3000/hotComment',
+            method: 'get'
+          }).then(function (r) {
+            if (r.status === 200) {
+              var str = ''
+              for (var i = 0; i < r.data.length; i++) {
+                str +=
+                  '<div class="comment-item">' +
+                    '<div class="avatar">' +
+                     '<img data-src="' + r.data[i].u_pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                    '</div>' +
+                    '<div class="msg">' +
+                      '<div class="nickname">' +
+                       '<span>' + r.data[i].u_name + '</span>' +
+                      '</div>' +
+                      '<div class="text">' + r.data[i].msg + '</div>' +
+                      '<div class="time">' + filterNum(r.data[i].time, 3) + '</div>' +
+                    '</div>' +
+                  '</div>'
+              }
+              hotComment.innerHTML += str
+              var img = []
+              var imgs = hotComment.querySelectorAll('img')
+              for (i = 0; i < imgs.length; i++) {
+                img.push(imgs[i])
+              }
+              for (i = 0; i < img.length; i++) {
+                if (isVisible(img[i]) && img[i].dataset.src) {
+                  img[i].src = img[i].dataset.src
+                  img.splice(i, 1)
+                  i--
+                }
+              }
+            } else { alert(r.statusText) }
+          })
+          /* 普通评论及分页 */
+          var commonComment = document.querySelectorAll('.all-comment')[1]
+          axios.request({
+            url: 'http://localhost:3000/commonComment',
+            method: 'get',
+            params: {
+              _page: 1,
+              _limit: 5
+            }
+          }).then(function (r) {
+            if (r.status === 200) {
+              var str = ''
+              for (var i = 0; i < r.data.length; i++) {
+                str +=
+                  '<div class="comment-item">' +
+                    '<div class="avatar">' +
+                      '<img data-src="' + r.data[i].u_pic + '" src="./source/img/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png" alt>' +
+                    '</div>' +
+                    '<div class="msg">' +
+                      '<div class="nickname">' +
+                        '<span>' + r.data[i].u_name + '</span>' +
+                      '</div>'
+                if (r.data[i].reply) {
+                  str +=
+                    '<div class="text">回复<a href="javascript:">' + r.data[i].reply.u_name + '</a>' + r.data[i].reply.msg + '</div>' +
+                    '<div class="reply">' + r.data[i].msg + '</div>'
+                } else {
+                  str +=
+                    '<div class="text">' + r.data[i].msg + '</div>'
+                }
+                str +=
+                      '<div class="time">' + filterNum(r.data[i].time, 3) + '</div>' +
+                    '</div>' +
+                  '</div>'
+              }
+              commonComment.innerHTML += str
+              var img = []
+              var imgs = commonComment.querySelectorAll('img')
+              for (i = 0; i < imgs.length; i++) {
+                img.push(imgs[i])
+              }
+              for (i = 0; i < img.length; i++) {
+                if (isVisible(img[i]) && img[i].dataset.src) {
+                  img[i].src = img[i].dataset.src
+                  img.splice(i, 1)
+                  i--
+                }
+              }
+            } else { alert(r.statusText) }
+          })
         }
         break
       }
@@ -1566,6 +1655,17 @@
       case 1: {
         // 动态加载
         imgs = document.querySelectorAll('.rank-list .song-rank img')
+        for (i = 0; i < imgs.length; i++) {
+          img.push(imgs[i])
+        }
+        for (i = 0; i < img.length; i++) {
+          if (isVisible(img[i])) {
+            img[i].src = img[i].dataset.src
+            img.splice(i, 1)
+            i--
+          }
+        }
+        imgs = document.querySelectorAll('.all-comment')[0].querySelectorAll('img')
         for (i = 0; i < imgs.length; i++) {
           img.push(imgs[i])
         }
