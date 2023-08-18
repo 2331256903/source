@@ -154,6 +154,9 @@
       .pic-out {
         position: relative;
         overflow: hidden;
+        font-size: 0;
+        width: 100%;
+        padding-bottom: 100%;
         .cover {
           position: absolute;
           left: 0;
@@ -196,7 +199,11 @@
           }
         }
         img {
+          position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
+          height: 100%;
           transition: transform .75s cubic-bezier(0,1,0.75,1);
         }
       }
@@ -1244,6 +1251,27 @@
       color: #333;
       background-color: #ffe443;
       font-weight: 700;
+    }
+  }
+  .artist-error {
+    margin: 0;
+    padding: 0;
+    >div {
+      padding: 100px;
+      text-align: center;
+      img {
+        display: block;
+        width: 260px;
+        margin: 0 auto;
+      }
+      p {
+        color: #999;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 300;
+        width: 100%;
+        text-align: center;
+      }
     }
   }
   .artist-container {

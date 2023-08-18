@@ -21,5 +21,3 @@ let buf_3 = Buffer.from('hello') // <Buffer 68 65 6c 6c 6f>
 console.log(buf_3)
 let buf_4 = Buffer.from([105, 108, 111, 118, 101, 121, 111, 117])
 console.log(buf_4) // 每一个数字转成二进制存到buf中, 但console.log 出来的是16进制
-
-

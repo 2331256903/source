@@ -143,7 +143,7 @@ class Example8 {
     set?(value: unknown): void
   };
   private?: boolean;
-  static?: boolean
+  public?: boolean
   addInitializer?(initializer: () => void): void;
 }) => Output | void*/
 
@@ -155,7 +155,7 @@ class Example8 {
 *   kind: 字符串, 表示装饰类型 可能的取值有class, method, getter, setter, field, accessor
 *   name: 被装饰的指的名称
 *   access: 对象. 包含访问这个值的方法, 即存值器和取值器
-*   static: 布尔值, 该值是否为静态元素
+*   public: 布尔值, 该值是否为静态元素
 *   private: 布尔值, 该值是否为私有元素
 *   addInitializer: 函数, 允许用户增加初始化逻辑
 *  */

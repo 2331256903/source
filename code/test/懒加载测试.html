@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #aim {
+      width: 700px;
+    }
+
+    .singleArea {
+      width: 115px;
+      height: 160px;
+      margin: 0 12px 12px 0;
+    }
+  </style>
+</head>
+<body>
+<div id="aim">
+  <img class="singleArea" src="placeholder.png"/>
+  <img class="singleArea" src="placeholder.png"/>
+  <img class="singleArea" src="placeholder.png"/>
+  <img class="singleArea" src="placeholder.png"/>
+  <img class="singleArea" src="placeholder.png"/>
+  <img class="singleArea" src="placeholder.png"/>
+</div>
+<script>
+  var imgs = ["http://192.168.1.131:3000/0.jpg","http://192.168.1.131:3000/1.jpg","http://192.168.1.131:3000/2.jpg","http://192.168.1.131:3000/3.jpg","http://192.168.1.131:3000/4.jpg","http://192.168.1.131:3000/5.jpg","http://192.168.1.131:3000/6.jpg","http://192.168.1.131:3000/7.jpg","http://192.168.1.131:3000/8.jpg","http://192.168.1.131:3000/9.jpg","http://192.168.1.131:3000/10.jpg","http://192.168.1.131:3000/11.jpg","http://192.168.1.131:3000/12.jpg","http://192.168.1.131:3000/13.jpg","http://192.168.1.131:3000/14.jpg","http://192.168.1.131:3000/15.jpg","http://192.168.1.131:3000/16.jpg","http://192.168.1.131:3000/17.jpg","http://192.168.1.131:3000/18.jpg"]
+  var aim = document.getElementById('aim')
+  var cont = ''
+  imgs.forEach((v, i) => {
+    cont += '<img class="singleArea" data-i="' + i + '" src="placeholder.png"/>'
+  })
+  aim.innerHTML = cont
+  imgs.forEach((v, i) => {
+    var _img = new Image()
+    _img.onload = () => {
+      aim.childNodes[i].setAttribute('src',imgs[i])
+    }
+    _img.src = imgs[i]
+  })
+</script>
+</body>
+</html>
+<script>
+  (function() {
+    var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadServiceClientId=32');
+    ws.onmessage = function (msg) {
+      if (msg.data === 'reload') {
+        window.location.reload();
+      }
+      if (msg.data.startsWith('update-css ')) {
+        var messageId = msg.data.substring(11);
+        var links = document.getElementsByTagName('link');
+        for (var i = 0; i < links.length; i++) {
+          var link = links[i];
+          if (link.rel !== 'stylesheet') continue;
+          var clonedLink = link.cloneNode(true);
+          var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+          if (newHref !== link.href) {
+            clonedLink.href = newHref;
+          }
+          else {
+            var indexOfQuest = newHref.indexOf('?');
+            if (indexOfQuest >= 0) {
+              // to support ?foo#hash
+              clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                newHref.substring(indexOfQuest + 1);
+            }
+            else {
+              clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+            }
+          }
+          link.replaceWith(clonedLink);
+        }
+      }
+    };
+  })();
+</script>

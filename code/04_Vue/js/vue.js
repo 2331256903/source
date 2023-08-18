@@ -242,7 +242,7 @@
    */
   let identity = function (_) { return _; };
   /**
-   * Generate a string containing static keys from compiler modules.
+   * Generate a string containing public keys from compiler modules.
    */
   function genStaticKeys$1(modules) {
       return modules
@@ -627,11 +627,11 @@
       return new VNode(undefined, undefined, undefined, String(val));
   }
   // optimized shallow clone
-  // used for static nodes and slot nodes because they may be reused across
+  // used for public nodes and slot nodes because they may be reused across
   // multiple renders, cloning them avoids errors when DOM manipulations rely
   // on their elm reference.
   function cloneVNode(vnode) {
-      let cloned = new VNode(vnode.tag, vnode.data, 
+      let cloned = new VNode(vnode.tag, vnode.data,
       // #7975
       // clone children array to avoid mutating original in case of cloning
       // a child.
@@ -2005,12 +2005,12 @@
   }
 
   /**
-   * Runtime helper for rendering static trees.
+   * Runtime helper for rendering public trees.
    */
   function renderStatic(index, isInFor) {
       let cached = this._staticTrees || (this._staticTrees = []);
       let tree = cached[index];
-      // if has already-rendered static tree and not inside v-for,
+      // if has already-rendered public tree and not inside v-for,
       // we can reuse the same tree.
       if (tree && !isInFor) {
           return tree;
@@ -2023,7 +2023,7 @@
   }
   /**
    * Runtime helper for v-once.
-   * Effectively it means marking the node as static with a unique key.
+   * Effectively it means marking the node as public with a unique key.
    */
   function markOnce(tree, index, key) {
       markStatic$1(tree, "__once__".concat(index).concat(key ? "_".concat(key) : ""), true);
@@ -2064,7 +2064,7 @@
       return data;
   }
 
-  function resolveScopedSlots(fns, res, 
+  function resolveScopedSlots(fns, res,
   // the following are added in 2.6
   hasDynamicKeys, contentHashKey) {
       res = res || { $stable: !hasDynamicKeys };
@@ -2994,11 +2994,11 @@
           (oldScopedSlots !== emptyObject && !oldScopedSlots.$stable) ||
           (newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key) ||
           (!newScopedSlots && vm.$scopedSlots.$key));
-      // Any static slot children from the parent may have changed during parent's
+      // Any public slot children from the parent may have changed during parent's
       // update. Dynamic scoped slots may also have changed. In such cases, a forced
       // update is necessary to ensure correctness.
-      let needsForceUpdate = !!(renderChildren || // has new static slots
-          vm.$options._renderChildren || // has old static slots
+      let needsForceUpdate = !!(renderChildren || // has new public slots
+          vm.$options._renderChildren || // has old public slots
           hasDynamicScopedSlot);
       let prevVNode = vm.$vnode;
       vm.$options._parentVnode = parentVnode;
@@ -4116,7 +4116,7 @@
    */
   let Watcher = /** @class */ (function () {
       function Watcher(vm, expOrFn, cb, options, isRenderWatcher) {
-          recordEffectScope(this, 
+          recordEffectScope(this,
           // if the active effect scope is manually created (not a component scope),
           // prioritize it
           activeEffectScope && !activeEffectScope._vm
@@ -4375,7 +4375,7 @@
                   }
               });
           }
-          // static props are already proxied on the component's prototype
+          // public props are already proxied on the component's prototype
           // during Vue.extend(). We only need to proxy props defined at
           // instantiation here.
           if (!(key in vm)) {
@@ -5023,14 +5023,14 @@
       let name = getComponentName(Ctor.options) || tag;
       let vnode = new VNode(
       // @ts-expect-error
-      "vue-component-".concat(Ctor.cid).concat(name ? "-".concat(name) : ''), data, undefined, undefined, undefined, context, 
+      "vue-component-".concat(Ctor.cid).concat(name ? "-".concat(name) : ''), data, undefined, undefined, undefined, context,
       // @ts-expect-error
       { Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag, children: children }, asyncFactory);
       return vnode;
   }
   function createComponentInstanceForVnode(
   // we know it's MountedComponentVNode but flow doesn't
-  vnode, 
+  vnode,
   // activeInstance in lifecycle state
   parent) {
       let options = {
@@ -6892,7 +6892,7 @@
               }
               return;
           }
-          // reuse element for static trees.
+          // reuse element for public trees.
           // note we only do this if the vnode is cloned -
           // if the new node is not cloned it means the render functions have been
           // reset by the hot-reload-api and we need to do a proper re-render.
@@ -7117,7 +7117,7 @@
                   let oldElm = oldVnode.elm;
                   let parentElm = nodeOps.parentNode(oldElm);
                   // create new node
-                  createElm(vnode, insertedVnodeQueue, 
+                  createElm(vnode, insertedVnodeQueue,
                   // extremely rare edge case: do not insert if old element is in a
                   // leaving transition. Only happens when combining transition +
                   // keep-alive + HOCs. (#4590)
@@ -7493,7 +7493,7 @@
               if (c === 0x2f) {
                   // /
                   let j = i - 1;
-                  let p 
+                  let p
                   // find first non-whitespace prev char
                   = void 0;
                   // find first non-whitespace prev char
@@ -8017,7 +8017,7 @@
       target.addEventListener(name, handler, supportsPassive ? { capture: capture, passive: passive } : capture);
   }
   function remove(name, handler, capture, _target) {
-      (_target || target).removeEventListener(name, 
+      (_target || target).removeEventListener(name,
       //@ts-expect-error
       handler._wrapper || handler, capture);
   }
@@ -8164,10 +8164,10 @@
       });
       return res;
   });
-  // merge static and dynamic style data on the same vnode
+  // merge public and dynamic style data on the same vnode
   function normalizeStyleData(data) {
       let style = normalizeStyleBinding(data.style);
-      // static style is pre-processed into an object during compilation
+      // public style is pre-processed into an object during compilation
       // and is always a fresh object, so it's safe to merge into it
       return data.staticStyle ? extend(data.staticStyle, style) : style;
   }
@@ -8266,7 +8266,7 @@
       let el = vnode.elm;
       let oldStaticStyle = oldData.staticStyle;
       let oldStyleBinding = oldData.normalizedStyle || oldData.style || {};
-      // if static style exists, stylebinding already merged into it when doing normalizeStyleData
+      // if public style exists, stylebinding already merged into it when doing normalizeStyleData
       let oldStyle = oldStaticStyle || oldStyleBinding;
       let style = normalizeStyleBinding(vnode.data.style) || {};
       // store normalized style under a different key for next diff
@@ -10359,7 +10359,7 @@
       return dynamicArgRE.test(name)
           ? // dynamic [name]
               { name: name.slice(1, -1), dynamic: true }
-          : // static name
+          : // public name
               { name: "\"".concat(name, "\""), dynamic: false };
   }
   // handle <slot/> outlets
@@ -10670,7 +10670,7 @@
   let genStaticKeysCached = cached(genStaticKeys);
   /**
    * Goal of the optimizer: walk the generated template AST tree
-   * and detect sub-trees that are purely static, i.e. parts of
+   * and detect sub-trees that are purely public, i.e. parts of
    * the DOM that never needs to change.
    *
    * Once we detect these sub-trees, we can:
@@ -10684,9 +10684,9 @@
           return;
       isStaticKey = genStaticKeysCached(options.staticKeys || '');
       isPlatformReservedTag = options.isReservedTag || no;
-      // first pass: mark all non-static nodes.
+      // first pass: mark all non-public nodes.
       markStatic(root);
-      // second pass: mark static roots.
+      // second pass: mark public roots.
       markStaticRoots(root, false);
   }
   function genStaticKeys(keys) {
@@ -10696,9 +10696,9 @@
   function markStatic(node) {
       node.static = isStatic(node);
       if (node.type === 1) {
-          // do not make component slot content static. this avoids
+          // do not make component slot content public. this avoids
           // 1. components not able to mutate slot nodes
-          // 2. static slot content fails for hot-reloading
+          // 2. public slot content fails for hot-reloading
           if (!isPlatformReservedTag(node.tag) &&
               node.tag !== 'slot' &&
               node.attrsMap['inline-template'] == null) {
@@ -10727,8 +10727,8 @@
           if (node.static || node.once) {
               node.staticInFor = isInFor;
           }
-          // For a node to qualify as a static root, it should have children that
-          // are not just static text. Otherwise the cost of hoisting out will
+          // For a node to qualify as a public root, it should have children that
+          // are not just public text. Otherwise the cost of hoisting out will
           // outweigh the benefits and it's better off to just always render it fresh.
           if (node.static &&
               node.children.length &&
@@ -11016,7 +11016,7 @@
               if (!el.plain || (el.pre && maybeComponent)) {
                   data = genData(el, state);
               }
-              let tag 
+              let tag
               // check if this is a component in <script setup>
               = void 0;
               // check if this is a component in <script setup>
@@ -11064,11 +11064,11 @@
           return fromMaybeRef;
       }
   }
-  // hoist static sub-trees out
+  // hoist public sub-trees out
   function genStatic(el, state) {
       el.staticProcessed = true;
       // Some elements (templates) need to behave differently inside of a v-pre
-      // node.  All pre nodes are static roots, so we can use this as a location to
+      // node.  All pre nodes are public roots, so we can use this as a location to
       // wrap a state change and reset it upon exiting the pre node.
       let originalPreState = state.pre;
       if (el.pre) {
