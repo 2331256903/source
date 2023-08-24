@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL</title>
+</head>
+<body>
+  <!-- 绝对路径 -->
+  <a href="https://www.baidu.com">百度</a>
+  <a href="//jd.com">京东</a> <!-- 此处默认协议为http, 拼接后访问京东, 但京东是https协议, 此时返回301, 网页重定向到https端口并访问正常页面 -->
+  <a href="/search">搜索</a> <!-- 访问时默认和当前协议主机名端口号拼接并访问, 由于网站可能换主机名域名和ip, 这样写不会有任何影响, 因此使用的很多 -->
+  <hr>
+  <!-- 相对路径 -->
+  <a href="./css/app.css">访问css</a>
+  <a href="js/app.js">访问js</a>
+  <a href="../img/logo.png">访问png</a>
+  <a href="../../img/logo.png">访问png</a>
+</body>
+</html>

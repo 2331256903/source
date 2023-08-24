@@ -95,7 +95,7 @@ function normalizeProps(props) {
 
 // These tag configs are shared between compiler-dom and runtime-dom, so they
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element
-const HTML_TAGS = 'html,body,base,head,link,meta,style,title,address,article,aside,footer,' +
+const HTML_TAGS = 'http,body,base,head,link,meta,style,title,address,article,aside,footer,' +
     'header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,' +
     'figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,' +
     'data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,' +
@@ -290,7 +290,7 @@ const isReservedProp = /*#__PURE__*/ makeMap(
     'onVnodeBeforeMount,onVnodeMounted,' +
     'onVnodeBeforeUpdate,onVnodeUpdated,' +
     'onVnodeBeforeUnmount,onVnodeUnmounted');
-const isBuiltInDirective = /*#__PURE__*/ makeMap('bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo');
+const isBuiltInDirective = /*#__PURE__*/ makeMap('bind,cloak,else-if,else,for,http,if,model,on,once,pre,show,slot,text,memo');
 const cacheStringFunction = (fn) => {
     const cache = Object.create(null);
     return ((str) => {

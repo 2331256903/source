@@ -36,8 +36,8 @@
 *     $(".include").each(function(){
 *       if(!!$(this)).attr("file"){ //!!的逻辑是非非.通过!或!!可以将很多类型转换成bool类型从而做其他判断,两个!将变量转化为对应布尔值
 *         let $includeObj = $(this)
-*         $(this).load($(this).attr("file"),function(html){
-*           $includeObj.after(html).remove() //加载的文件内容写入到当前标签后面并移除当前标签
+*         $(this).load($(this).attr("file"),function(http){
+*           $includeObj.after(http).remove() //加载的文件内容写入到当前标签后面并移除当前标签
 *         })
 *       }
 *     })

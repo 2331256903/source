@@ -43,7 +43,7 @@
   console.log(location.protocol) // 'http'
   console.log(location.host) // 'www.example.com'
   console.log(location.port) // '8080'
-  console.log(location.pathname) // '/path/index.html'
+  console.log(location.pathname) // '/path/index.http'
   console.log(location.search) // '?a=1&b=2'
   console.log(location.hash) // 'TOP'
   /* 要加载一个新页面, 可以调用location.assign() 如果需要重新加载当前页面,调用location.reload()方法 */
@@ -64,10 +64,10 @@
   console.log(document.cookie)
   /* 由于JS能读取到页面的Cookie, 而用户的登录信息通常也存在Cookie中, 这就造成了巨大的安全隐患, 这是因为在HTML页面中引入第三方的JS代码是允许的 */
   /* 假设当前页面在www.example.com
-    <html><head>
+    <http><head>
         <script src="http://www.foo.com/jquery/js"/>
         ...
-    </head></html>
+    </head></http>
     如果引入的第三方的JS中存在恶意代码, 则www.foo.com网站将直接获取到www.example.com网站的用户登录信息
   */
   /* 为了解决这个问题,服务器在设置Cookie时可以使用httpOnly, 设定了httpOnly的Cookie将不能被JS读取, 这个行为由浏览器实现, 主流浏览器均支持httpOnly选项

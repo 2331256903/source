@@ -31,6 +31,9 @@ app.use(async (ctx, next) => {
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 // 注意require('koa-router')返回的是函数
+/*
+* require函数是一种运行时同步加载的机制(拷贝该文件), 当Node加载该文件后会有一个require.cache函数对该文件进行缓存, 同时Node不支持热更新
+* */
 const router = require('koa-router')()
 
 const app = new Koa()
@@ -121,7 +124,7 @@ router.post('/signin', async (ctx, next) => {
 *   | |
 *   | +- users.js // 处理用户管理相关url
 *   |
-*   +- app.js // 使用koa的js
+*   +- 使用Nunjucks.js // 使用koa的js
 *   |
 *   +- package.json // 项目描述文件
 *   |

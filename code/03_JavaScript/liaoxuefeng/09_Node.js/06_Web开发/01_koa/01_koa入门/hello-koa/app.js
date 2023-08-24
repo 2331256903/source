@@ -9,7 +9,7 @@ const app = new Koa()
 /*app.use(async (ctx, next) => {
   await next()
   // 设置response的Content-type
-  ctx.response.type = 'text/html'
+  ctx.response.type = 'text/http'
   // 设置response的内容
   ctx.response.body = '<h1>Hello, koa2!</h1>'
 })*/
@@ -33,7 +33,7 @@ console.log('app started at port 3000...')
 /* koa的执行逻辑, 核心代码是: */
 /*app.use (async (ctx, next) => {
   await next()
-  ctx.response.type = 'text/html'
+  ctx.response.type = 'text/http'
   ctx.response.body = '<h1>Hello, koa2!</h1>'
 })*/
 /* 每收到一个请求, koa就会调用app.use()注册的async函数, 并传入ctx和next参数, 我们可以对ctx操作, 并设置返回内容, 但是为什么要使用await next()
@@ -53,7 +53,7 @@ app.use(async(ctx, next) => {
 })
 app.use(async (ctx, next) => {
   await next()
-  ctx.response.type = 'text/html'
+  ctx.response.type = 'text/http'
   ctx.response.body = '<h1>Hello, koa2!</h1>'
 })*/
 /* middleware的顺序很重要, 也就是调用app.use()的顺序决定了middleware的顺序, 此外, 如果一个middleware没有调用await next(), 后续的middleware

@@ -70,7 +70,7 @@ X-Requested-With: XMLHttpRequest
 /* Response Headers
 *  HTTP响应主要分为Header和Body两个部分, Body是可选项, 在NetWork中看到的Header最重要的几行如下:
 *    200 OK:  200 表示是一个成功的响应, 后面的OK是说明, 失败的响应有404 Not Found等
-*    Content-Type: text/html:  Content-Type指示响应的内容, 这里是text/html 表示HTML网页, 浏览器就是依靠Content-Type来判断响应的内容是网页还是图片
+*    Content-Type: text/http:  Content-Type指示响应的内容, 这里是text/http 表示HTML网页, 浏览器就是依靠Content-Type来判断响应的内容是网页还是图片
 *      , 是视频还是音乐, 浏览器并不靠URL来判断响应的内容, 所以即使URL是http://example.com/abc.jpg, 它也不一定就是图片
 * */
 
@@ -89,7 +89,7 @@ X-Requested-With: XMLHttpRequest
 *     如果是POST, 那么请求还包括一个Body包含用户数据
 *   2. 服务器向浏览器返回HTTP响应, 相应包括:
 *     响应代码: 200 表示成功, 3xx表示重定向, 4xx表示客户端发送的请求有误, 5xx表示服务器端处理时发生了错误
-*     响应类型: 由 Content-Type 指定, 例如 Content-type: text/html;charset=utf-8表示相应类型是HTML文本, 编码为utf-8;
+*     响应类型: 由 Content-Type 指定, 例如 Content-type: text/http;charset=utf-8表示相应类型是HTML文本, 编码为utf-8;
 *             Content-type: image/jpeg 表示相应类型是JPEG格式的图片
 *     以及其他相关的Header
 *     通常服务器的HTTP响应会携带内容, 也就是有一个body包含响应的内容, 网页的HTML源码就在Body中
@@ -151,8 +151,8 @@ let server = http.createServer(function (request, response) {
   // 回调函数接收request和response对象
   // 获得HTTP请求的method和url
   console.log(request.method + ':' + request.url)
-  // 将HTTP响应200写入response, 同时设置Content-type: text/html
-  response.writeHead(200, {'Content-type':'text/html'})
+  // 将HTTP响应200写入response, 同时设置Content-type: text/http
+  response.writeHead(200, {'Content-type':'text/http'})
   // 将HTTP响应的HTML导入response
   response.end('<h1>Hello World!</h1>')
 })
@@ -191,9 +191,9 @@ Url {
 let path = require('path')
 // 解析当前目录
 let workDir = path.resolve('.') // '/Users/michael'
-// 组合完整的文件路径: 当前目录+'pub'+'index.html'
-let filePath = path.join(workDir, 'pub', 'index.html') // '/User/michael/pub/index.html
-/* 使用path模块可以正确处理操作系统相关的文件路径, 在Windows系统下, 返回的路径类似于C:\Users\michael\static\index.html, 这样我们就不关心怎么拼接路径了 */
+// 组合完整的文件路径: 当前目录+'pub'+'index.http'
+let filePath = path.join(workDir, 'pub', 'index.http') // '/User/michael/pub/index.http
+/* 使用path模块可以正确处理操作系统相关的文件路径, 在Windows系统下, 返回的路径类似于C:\Users\michael\static\index.http, 这样我们就不关心怎么拼接路径了 */
 
 /*实现一个文件服务器file_server.js*/
 let
@@ -235,9 +235,9 @@ server2.listen(8001)
 console.log('Server is running at http://192.168.1.148:8001/')
 /*
 * 没有必要手动读取文件内容, 由于response对象本身是一个Writable Stream, 直接用pipe()方法就实现了自动读取文件内容并输出到HTTP响应
-* 在命令行运行node file_server.js /path/to/dir, 把/path/to/dir改成本地的一个有效的目录, 然后在浏览器中输入http://localhost:8080/index/html
-* 只要当前目录下存在文件index.html, 服务器就可以把内容发送给浏览器, 观察控制台输出:
-*   200 /index.html
+* 在命令行运行node file_server.js /path/to/dir, 把/path/to/dir改成本地的一个有效的目录, 然后在浏览器中输入http://localhost:8080/index/http
+* 只要当前目录下存在文件index.http, 服务器就可以把内容发送给浏览器, 观察控制台输出:
+*   200 /index.http
 *   200 /css/uikit.min.css
 *   200 /js/jquery.min.js
 *   200 /fonts/fontawesome-webfont.woff2
