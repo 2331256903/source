@@ -1,0 +1,26 @@
+{
+  "singers": [
+    {
+      "singer_name": "周杰伦",
+      "singer_pic":"https://img1.kuwo.cn/star/starheads/300/8/10/2150960774.jpg",
+      "other_name" : "Jay Chou",
+      "singer_id":4558,
+      "id": 1
+    },
+    {
+      "singer_name":"林俊杰",
+      "singer_pic":"https://img3.kuwo.cn/star/starheads/300/40/64/2063938955.jpg",
+      "other_name": "JJ Lin",
+      "singer_id": 4286,
+      "id" : 2
+    },
+    {
+      "singer_name": "G.E.M．邓紫棋",
+      "singer_pic": "https://img4.kuwo.cn/star/starheads/300/40/9/1980630626.jpg",
+      "other_name": "Gloria Tang",
+      "singer_id" : 13948,
+      "id": 3
+    }
+  ]
+}
+

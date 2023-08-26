@@ -27,7 +27,8 @@ function require(file) {
     const test = {
       name: 'shangguigu'
     }
-    module.exports = test
+    module.exports =
+      test
     console.log(arguments.callee.toString())
   })()
   // 5. 缓存结果
