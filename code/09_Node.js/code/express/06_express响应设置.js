@@ -20,6 +20,12 @@ app.get('/response', (req, res) => {
   /* 此处中文没有乱码, express的send方法会自动在响应头中添加字符集的设置 */
   // 且可以链式调用
   res.status(500).set('bbb', 'ccc').send('你好 express')
+  
+  // 其他响应
+  res.redirect('https://atguigu.com') // 重定向
+  res.download('./package.json') // 下载响应
+  res.json() // 响应json
+  res.sendFile(__dirname + '/home.html')
 })
 
 app.listen(3000, () => {

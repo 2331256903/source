@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+</head>
+<body>
+    <h2>文件上传</h2>
+    <hr>
+    <!-- 原生html做文件上传时 enctype="multipart/form-data" 属性不能省略, 如果不设置该属性, 请求体中只有username=xxx&portrait=xxx.jpg
+    这种querystring的结果, 文件内容压根没有放进请求体中 -->
+    <form action="/portrait" method="post" enctype="multipart/form-data">
+        用户名: <input type="text" name="username"><br>
+        头像: <input type="file" name="portrait"><br>
+        <hr>
+        <button>点击提交</button>
+    </form>
+</body>
+</html>
