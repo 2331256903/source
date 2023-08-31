@@ -8,6 +8,7 @@ var indexRouter = require('./routes/web/index');
 // 导入 account 路由接口文件
 const accountRouter = require('./routes/api/account')
 const authRouter = require('./routes/web/auth')
+const authApiRouter = require('./routes/api/auth')
 // 导入express-session 和 connect-mongo
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/api', accountRouter);
+app.use('/api', authApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
