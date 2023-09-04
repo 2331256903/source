@@ -3,6 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="none" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/code/09_Node.js/code/会话控制/06_token记账本" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/code/09_Node.js/code/会话控制/06_记账本" vcs="Git" />
   </component>
 </project>
