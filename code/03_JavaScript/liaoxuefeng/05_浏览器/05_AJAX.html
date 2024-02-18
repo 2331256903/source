@@ -23,6 +23,7 @@
     let textarea = document.getElementsByClassName('test-response-text')
     textarea.value = 'Error code: ' + code
   }
+  
   let request = new XMLHttpRequest() // 新建XMLHttpRequest对象
   request.onreadystatechange = function () { // 状态发生变化时,函数被回调
     if( request.readyState === 4 ) { // 成功完成

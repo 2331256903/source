@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang = "en">
   <head>
     <meta charset = "UTF-8">
@@ -112,14 +112,14 @@
   
     /* [^] 排除匹配 */
     let hd6 = 'houdunren.com'
-    console.log(hd6.match(/[ue]/gi)) // 除了u和e统统匹配
+    console.log(hd6.match(/[^ue]/gi)) // 除了u和e统统匹配
   
     /* 匹配所有字符
     *  [\s\S] [\d\D] [^]
     *  */
   
     /* 模式修正符(匹配模式) 多个模式可以一起使用,且不分前后
-    * s 单行匹配 全部视作一行
+    * s 单行匹配 全部视作一行, 即无视换行符, 加了这个 . 将会匹配任意字符
     * m 多行匹配 每行单独进行匹配
     * i 不区分大小写
     * g 贪婪匹配,会匹配满足条件的所有元素
