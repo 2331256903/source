@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #result{
+      width: 200px;
+      height: 100px;
+      border: solid 1px #903;
+    }
+  </style>
+</head>
+<body>
+  <div id="result"></div>
+  <script>
+    const result = document.getElementById('result')
+    result.addEventListener('mouseover', function() {
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', 'http://192.168.181.212:8000/server')
+      // 设置请求头 通常将身份校验的信息放置在请求头信息中
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded') // Content-Type用于设置请求体内容的类型
+      xhr.setRequestHeader('name', 'atguigu') // 自定义
+      // POST参数在send中发送, 请求体可以设置任意格式类型数据, 只要服务端有对应处理方式
+      xhr.send('a=100&b=200&c=300')
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            result.innerHTML = xhr.response
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

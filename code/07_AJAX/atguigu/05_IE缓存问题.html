@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #result {
+      height: 100px;
+      width: 200px;
+      border: 1px solid #258;
+    }
+  </style>
+</head>
+<body>
+<button>点击发送请求</button>
+<div id="result"></div>
+<script>
+  /*
+  * IE 缓存问题, IE浏览器会对AJAX的请求结果做缓存, 下次发送请求是会走本地缓存而不是服务器最新数据, 对于时效性比较强的场景IE缓存会影响结果
+  * */
+  const btn = document.getElementsByTagName('button')[0]
+  const result = document.querySelector('#result')
+  
+  btn.addEventListener('click', () => {
+    const xhr = new XMLHttpRequest()
+    // 由于IE缓存机制, 在网址中加值为时间戳的参数, 此时IE浏览器会认为是两次不同的请求, 就不会走本地缓存了; 实际工作中工具会自动把参数加好, 不用程序员自己添加
+    xhr.open('GET', 'http://192.168.181.212:8000/ie?t=' + Date.now())
+    xhr.send()
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          result.innerHTML = xhr.response
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

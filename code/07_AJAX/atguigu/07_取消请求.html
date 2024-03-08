@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <button>点击发送</button>
+  <button>点击取消</button>
+  <script>
+    const btns = document.querySelectorAll('button')
+    let xhr = null
+    
+    btns[0].onclick = function () {
+      xhr = new XMLHttpRequest()
+      xhr.open('GET', 'http://172.19.48.1:8000/delay')
+      xhr.send()
+    }
+    // 属于xhr对象的 abort 方法, 用于取消请求
+    btns[1].onclick = function () {
+      xhr.abort()
+    }
+    
+  </script>
+</body>
+</html>

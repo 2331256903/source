@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* 函数参数的扩展
+*   JS函数的参数内部是用一个数组来运行的, 函数接收到的永远是这个数组, 而不关心数组中包含哪些参数, 因此JS函数不介意传递进来多少个参数,也不介意传进来的参数是什么类型
+*   默认参数
+* */
+function fn(name, age = 17) {
+  console.log(name + "," + age)
+}
+fn("Amy", "") // Amy,
+/* 注意: 使用函数默认参数时, 不允许有同名参数
+*       且只有在未传递参数或者参数为undefined时才会使用默认参数, null值被认为是有效的值传递
+* */
+/* 函数参数默认值存在暂时性死区, 在函数参数默认值表达式中, 还未初始化赋值的参数值无法作为其他参数的默认值 */
+function f(x, y=x) {
+  console.log(x, y)
+}
+f(1) // 1, 1
+function f2(x=y) {
+  console.log(x)
+}
+f2() // ReferenceError: y is not defined
+
+/* 不定参数
+*   不定参数用来表示不确定数量的参数(形如 ...变量名, 由...加上一个具名参数标识符组成), 具名参数只能放在参数组的最后(后面不能跟其他的参数), 并且有且只有一个不定参数
+*   不定参数就是一个数组,所以可以用js数组的所有方法
+*  */
+function f3(...values) {
+  console.log(value.length)
+}
+f3(1, 2) // 2
+f3(1, 2, 3, 4) // 4
+
+/* 箭头函数
+*   箭头函数提供了一种更简洁的函数书写方式, 基本语法是 参数 => 函数体
+* */
+let f4 = v => v
+// 等价于
+let f5 = function(a) {
+  return a
+}
+f4(1) // 1
+// 当箭头函数没有参数或者有多个参数时要使用()括起
+// 当箭头函数体有多行语句, 用{}包裹起来, 表示代码块, 当只有一行语句并且需要返回结果时吗可以省略{}, 结果会自动返回
+let f6 = (a, b) => {
+  let result = a+b
+  return result
+}
+f6(6, 2) // 8
+// 当箭头函数要返回对象的时候, 为了区分于代码块, 要用() 将对象包裹起来
+// let f7 = (id, name) => {id: id, name: name} 报错
+let f7 = (id, name) => ({id: id, name: name})
+f7(6, 2) // 8
+/* 注意,箭头函数没有this, super, arguments和new.target绑定 */
+let  func = () => {
+  // 箭头函数里没有this对象
+  // 此时的this对象是外层的this对象,即window
+  console.log(this) // window
+}
+/* 另外, 箭头函数里的this对象, 是定义函数时的对象, 而不是使用函数时的对象 */
+function fn3() {
+  setTimeout(() => {
+    //定义时, this绑定的是fn中的this对象
+    console.log(this.a)
+  }, 0)
+}
+let a = 20
+// fn的this对象为{a: 18}
+fn3.call({a:18}) // 18
+/* 不可以作为构造函数, 也就是不能使用new命令, 否则会报错 */
+
+/* 适合使用的场景: ES6之前, JS的this对象一直很麻烦, 回调函数,经常看到 var self = this这样的代码, 为了将外部this传递到回调函数中, 现在有了箭头函数,直接使用this即可 */
+/* 不适合使用的场景: 定义函数的方法, 且该方法中包含this
+*                 需要动态this的时候  button.addEventListener('click', () => {this.classList.toggle('on')})
+*                     此处button的监听函数是箭头函数, 所以监听函数里面的this指向的是定义的时候的未曾this对象,即window, 导致无法操作到被点击的按钮对象
+* */
+</script>
+</body>
+</html>

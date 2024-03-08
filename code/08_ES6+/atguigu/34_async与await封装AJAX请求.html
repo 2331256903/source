@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  // 发送 AJAX 请求, 返回的结果为 Promise 对象
+  function sendAJAX(url) {
+    
+    return new Promise((res, rej) => {
+      // 1. 创建对象
+      const x = new XMLHttpRequest()
+      
+      // 2. 初始化
+      x.open('GET', url)
+      
+      // 3. 发送
+      x.send()
+      
+      // 4. 事件绑定
+      x.onreadystatechange = function() {
+        if(x.readyState === 4) {
+          if (x.status >= 200 && x.status < 300) {
+            // 成功
+            res(x.response)
+          } else {
+            // 失败
+            rej(x.status)
+          }
+        }
+      }
+    })
+    
+  }
+  
+  // promise then 方法测试
+  /*sendAJAX("https://api.apiopen.top/getJoke").then(val => {
+    console.log(val)
+  }, reason => {
+    console.log(reason)
+  })*/
+  
+  // async 与 await 测试
+  async function main() {
+    // 发送 AJAX 请求
+    let result = await sendAJAX("https://api.apiopen.top/getJoke")
+    // 再次测试
+    let tianqi = await sendAJAX("https://v0.yiketianqi.com/api")
+    
+    console.log(result)
+    console.log(tianqi)
+  }
+  
+  main()
+</script>
+</body>
+</html>

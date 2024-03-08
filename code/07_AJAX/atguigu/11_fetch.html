@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <button>AJAX请求</button>
+  <script>
+    const btn = document.querySelector('button')
+    btn.onclick = () => {
+      fetch('http://192.168.10.3:8000/fetch-server?vip=10', {
+        method: 'POST',
+        headers: {
+          name: 'atguigu'
+        },
+        body: 'username=admin&password=admin'
+      }).then(res => {
+        // fetch获取响应体需要调用原型中的text(), 返回的promise中再拿到res参数
+        return res.text()
+        // return res.json  如果服务端返回的数据是json则需要调用json方法
+      }).then(res => {
+        console.log(res)
+      })
+    }
+  </script>
+</body>
+</html>

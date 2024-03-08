@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/*  数值的表示
+*   二进制新增表示法: 前缀0b或0B
+*   八进制新增表示法: 前缀0o或0O
+* */
+console.log(0o11 === 9) // true
+/* 常量
+*   Number.EPSILON 该属性表示1与大于1的最小浮点数之间的差 值接近于 2.2204460492503130808472633361816E-16，或者 2-52
+*  */
+// 测试数值是否在误差范围内
+console.log(0.1 + 0.2 === 0.3) // false
+// 在误差范围内即视为相等
+equal = (Math.abs(0.1-0.3+0.2) < Number.EPSILON) // true
+
+/* 属性特性:
+*   writable: false 可写性, 表示能否修改属性的值,即值是可写的还是只读 默认值为true
+*   enumerable: false 可枚举性, 表示能否通过for-in, Object.keys, JSON.stringify方法遍历属性, 默认值为true
+*   configurable: false 可配置性, 控制着其描述的属性的修改, 表示能否修改属性的特性, 能否把属性修改为访问器属性, 或者能否通过delete删除属性, 默认值为true
+*  */
+
+/* 最大/最小安全整数
+*   安全整数表示在JS中能够精确表示的整数, 安全整数在2的-53次方到2的53次方之间(不包含两个端点), 超过这个范围的整数无法精确表示
+*  */
+// 最大安全整数 安全整数范围的上限 即2的53次方-1
+console.log(Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2) //true
+console.log(Number.MAX_SAFE_INTEGER === Number.MAX_SAFE_INTEGER + 1) //false
+console.log(Number.MAX_SAFE_INTEGER - 1 === Number.MAX_SAFE_INTEGER - 2) //false
+// 最小安全整数 2的53次方-1的负数
+
+/* 方法
+*   Number对象新方法
+* Number.isFinite() 用于检查一个数值是否为有限的finite, 即不是Infinity
+*   从全局移植到Number对象的方法 逐步减少全局方法, 用于全局变量的模块化, 方法的行为没有发生改变
+* Number.parseInt() 用于将给定字符串转化为指定进制的整数
+*  */
+// 不指定时默认为十进制, 指定进制如下
+Number.parseInt('0011', 2) // 3
+// 与全局的parseInt()函数是同一个函数
+console.log(Number.parseInt === parseInt)
+// 用于把一个字符串解析成浮点数
+Number.parseFloat('123.45abc') // 123.45
+// 无法被解析成浮点数, 则返回NaN
+/* 注意: 由于JS内部的整数, 浮点数采用的是同样的存储方法, 所以1和1.0被视为相同的值
+*       NaN和正负Infinity不是整数
+*       数值的精度超过53个二进制位时, 由于第54位以及后面的位被丢弃, 会产生误判
+*       一个数值的绝对值小于Number.MIN_VALUE(5E-324), 即小于JS能够分辨的最小值, 会被自动转为0, 也会产生误判
+*  */
+// 用于判断数值是否在安全范围内
+Number.isSafeInteger(Number.MIN_SAFE_INTEGER - 1) // false
+
+/* Math对象的扩展
+*   ES6在Math对象上新增17个数学相关的静态方法, 这些方法只能在Math上调用 详见文档
+*  */
+</script>
+</body>
+</html>

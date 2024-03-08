@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--
+    ES6新增两个重要的JS关键字 let 和 const
+    let声明的变量只在let命令所在的代码块有效
+    const声明一个只读的常量,一旦声明则不能更改
+  -->
+  <script>
+    /*适合在for循环内使用*/
+    for(var i = 0; i < 10; i++){
+      setTimeout(function(){
+        console.log(i)
+      })
+    } //输出十个10
+    for(let j = 0; j < 10; j++){
+      setTimeout(function(){
+        console.log(j)
+      })
+    } //输出0123456789
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/* 在ES6中, class(类)作为对象的模板被引入, 可以通过class关键字定义类
+*   class的本质是function, 它可以看做语法糖, 让对象原型的写法更加清晰, 更加面向对象编程的语法
+*  */
+/* 基础用法 */
+// 类定义
+  // 匿名类
+  let Example = class {
+    constructor(a) {
+      this.a = a
+    }
+  }
+  // 命名类
+  let Example1 = class Example1 {
+    constructor(a) {
+      this.a = a
+    }
+  }
+// 类声明
+class Example2 {
+  constructor(a) {
+    this.a = a
+  }
+}
+/* 注意: 不可重复声明 */
+// class Example2 {} //报错
+
+/* 注意要点:
+*   类定义不会被提升, 这意味着必须在访问前对类进行定义, 否则就会报
+*   类中方法不需要function关键字
+*   方法间不能加分号
+*  */
+
+/* 类的主体
+*   属性 prototype
+*   ES6中, prototype仍旧存在, 虽然可以直接从类中定义方法, 但是其实方法还是定义在prototype上的
+* */
+// 覆盖方法/ 初始化时添加方法
+Example.prototype = {
+  // methods
+}
+// 添加方法
+Object.assign(Example.prototype, {
+  // methods
+})
+/* 静态属性
+*   静态属性: class本身的属性, 即直接定义在类内部的属性(Class.propname),而不是定义在实例对象this上的属性 不需要实例化, ES6中规定, Class内部只有静态方法, 没有静态属性
+*   类相当于实例的原型, 所有在类中定义的方法, 都会被实例继承, 如果在一个方法前, 加上static关键字, 就表示该方法不会被实例继承, 而是直接通过类来调用, 这就称为静态方法
+*  */
+// 目前可行写法 由于ES6明确规定Class内部只有静态方法, 没有静态属性, 现在有一个提案提供了类的静态属性, 写法是在实例属性的前面加上static关键字
+class Example3 {
+  // 新提案
+  static a = 2
+}
+// 老写法
+Example3.b = 2
+/* 这个新写法大大方便了静态属性的飙到, 上面的代码中, 老写法的静态属性定义在类的外部, 整个类生成之后, 再生成静态属性, 这样让人很容易忽略这个静态属性
+*,也不符合相关代码应该放在一起的代码阻止原则, 另外,新写法是显式声明, 而不是赋值处理, 语义更好
+* */
+
+/* 公共属性 */
+Example3.prototype.c = 2
+/* 实例属性
+*   定义在实例对象上this上的属性
+*  */
+class Example4 {
+  a = 2
+  constructor() {
+    console.log(this.a)
+  }
+}
+/* name属性 返回跟在class后的类名(存在时) */
+let Example5 = class Exam {
+  constructor(a) {
+    this.a = a
+  }
+}
+console.log(Example5.name) // Exam
+
+/* 方法
+*   constructor方法 类的默认方法, 创建类的实例化对象时被调用
+*   默认返回对象实例对象this  也可以指定返回对象
+*  */
+/* 静态方法 */
+class Example6 {
+  static sum(a, b) {
+    console.log(a+b)
+  }
+}
+Example6.sum(1, 2) // 3
+/* 原型方法 */
+class Example7 {
+  sum(a, b) {
+    console.log(a+b)
+  }
+}
+let exam2 = new Example7()
+exam2.sum(1, 2) // 3
+/* 实例方法 */
+class Example8 {
+  constructor() {
+    this.sum = (a ,b) => {
+      console.log(a + b)
+    }
+  }
+}
+
+/* 类的实例化
+*   new class的实例化必须通过new对象
+*  */
+/* 实例化对象
+*   共享对象原型, 因此在某个实例化对象上对原型进行操作会影响到其他实例化对象, 因此__proto__已废弃, 不建议使用
+*  */
+
+/* decorator 用来增强JS类(class)的功能, 许多面向对象的语言都有这种语法, 目前有一个提案将其引入了ECMAScript
+*   decorator 是一个函数,写成@+函数名 用来修改类的行为, 在代码编译时产生作用, 可以用来装饰四种类型的值
+*     类, 类的属性, 类的方法, 属性存取器(accessor)
+*  */
+@frozen class Foo {
+  @configurable(false)
+  @enumerable(true)
+  method() {}
+
+  @throttle(500)
+  expensiveMethod() {}
+}
+/* 上面代码一共使用了四个装饰器, 一个用在类本身(@frozen) 另外三个用在类方法(@configurable(), @enumerable(), @throttle())上
+* , 不仅增加了代码的可读性, 清晰地表达了意图, 而且提供了一种方便的手段, 增加或修改类的功能
+*  */
+/* API描述类型如下: TS写法
+  type Decorator = (value: Input, context: {
+  kind: string;
+  name: string | symbol;
+  access: {
+    get?(): unknown;
+    set?(value: unknown): void
+  };
+  private?: boolean;
+  public?: boolean
+  addInitializer?(initializer: () => void): void;
+}) => Output | void*/
+
+/* 装饰器API 是一个函数, 装饰器函数有两个参数, 运行时JS引擎会提供这两个参数:
+*   value: 所要装饰的值, 某些情况下可能是undefined(装饰属性时)
+*   context: 上下文信息对象
+*  装饰器函数的返回值, 是一个新版本的装饰对象, 但也可能不返回任何值(void)
+*  context对象有很多属性, 其中kind属性表示属于哪一种装饰物, 其他属性的含义如下
+*   kind: 字符串, 表示装饰类型 可能的取值有class, method, getter, setter, field, accessor
+*   name: 被装饰的指的名称
+*   access: 对象. 包含访问这个值的方法, 即存值器和取值器
+*   public: 布尔值, 该值是否为静态元素
+*   private: 布尔值, 该值是否为私有元素
+*   addInitializer: 函数, 允许用户增加初始化逻辑
+*  */
+/*
+*   装饰器的执行步骤如下:
+*   1. 计算各个装饰器的值, 按照从左到右, 从上到下的顺序
+*   2. 调用方法装饰器
+*   3. 调用类装饰器
+*  */
+
+/* 类修饰 一个参数target,指向类本身
+*        多个参数, 嵌套实现
+*   若要添加实例属性, 在类的prototype上操作即可
+*  */
+/* 方法修饰 三个参数, target(类的实例对象), name(修饰的属性名), descriptor(该属性的描述对象) */
+
+/* 封装与继承
+*   getter/setter
+*  */
+class Example10 {
+  constructor(a, b) {
+    this.a = a // 实例化时调用set方法
+    this.b = b
+  }
+  get a() {
+    console.log('setter')
+    this.a = a // 自身递归调用
+  }
+}
+
+let exam3 = new Example10(1, 2) //不断输出setter 最终导致RangeError
+
+/* getter不可单独出现 */
+/* getter和setter必须同级出现 */
+
+/* extends 通过extends实现类的继承
+*   class Child extends Father {...}
+* */
+
+/* super
+*   子类constructor方法中必须有super, 且必须出现在this之前
+*  */
+class Father {
+  constructor() {
+  }
+}
+class Child extends Father {
+  constructor(a) {
+    super();
+    this.a = a
+  }
+}
+let test = new Child()
+// 调用父类构造函数, 只能出现在子类的构造函数
+class Father2 {
+  test() {
+    return 0
+  }
+
+  static test1() {
+    return 1
+  }
+}
+class Child2 extends Father2 {
+  constructor() {
+    super();
+  }
+}
+/*class Child3 extends Father2 {
+  test2() {
+    super() //Uncaught SyntaxError: 'super' keyword unexpected here
+  }
+}*/
+/* 调用父类方法, super作为对象, 在普通方法中, 指向父亲的原型对象, 在静态方法中指向父类 */
+class Child3 extends Father2 {
+  constructor() {
+    super();
+    // 调用父类普通方法
+    console.log(super.test()) // 0
+  }
+  static test3() {
+    // 调用父类静态方法
+    return super.test1+2
+  }
+}
+Child.test3() // 3
+/* 注意: extends不可以继承常规对象 */
+</script>
+</body>
+</html>

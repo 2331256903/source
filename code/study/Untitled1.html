@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  <input id='aim' />
+  <script>
+   var timer
+   document.getElementById('aim').addEventListener('input', function(e){
+    if(timer){
+     clearTimeout(timer)
+    }
+    timer = setTimeout(function(){
+     ajax()
+    }, 600)
+   })
+ 
+ 
+   function ajax(){
+    let xhr = new XMLHttpRequest()
+    xhr.onreadtStateChange=function(){
+     if(xhr.readyState===4&&xhr.status===200){
+      console.log(xhr.responseText())
+     }
+    }
+    xhr.open('post','idex.php')
+    xhr.setRequestHeader('content-type','application/x-www-formurlencoded')
+    xhr.send()
+   }
+ 
+   function fn() {
+    console.log(1)
+   }
+ 
+   function fun1(item, time) {
+    Object.defineProperty(item.prototype,'timer',{
+   
+    })
+    if (timer) {
+     clearTimeout(timer)
+    }
+  
+   }
+  </script>
+ </body>
+</html>

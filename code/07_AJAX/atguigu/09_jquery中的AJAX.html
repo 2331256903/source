@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- crossorigin="anonymous" 跨源的请求的属性设置, 设置为匿名后, 向这个资源发送请求时不会携带当前域名下的 cookie -->
+  <link crossorigin="anonymous" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-grid.css" rel="stylesheet">
+  <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2 class="page-header">jQuery发送AJAX请求</h2>
+  <button class="btn btn-primary">GET</button>
+  <button class="btn btn-danger">POST</button>
+  <button class="btn btn-info">通用型方法AJAX</button>
+</div>
+<script>
+  $('button').eq(0).click(function() {
+    // jquery 中 AJAX 接收三个或四个参数, 三个参数包含请求地址, 请求参数和一个回调函数, 回调函数的可以接收一个 data 作为参数, 其内容是本次请求的响应体
+    $.get('http://172.19.48.1:8000/jquery-server', {a:100, b:200}, function(data){
+      console.log(data)
+    }, 'json')
+  })
+  
+  $('button').eq(1).click(function() {
+    // jquery 中 AJAX 接收三个或四个参数, 三个参数包含请求地址, 请求参数和一个回调函数, 回调函数的可以接收一个 data 作为参数, 其内容是本次请求的响应体
+    $.post('http://172.19.48.1:8000/jquery-server', {a:100, b:200}, function(data){
+      console.log(data)
+    })
+  })
+  
+  $('button').eq(2).click(function () {
+    $.ajax({
+      // url
+      url: 'http://172.19.48.1:8000/jquery-server',
+      // 参数
+      data: {a: 100, b: 200},
+      // 请求类型
+      type: 'GET',
+      // 响应体结果
+      dataType: 'json',
+      // 成功回调
+      success: function (data) {
+        console.log(data)
+      },
+      // 失败回调
+      error: function () {
+        console.log('出错了')
+      },
+      // 超时时间
+      timeout: 2000,
+      // 头信息
+      headers: {
+        c: 300,
+        d: 400
+      }
+    })
+  })
+  
+</script>
+</body>
+</html>

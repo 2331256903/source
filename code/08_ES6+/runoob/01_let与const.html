@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--
+    ES6新增两个重要的JS关键字 let 和 const
+    let声明的变量只在let命令所在的代码块有效
+    const声明一个只读的常量,一旦声明则不能更改
+  -->
+  <script>
+    /*适合在for循环内使用*/
+    for(let i = 0; i < 10; i++){
+      setTimeout(function(){
+        console.log(i)
+      })
+    } //输出十个10
+    for(let j = 0; j < 10; j++){
+      setTimeout(function(){
+        console.log(j)
+      })
+    } //输出0123456789
+    /*延迟函数的回调会在循环结束才执行,因此使用let变量会输出10个10*/
+    // 改为立即执行函数则输出0123456789
+    for(let i = 0; i < 10; i++) {
+      setTimeout((function () {
+        console.log(i)
+      })())
+    }
+
+    /*let不存在变量提升,let会变量提升,代码块内若存在let或const,代码块会对这些声明的变量从块的开始就形成一个封闭作用域,代码块内,在声明变量之前会报错*/
+    /*const实质上并不是保证变量的值不变,而是保证变量指向的内存地址所保存的数据不允许该等,因此对于简单类型(number string boolean),值就保存在
+    变量指向的内存地址,因此const声明的简单类型变量等同于常量,而复杂类型(object array function),比那辆指向的内存地址其实是保存了一个指向实际数据
+    的指针,所以const只能保证指针式固定的,至于指针指向的数据结构是否改变就无法控制了*/
+  </script>
+</head>
+<body>
+
+</body>
+</html>

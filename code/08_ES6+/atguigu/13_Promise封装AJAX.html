@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  // 接口地址: https://api.apiopen.top/getJoke
+  const p = new Promise(function(res, rej) {
+    // 1. 创建对象
+    const xhr = new XMLHttpRequest()
+    // 2. 初始化
+    xhr.open("GET", "https://api.apiopen.top/getJoke")
+    // 3. 发送
+    xhr.send()
+    // 4. 绑定事件, 处理相应结果
+    xhr.onreadystatechange = function() {
+      // 判断
+      if (xhr.readyState === 4) {
+        // 判断响应状态码 200-299区间内为成功
+        if (xhr.status >= 200 && xhr.status < 300) {
+          res(xhr.response)
+        } else {
+          rej.(xhr.status)
+        }
+      }
+    }
+  })
+  // 指定回调
+  p.then(function(value) {
+    console.log(value)
+  }, function(reason) {
+    console.error (reason)
+  })
+</script>
+</body>
+</html>

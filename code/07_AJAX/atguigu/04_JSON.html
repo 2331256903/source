@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #result{
+      height: 100px;
+      width: 200px;
+      border: 1px solid #89b;
+    }
+  </style>
+</head>
+<body>
+  <div id="result"></div>
+  <script>
+    const result = document.getElementById('result')
+    window.onkeydown = function() {
+      // 设置响应体数据类型
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', 'http://192.168.181.212:8000/json-server')
+      xhr.responseType = 'json'
+      xhr.send()
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            // 1. 手动对数据进行转化
+            // let data = JSON.parse(xhr.response)
+            
+            // 2. 自动对数据进行转化 需要设置响应体数据类型
+            result.innerHTML = xhr.response.name
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #result {
+      width: 200px;
+      height: 100px;
+      border: 1px solid #90b;
+    }
+  </style>
+</head>
+<body>
+  <button>发送请求</button>
+  <div id="result"></div>
+  <script>
+    /*
+    *   CORS  Cross-Origin Resource Sharing  官方的跨域解决方案, 特点是客户端无需做任何操作, 完全在服务器中进行处理, 支持 get 和 post 请求,
+    * 跨域资源共享标准新增了 一组 HTTP首部字段, 允许服务器声明哪些源站通过浏览器有权限访问那些资源
+    *   CORS 通过设置一个响应头告诉浏览器该请求允许跨域, 浏览器收到响应以后就会对该响应放行, 主要是服务端进行设置
+    * */
+    const btn = document.querySelector('button')
+    btn.onclick = function() {
+      const x = new XMLHttpRequest()
+      x.open('GET', 'http://192.168.10.3:8000/cors-server')
+      x.send()
+      x.onreadystatechange = function() {
+        if(x.readyState === 4) {
+          if(x.status >= 200 && x.status < 300) {
+            console.log(x.response)
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

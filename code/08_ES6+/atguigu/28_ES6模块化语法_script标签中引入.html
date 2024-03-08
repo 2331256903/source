@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="module">
+  // 1.通用的导入方式
+  import * as m1 from "./m1"
+  import * as m2 from "./m2"
+  import * as m3 from "./m3"
+  console.log(m1)
+  console.log(m2)
+  console.log(m3)
+
+  // 调用默认暴露的模块内容也需要加default
+  m3.default.change()
+  
+  
+  // 2.解构赋值的形式
+  import {school, teach} from './m1'
+  // 此时第二次引入的时候变量重名, 可以使用as起别名
+  import {school as guigu, findJob} from './m2'
+  // 引入默认暴露的时候为固定写法, 此时必须起个别名
+  import {default as m3} from './m3'
+
+  // 此时可以直接使用引入的变量和方法
+  console.log(school)
+  console.log(teach)
+
+  console.log(guigu)
+  console.log(findJob)
+
+  console.log(m3)
+  
+  
+  // 3. 简便形式引入  只能针对默认暴露
+  import m33 from "./m3"
+
+  console.log(m33)
+</script>
+
+<!-- 引入入口文件 -->
+<script src="./29_ES6模块化方式二.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  /*
+  * HTTP协议 超文本传输协议, 详细规定了浏览器和万维网服务器之间的通行规则
+  *   请求 浏览器给服务端发的称之为请求, 发送的结果称为请求报文
+  *   响应 服务端返回的结果称之为响应, 响应的结果称为响应报文
+  *
+  * # 请求报文 格式和参数
+  *  行  GET /s?ie=utf-8 HTTP/1.1
+  *     1. 请求类型 GET POST PATCH等 2. URL路径查询字符串 3. HTTP协议版本
+  *  头
+  *     Host: atguigu.com
+  *     Cookie: name=guigu
+  *     Content-type: application/x-www-form-urlencoded
+  *     User-Agent chrome 83
+  *  空行
+  *  体 GET请求请求体为空, POST请求请求体可以不为空
+  *     username=admin&password=admin
+  *
+  * # 响应报文
+  *  行 HTTP/1.1 200 OK
+  *     1. HTTP协议版本 2. 响应状态码 3. 响应字符串
+  *  头 Content-Type: text/html;charset=utf-8
+  *     Content-length: 2048
+  *     Content-encoding: gzip
+  *  空行
+  *  体 (主要返回结果)
+  *     <html>
+  *       <head>
+  *         <h1>尚硅谷</h1>
+  *       </head>
+  *     </html>
+  * */
+</script>
+</body>
+</html>

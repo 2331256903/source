@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+  /*概述
+  *   Proxy与Reflect方法时ES6为了操作对象引入的API
+  *   Proxy可以对目标对象的读取,函数调用等操作进行拦截,然后进行操作处理,它不直接操作对象,而是像代理模式,通过对象的代理对象进行操作,在进行这些操作时,
+  * 可以添加一些需要的额外操作
+  *   Reflect可以用于获取目标对象的行为,它与Object类似,但更容易读,为操作对象提供了一种更优雅的方式,它的方法与Proxy是对象的
+  * */
+
+  /*Proxy基本用法
+  *   Proxy为代理器, new Proxy() 表示生成一个Proxy实例, target参数表示所要拦截的目标对象, handler参数也是一个对象, 用来定制拦截行为
+  *   Proxy可以理解成在目标对象之前架设一层拦截, 外界对该对象的访问, 都必须先通过这层拦截, 因此提供了一种机制, 可以对外界的访问进行过滤和改写
+  *   一个Proxy对象由两个部分组成,target,handler,在通过Proxy构造函数生成实例对象时,需要提供这两个参数,target即目标对象,handler是一个对象,
+  * 声明代理target的指定行为
+  * */
+  let target = {
+    name:'Tom',
+    age:24
+  }
+  let handler = {
+    get: function(target,key) {
+      console.log('getting '+ key)
+      return target[key]  // 不是target.key .是静态的, []是动态的
+    },
+    set: function(target,key,value) {
+      console.log('setting '+ key)
+      target[key] = value
+    }
+  }
+  let proxy = new Proxy(target,handler)
+  console.log(proxy.name)   //实际执行handler.get
+  console.log(proxy.age)   //实际执行handler.set
+  //getting name
+  //setting age
+  //25
+
+  // target可以为空对象
+  let targetEpt = {}
+  let proxyEpt = new Proxy(targetEpt,handler)
+  // 调用get方法,此时目标对象为空,没有name属性
+  proxyEpt.name = 'Tom'
+  // setting name
+  // "Tom"
+  // 再次调用get,此时已存在name属性
+  console.log(proxyEpt.name)
+  // getting name
+  // "Tom"
+
+  // 通过构造函数新建实例时其实是对目标对象进行了浅拷贝,因此目标对象与代理对象会互相影响
+  console.log(targetEpt) // {name: "Tom"}
+
+  // handler对象也可以为空,相当于不设置拦截操作,直接访问目标对象
+  let targetEmpty = {}
+  let proxyEmpty = new Proxy(targetEmpty,{})
+  proxyEmpty.name = "Tom"
+  console.log(targetEmpty) // {name: "Tom"}
+
+  /*Proxy实例方法*/
+  // get(target, propKey, receiver)
+  // 用于target对象上propKey的读取操作
+  let exam = {
+    name: "Tom",
+    age: 24
+  }
+  let proxy2 = new Proxy(exam, {
+    get(target, propKey, receiver) {
+      console.log('Getting ' + propKey)
+      return target[propKey]
+    }
+  })
+  console.log(proxy2.name)
+  // Getting name
+  // "Tom"
+  // get()方法可以继承
+  let proxy3 = new Proxy({}, {
+    get(target, propKey, receiver) {
+      // 实现私有属性保护
+      if (propKey[0] === '_') {
+        throw new Error(`Invalid attempt to get private "${propKey}"`)
+      }
+      console.log('Getting ' + propKey)
+      return target[propKey]
+    }
+  })
+  let obj = Object.create(proxy3)
+  console.log(obj.name) // Getting name
+
+  // set(target, propKey, value, receiver)
+  // 用于拦截target对象上的propKey赋值操作, 如果目标对象自身的某个属性不可写且不可配置, set方法将不生效
+  let validator = {
+    set: function(obj, prop, value) {
+      if (prop === 'age') {
+        if (!Number.isInteger(value)) {
+          throw new TypeError('The age is not an integer')
+        }
+        if (value > 200) {
+          throw new RangeError('The age seems invalid')
+        }
+      }
+      // 对于满足条件的age属性以及其他属性, 直接保存
+      obj[prop] = value
+    }
+  }
+  let proxy4 = new Proxy({}, validator)
+  proxy4.age = 100
+  console.log(proxy4.age) // 100
+  // proxy4.age = 'oppps' // 报错
+  // proxy4.age = 300 // 报错
+  // 第四个参数receiver表示原始操作行为所在对象, 一般是Proxy实例本身
+  const handler2 = {
+    set: function (obj, prop, value, receiver) {
+      obj[prop] = receiver
+    }
+  }
+  const proxy5 = new Proxy({}, handler2)
+  proxy5.name = 'Tom'
+  console.log(proxy5.name === proxy5) // true
+
+  const exam2 = {}
+  Object.setPrototypeOf(exam2, proxy5)
+  /* Object.setPrototypeOf()方法 更换对象的原型对象
+  *   为现有对象设置原型, 返回一个新对象, 接收两个参数, 第一个为现有对象, 第二个是原型对象
+  *   new 命令通过构造函数新建对象实例的过程, 其本质是将实例的原型, 指向了构造函数的prototype属性, 然后在实例上执行构造函数
+  * 这样实例的属性__proto__就指向了构造函数的原型, 形成了原型链, 当在实例中找不到属性或方法时, 就通过原型链向上进行查找
+  *   在实例中执行构造函数, 构造函数就是一个普通函数, 如果一个普通函数在一个对象中被执行了, 那么this就是该实例
+  *  */
+  exam2.name = "Tom"
+  console.log(exam2.name === proxy5) // true
+  /* 注意: 严格模式下, set代理如果没有返回true, 就会报错 */
+
+  // apply(target, ctx, args)
+  // 函数也是对象. 用于拦截函数的调用fn(), fn.call()和fn.apply()操作 target表示目标对象, ctx表示目标对象上下文, args表示目标对象的参数数组
+  function sub(a, b) {
+    return a-b
+  }
+
+  let handler3 = {
+    apply: function(target, ctx, args) {
+      console.log('handle apply')
+      return Reflect.apply(...arguments)
+    }
+  }
+  let proxy6 = new Proxy(sub, handler)
+  console.log(proxy6(2, 1)) // 1
+
+  // has(target, propKey) 用于拦截HasProperty操作. 即在判断target对象是否存在propKey属性时, 会被这个方法拦截, 此方法不判断一个属性是对象自身的属性还是继承的属性
+  let handler4 = {
+    has: function(target, propKey) {
+      console.log("handle has")
+      return propKey in target
+    }
+  }
+  let exam3 = {name: "Tom"}
+  let proxy7 = new Proxy(exam3, handler4)
+  console.log('name' in proxy7) //  handle has  true
+  /* 注意: 此方法不能拦截for...in 循环 */
+
+  // construct(target, args) 用于拦截new命令, 返回值必须为对象
+  let handler5 = {
+    construct: function (target, args, newTarget) {
+      console.log('handle construct')
+      return Reflect.construct(target, args, newTarget)
+    }
+  }
+  class Exam {
+    constructor(name) {
+      this.name = name
+    }
+  }
+  let ExamProxy = new Proxy(Exam, handler5)
+  let proxyObj = new ExamProxy('Tom')
+  console.log(proxyObj) // handler construct  exam{name: "Tom"}
+
+  // deleteProperty(target, propKey) 用于拦截delete操作, 如果这个方法抛出错误,或者返回false, propKey属性就无法被delete命令删除
+  // defineProperty(target, propKey, propDesc) 用于拦截Object.defineProperty操作, 若目标对象不可扩展, 增加目标对象上不存在的属性会报错, 若属性不可写或者不可配置, 则不能改变这些属性
+  // getOwnPropertyDescriptor(target, propKeys) 用于拦截Object.getOwnPropertyDescriptor操作, 返回值为属性描述对象或者undefined
+  // getPrototypeOf(target) 用于拦截获取对象原型的操作, 包括 Object.prototype.__proto__  Object.prototype.isPrototypeOf()  Object.getPrototypeOf()  Reflect.getPrototypeOf()  instanseof
+  //                        返回值必须是对象或者null, 否则报错, 另外如果目标对象不可扩展, getPrototypeOf方法必须返回目标对象的原型对象
+  // isExtensible(target) 用于拦截Object.isExtensible操作  该方法只能返回布尔值, 否则返回值会自动转为布尔值, 他的返回值必须和目标对象的isExtensible属性保持一致, 否则会抛出错误
+  // ownKeys(target) 用于拦截对象自身属性的读取操作, 主要包括 Object.getOnwPropertyNames()  Object.getOwnPropertySymbols()  Object.keys()  for...in循环
+  //                 方法返回的数组成员只能是字符串或者Symbol值, 否则会报错  若目标对象中含有不可配置的属性, 则必须将这些属性在结果中返回, 否则报错  若目标对象不可扩展, 则必须全部返回且只能返回目标对象包含的所有属性, 不能包含不存在的属性, 否则也会报错
+  // preventExtensions(target) 拦截Object.preventExtensions操作 该方法返回一个布尔值, 否则会自动转换为布尔值
+  // setPrototypeOf(target, proto) 主要用来拦截 Object.setPrototypeOf方法  返回值为布尔值, 否则会自动转换为布尔值, 若目标对象不可扩展, setPrototypeOf方法不得改变目标对象的原型
+  // Proxy.revocable({}, {}) 用于返回一个可取消的Proxy实例
+
+  /* Reflect对象 与Proxy对象一样, 是ES6为了操作对象而提供的新的API, 主要目的为
+  *   1. 将Object对象的一些明显属于语言内部的方法(比如Object.defineProperty)放到Reflect对象上, 现阶段某些方法同时在Reflect和Object对象上部署
+  * , 未来的新方法都将只部署在Reflect对象上, 也就是说从Reflect对象上可以拿到语言内部的方法
+  *   2. 修改某些Object方法的返回结果, 让其变的合理, 比如Object.defineProperty(obj, name, desc)在无法定义属性时会抛出一个错误, 而Reflect.defineProperty(obj, name, desc)则会返回false
+  *  */
+  // 老写法
+  try {
+    Object.defineProperty(target, property, attributes)
+    // success
+  } catch (e) {
+    // failure
+  }
+  // 新写法
+  if (Reflect.defineProperty(target, property, attributes)) {
+    // success
+  } else {
+    //failure
+  }
+  /*
+  *   3. 让Object操作都变成函数行为, 有些Object操作时命令式, 比如name in obj和 delete obj[name], 而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让他们变成了函数行为
+  *   4. Reflect对象的方法和Proxy对象的方法一一对应, 只要是Proxy对象的方法, 就能在Reflect对象上找到对应方法, 这就使得Proxy对象可以方便地调用对应的Reflect方法完成默认行为
+  * ,作为修改行为的基础, 也就是说不管Proxy怎么修改默认行为, 总可以在Reflect上获取默认行为
+  *
+  * Reflect对象一共有13个静态方法
+  * */
+
+  /* 组合使用
+  *  由于Reflect方法和Proxy方法是一一对应的, 所以Proxy对象的方法可以通过调用Reflect对象的方法获取默认行为, 然后进行额外操作
+  *  */
+
+  /* 使用场景扩展
+  *  实现观察者模式
+  * */
+  // 定义Set集合
+  const queuedObserves = new Set()
+  // 把观察者函数都放入Set集合中
+  const observe = fn => queuedObserves.add(fn)
+  // observable 返回原始对象的代理, 拦截赋值操作
+  const observable = obj => new Proxy(obj, {set})
+  function set(target, key, value, receiver) {
+    // 获取对象的赋值操作
+    const result = Reflect.set(target, key, value, receiver)
+    // 执行所有观察者
+    queuedObserves.forEach(observer => observer())
+    // 执行赋值操作
+    return result
+  }
+  </script>
+</head>
+<body>
+
+</body>
+</html>

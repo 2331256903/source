@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // 正则中可以对分组匹配的结果做命名, 方便进行处理
+  let str = '<a href="http://www.atguigu.com">尚硅谷</a>'
+  
+  // 需求: 提取URL与标签文本 (没有分组捕获)
+  const reg = /<a href="(.*)">(.*)<\/a>/
+  // 有分组捕获
+  const reg2 = /<a href="(?<url>.*)">(?<text>.*)<\/a>/
+  
+  // 执行
+  const result = reg.exec(str)
+  console.log(result[1])
+  console.log(result[2])
+  const result2 = reg2.exec(str)
+  console.log(result2)
+  console.log(result2.groups.url)
+  console.log(result2.groups.text)
+</script>
+</body>
+</html>

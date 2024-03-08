@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+/* 传统方法HTML中浏览器通过<script>标签去加载JS脚本
+*     默认情况下浏览器同步加载JS脚本, 如果脚本体积很大, 下载和执行的时间就会很长, 因此造成浏览器堵塞, 用户体验不好
+*     可以通过在script中加入async属性(下载完就执行)或defer属性(渲染完再执行)
+*  */
+/* ES6引入了模块化, 其设计思想是在编译时就能确定的模块依赖关系, 以及输入和输出的变量
+*  ES6模块化分为导出(export)和导入(import)两个模块
+* */
+/* 特点: ES6的模块自动开启严格模式, 无论是否在模块头部加上use strict
+*       模块中可以导入和导出各类型的变量, 如函数, 对象, 字符串, 数字, 布尔值, 类等
+*       每个模块都有自己的上下文, 每一个模块内部声明的变量都是局部变量, 不会污染全局作用域
+*       每个模块只加载一次(单例), 若再去加载同目录下的同文件, 直接从内存中读取
+*  */
+
+/* export和import
+*   基本用法
+*   模块导入导出各种类型的变量, 如字符串, 数值, 函数, 类
+*     导出的函数声明与类声明必须要有名称 (export default命令另外考虑)
+*     不仅能导出声明, 还能导出引用, 比如函数
+*     export命令可以出现在模块的任何位置, 但必须处于模块顶层
+*     import命令会提升到整个模块的头部, 首先执行
+* */
+import { myName, myAge, myfn, myClass} from "./js/test";
+console.log(myName)
+console.log(myAge)
+console.log(myfn())
+console.log(myClass)
+/* 建议使用大括号指定所要输出的一组变量写在文档尾部, 明确导出的接口, 函数与类都需要有对应的名称, 导出文档尾部也避免了无对应名称 */
+
+/* as的用法
+*   export命令导出的接口名称必须和模块内部的变量有一一对应的关系, 导入的变量名必须和导出的接口名称相同, 顺序可以不一致
+*   不同名称导出接口的名称命名重复, 此时可以使用as重新定义变量名
+*  */
+export {myName as exportName}
+
+/* import命令的特点
+*   只读属性: 不允许在加载模块的脚本里面改写接口的引用指向, 即可以改写import变量类型为对象的属性值, 不能改写import变量类型为基本类型的值
+*   import {a} from "./x.js"
+*   a = {} // error
+*   import {a} from "./x.js"
+*   a.foo = "hello" // a = {foo: 'hello'}
+*
+*   单例模式: 多次重复执行同一句import语句, 只会执行一次, import同一模块, 声明不同接口引用, 会声明对应变量, 但只执行一次import
+*   import {a} from "./x.js"
+*   import {b} from "./x.js"
+*   // 相当于只执行一次 import {a, b} from "./x.js"
+*
+*   静态执行特性: import是静态执行, 所以不能使用表达式和变量
+*  */
+
+/* export default命令 为模块指定默认输出
+*   在一个文件或模块中, export, import可以有多个, export default仅有一个
+*   export default 中的default是对应的导出接口变量
+*   通过export方式导出, 在导入时要加{}, 而export default不需要
+*   export default向外暴露的成员, 可以使用任何变量来接收, 本质上是输出一个叫做default的变量或方法,系统允许你为它起任何名字
+*     // export-default
+*     export default function() { console.log('foo') }
+*     import hahaha from './export-default'
+* */
+
+/* export与import的复合写法
+*   如果放在一个模块中, 先输入后输出同一个模块, import语句和export语句可以写在一起
+*   export { foo, bar } from 'my_module'
+*   // 可以简单理解为import { foo, bar } from 'my_module'和 export { foo, bar }
+*   但是写成一行之后,foo和bar实际上并没有被导入当前模块. 只是相对于对外转发了这两个接口, 导致当前模块不能直接使用foo和bar
+*   也可以使用as将接口改名, 或使用 as将default转导成foo
+*     export { foo as default } from "methods"
+*  */
+
+/* 模块的继承
+*   使用export *
+*     export * form 'circle' 表示再输出circle模块的所有属性和方法
+*     但要注意: export *命令会忽略circle模块的所有export default方法
+*     import exp from 'circleplus' 表示将circleplus的模块的默认方法加载为exp方法
+*  */
+</script>
+</body>
+</html>

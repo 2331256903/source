@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+<body>
+<input id='aim' />
+<script>
+
+let fn = function() {
+  console.log(1)
+}
+
+function fun2(fn, time) {
+  let flag = true
+  return function(){
+    if (flag) {
+      flag = false
+      setTimeout(() => {
+        fn()
+        flag = true
+      }, time)
+    }
+  }
+}
+
+var r = fun2(fn, 600)
+setInterval(()=>{
+  console.log('----------------------------')
+  r()
+}, 10)
+
+'1232132342'.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+  
+</script>
+</body>
+</html>

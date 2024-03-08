@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <h1>尚硅谷</h1>
+  <button>点击获取用户数据</button>
+  <script>
+    /*
+    * 同源策略 最早由netscape公司提出, 是浏览器的一种安全策略
+    *   即协议, 域名, 端口号必须完全相同, 违背同源策略就是跨域
+    * */
+    const btn = document.querySelector('button')
+    btn.onclick = () => {
+      const x = new XMLHttpRequest()
+      // 由于满足同源策略, url 可以简写
+      x.open('GET', '/data')
+      x.send()
+      x.onreadystatechange = () => {
+        if (x.readyState === 4) {
+          if (x.status >= 200 && x.status < 300) {
+            console.log(x.response)
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

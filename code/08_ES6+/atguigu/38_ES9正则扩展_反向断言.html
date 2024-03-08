@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let str = "JS1563219你知道吗555啦啦啦"
+  // 正向断言 根据当前匹配的后面的内容判断前面是否合法
+  const reg = /\d+(?=啦)/
+  const result = reg.exec(str)
+  console.log(result)
+  
+  // 反向断言 根据目标内容前面内容做唯一性识别
+  const reg2 = /(?<=么)\d+/
+</script>
+</body>
+</html>

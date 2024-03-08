@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // ES6中已经引入了 rest 参数, 不过只针对数组
+  // ES9 的 rest 参数, 增加了对于对象的支持使用, 多余的参数会被 ...user 接收
+  
+  function connect({host, post, ...user}) {
+    console.log(host)
+    console.log(post)
+    console.log(user)
+  }
+  
+  connect({
+    host: '127.0.0.1',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    type: 'master'
+  })
+  
+  // 将对象展开并形成一个参数序列
+  const skillOne = {
+    q: '天音波',
+  }
+  const skillTwo = {
+    w: '金钟罩'
+  }
+  const skillThree = {
+    e: '天雷破'
+  }
+  const skillFour = {
+    r: '猛龙摆尾'
+  }
+  
+  const mangseng = {...skillOne, ...skillTwo, ...skillThree, ...skillFour}
+  // 将四个对象的属性放进了一个对象中, 实现了对象的合并
+  console.log(mangseng)
+</script>
+</body>
+</html>
