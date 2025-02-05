@@ -19,6 +19,24 @@
     </ul>
   </div>
   <script>
+    /**
+     * 有时需要显示一个数组经过过滤或排序后的版本, 而不实际变更或重置原始数据, 可以创建一个计算属性用来返回过滤或排序后的数组
+     * 而在计算属性不适用的情况下(例如在v-for循环中), 可以使用一个方法
+     *  <ul v-for = "set in sets">
+     *      <li v-for = "n in even(set)"> {{ n }} </li>
+     *  </ul>
+     *
+     *  data: {
+     *      sets: [[ 1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
+     *  },
+     *  methods: {
+     *      even: function(numbers) {
+     *          return numbers.filter(function (number) {
+     *              return number % 2 === 0
+     *          })
+     *      }
+     *  }
+     * */
     Vue.config.productionTip = false
 
     //用watch实现

@@ -11,7 +11,7 @@
 <body>
   <div id="root">
     <h2>人员列表</h2>
-    <button @click="updateMei">更新马信息</button>
+    <button @click="updateMei">更新人员信息</button>
     <ul>
       <li v-for="(p) in persons" :key="p.id"><!--此处p可以理解为形参-->
         {{p.name}}-{{p.age}}-{{p.sex}}

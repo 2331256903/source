@@ -32,6 +32,12 @@
       (2).Vue.set或vm.$set
 
    特别注意:Vue.set()和vm.$set不能给vm或vm的根数据对象添加属性
+
+   注意: 处于同一节点时v-for的优先级比v-if更高, 这意味着v-if将分别重复运行于每个v-for循环中
+    eg: <li v-for = "todo in todos" v-if = "!todo.isComplete">
+          {{ todo }}
+        </li>
+        以上代码将只渲染未完成的todo
 -->
   <div id="root">
     <h1>学生信息</h1>
