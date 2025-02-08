@@ -27,6 +27,9 @@
       备注: 不能使用脚手架时,<school/>会导致后续组件不能渲染
     3.一个简写方式:
       const school = Vue.extend(options) 可简写为: const school = options
+    4. data必须是一个函数
+      一个组件的data选项必须是一个函数, 因为每个实例可以维护一份被返回对象的独立的拷贝
+      如果Vue没有这条规则, 操作其中一个组件就可能影响到其他所有复用组件的实例
 -->
   <div id="root">
     <h1>{{msg}}</h1>

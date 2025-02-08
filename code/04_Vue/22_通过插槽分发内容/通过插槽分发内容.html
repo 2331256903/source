@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+  像HTML元素一样, 经常需要向一个组件传递内容, 类似:
+    <alert-box>
+      Something bad happened.
+    </alert-box>
+  Vue的自定义<slot>元素让这变得非常简单:
+    Vue.component('alert-box', {
+      template: `
+        <div class="demo-alert-box">
+          <strong>Error!</strong>
+          <slot></slot>
+        </div>
+      `
+    })
+  只需要在需要的地方加入插槽就行
+-->
+</body>
+</html>

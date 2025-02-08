@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <!--
+    开发<blog-post>组件时, 一些功能可能要求和父级组件进行沟通, 例如引入一个辅助功能来方法博文的字号, 同时让页面的其它部分保持默认字号
+    在父组件中通过添加一个postFontSize的数据property来支持这个功能
+      new Vue({
+        el: '#blog-posts-events-demo'
+        data: {
+          posts: [],
+          postFontSize: 1
+        }
+      })
+    用于在模板中控制所有博文字号
+      <div id="blog-post-events-demo">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+          <blog-post
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-bind:post="post"
+          ></blog-post>
+        </div>
+      </div>
+    现在在每篇博文正文之前添加一个按钮来放大字号:
+      Vue.component('blog-post', {
+        props: ['post'],
+        template: `
+          <div class="blog-post">
+            <h3>{{ post.title }}</h3>
+            <button>
+              Enlarge text
+            </button>
+            <div v-html="post.content"></div>
+          </div>
+        `
+      })
+    但此时这个按钮不会做任何事, 点击这个按钮时需要告诉父级组件放大所有博文的文本, 使用Vue实例的自定义事件来处理, 父级组件可以向处理native DOM事件
+  一样通过v-on监听子组件实例的任意事件
+    <blog-post>
+      ...
+      v-on:enlarge-text="postFontSize += 0.1"
+    </blog-post>
+    同时子组件可以通过调用内建的$emit方法传入事件名称来触发一个事件
+      <button v-on:click="$emit('enlarge-text')">
+        Enlarge text
+      </button>
+    有了这个v-on:enlarge-text="postFontSize += 0.1"监听器, 父级组件就会接受该事件并更新postFontSize的值
+  -->
+
+  <!--
+  使用事件抛出一个值
+    有时候用一个事件抛出一个特定的值非常有用, 例如可能想让<blog-post>组件来决定它的文本要放大多少, 这时可以使用$emit的第二个参数来提供这个值
+      <button v-on:click="$emit('enlarge-text', 0.1)">Enlarge text</button>
+    然后在父级组件监听到这个事件的时候, 可以通过$event访问到被抛出的这个值
+      <blog-post
+        ...
+        v-on:enlarge-text="postFontSize += $event"
+      ></blog-post>
+    或者, 如果这个事件处理函数是一个方法
+      <blog-post
+        ...
+        v-on:enlarge-text="onEnlargeText"
+      ></blog-post>
+    那么这个值将作为第一个参数传入这个方法
+      methods: {
+        onEnlargeText: function(enlargeAmount) {
+          this.postFontSize += enlargeAmount
+        }
+      }
+  -->
+
+  <!--
+  在组件上使用v-model
+    自定义事件也可以用于创建支持v-model的自定义输入组件, 记住:
+      <input v-model="searchText">
+      等价于:
+      <input
+        v-bind:value="searchText"
+        v-on:input="searchText = $event.target.value"
+      >
+    用在组件上时, v-model则会这样:
+      <custom-input
+        v-bind:value="searchText"
+        v-on:input="searchText = $event.target.value"
+      ></custom-input>
+      为了让它正常工作, 这个组件内的<input>必须
+        1. 将其value attribute绑定到一个名叫value的prop上
+        2. 在其input事件被触发时, 将新的值通过自定义的input事件输出
+      即:
+        Vue.component('custom-input', {
+          props: ['value'],
+          template: `
+            <input
+              v-bind:value="value"
+              v-on:input="$emit('input), $event.target.value)"
+            >
+          `
+        })
+  -->
+</body>
+</html>

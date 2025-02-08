@@ -10,6 +10,14 @@
 </head>
 <body>
   <div id="root"></div>
+  <!--
+    组件的组织
+      通常一个应用会以一颗嵌套的组件树的形式来组织: 例如你可能会有页头, 侧边栏, 内容区等组件, 每个组件又包含了其他的像导航链接, 博文之类的组件
+      为了能在模板中使用, 这些组件必须先注册以便使Vue能够识别到, 两种注册类型: 全局注册和局部注册
+      全局注册使用Vue.component({'component-name',{options...}}, 注册后的组件可以用在被其注册之后的任何通过new Vue新创建的Vue根实例
+      , 也包括其组件树中所有子组件的模板中
+
+  -->
   <script type="text/javascript">
     Vue.config.productionTip = false
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+  动态组件
+    在不同组件之间进行动态切换非常有用, 比如在一个多标签的界面里点击不同标签切换页面
+    上述内容可以通过Vue的<component>元素加一个特殊的is attribute来实现:
+      <component v-bind:is="currentTabComponent"></component>
+      // 组件会在currentTabComponent改变时改变
+      在上述实例中, currentTabComponent可以包括:
+        1. 已注册组件的名字. 或
+        2. 一个组件的选项对象
+    这个attribute可以用于常规HTML元素, 但这些元素将被视为组件, 这意味着所有attribute都会作为DOM attribute被绑定, 对于像value这样的property
+  如果想让其如预期那样工作, 需要使用.prop修饰器
+
+  首先明白v-bind的意义:
+    <component v-bind:is="current"></component>
+  如果出现了v-bind那么加载这个组件的时候, 会去创建vue实例对象的data里找值
+    let vm = new Vue({el: '#app', data: function(){ return { current: 'sub } }})
+  此时找到sub就等同于用sub替换了current
+    <component is="sub"></>component>
+  这里:is变成了is, 因为已经从vm里取到了current, 剩下的事情是去找这个叫做sub的组件
+    Vue.component('sub', {...})
+  最后这个标签的内容就变成了: <sub></sub>
+
+  综上,对于:is="current"来说, 总的流程如下:
+    1. 在Vue实例的data中找到current对应的值
+    2. 用这个值再去所有的component里找到对应的component
+-->
+</body>
+</html>

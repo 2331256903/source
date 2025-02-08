@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+解析DOM模板时的注意事项
+  有些HTML元素, 例如<ul>, <ol>, <table>, <select>, 对于哪些元素可以出现在其内部是有严格限制的, 而有些元素, 诸如<li>, <tr>, <option>
+只能出现在其他某些特定的元素内部, 这会导致使用这些有约束条件的元素时遇到一些问题
+  <table>
+    <blog-post-row></blog-post-row>
+  </table>
+  这个自定义组件<blog-post-row>会被作为无效的内容提升到外部, 并导致最终渲染结果出错, 幸好这个特殊的is attribute给了一个变通方法
+  <table>
+    <tr is="blog-post-row"></tr>
+  </table>
+
+  需要注意的是如果从以下来源使用模板的话, 这条限制不存在
+  1. 字符串(例如: template: '...')
+  2. 单文件组件(.vue)
+  3. <script type="text/x-template">
+     补充: type为text/x-template和text/html
+     类似如下写法: <script type="text/x-template" id="heading-template">
+                    <h1>哈哈哈</h1>
+                 </script>
+     首先明白一点: 如果script的标签type为以上两种时, 此时script标签内可以正常写html代码, 但因为写在script标签内所以不会被已显示
+     因此,该方法一般会被用来存储大量html代码, 解决了大量字符串拼接成html的痛点, 需要用到的时候获取到这个节点的内容去使用, 例:
+     <div id="app">
+      <anchored-heading content="这是头部"></anchored-heading>
+     </div>
+     <script type="text/x-template" id="anchored-heading-template">
+       <h1>这是内容</h1>
+     </script>
+     <script>
+       let anchoredHeading = Vue.component('anchored-heading', {
+         template: '#anchored-heading-template',
+         props: ['content']
+       })
+       new Vue({
+         el: document.getElementById('app')
+         components: {
+           anchoredHeading
+         }
+       })
+     </script>
+     原生就更直接了, 直接拿到innerHTML用
+     document.getElementById('app').innerHTML = document.getElementById('anchored-heading-template').innerHTML
+
+     放在type="text/x-template"中的内容将不会被浏览器解析, 不能执行, 不被显示; 放在其中的内容用来在页面加载完成后再获取到它并对其进行渲染,
+   这个渲染的过程通常是使用各种模板引擎来完成, 如果script标签不写type属性. 则浏览器默认为text/javascript, 如果写了不同的类型. 则浏览器就
+   不按照解析JS的规则去解析了, 发现是不识别的类型就进行忽略
+     比如有个叫做foo-template-engineer的模板引擎, 它约定凡是type为text/foo-template的script标签中存放的都是模板文件, 浏览器在加载网页的
+   时候检查到了<script type="text/foo-template">发现自己不能识别, 就忽略掉它和其中的内容, 等到浏览器渲染到模板引擎的JS代码的时候, JS模板
+   引擎获取到这个标签中的内容, 然后使用数据对其进行渲染输出到页面上
+-->
+</body>
+</html>
