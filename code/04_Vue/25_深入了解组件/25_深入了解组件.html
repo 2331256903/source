@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  组件名:
+    Vue.component的第一个参数, 使用kebab-case或PascalCase命名法
+  全局注册:
+    使用Vue.component创建的组件都是全局注册的, 注册后可以用在任何新创建的Vue根实例(new Vue)模板中
+  局部注册:
+    全局注册不够理想, 比如使用webpack这样的构建系统, 全局注册所有的组件意味即使不使用任何组件, 它任然会被包含在最终构建的项目中,造成用户下载JS文件的无谓开销
+    可以通过一个普通的JS对象来定义组件:
+      var ComponentA = {...}
+    然后再components选项中定义想使用的组件:
+      new Vue({
+        el: '#app',
+        components: {
+          'component-a': ComponentA
+        }
+      })
+    对于components对象中的每个property来说, 其property名就是自定义元素的名字, 其property值就是这个组件的选项对象
+    注意局部注册的组件在其子组件中不可用, 例如希望在ComponentA在ComponentB中可用, 这么写:
+      var ComponentA = {}
+      var ComponentB = {
+        components: {
+          'component-a': ComponentA
+        }
+      }
+    而如果通过Babel和Webpack使用ES2015模块. 那么代码看起来像:
+      import ComponentA from './ComponentA.vue'
+
+      export default {
+        components: {
+          ComponentA // ComponentA: ComponentA的缩写, 即这个变量名同时是用在模板中的自定义元素的名称 和 包含了这个组件选项的变量名
+        },
+        // ...
+      }
+
+  模块系统:
+    通过import/require使用一个模块系统
+    在模块系统中局部注册
+      推荐创建一个components目录, 并将每个组件放置在其各自的文件中, 然后局部注册之前导入组件
+      import ComponentA from './ComponentA.vue'
+
+      export default {
+        components: {
+          ComponentA // ComponentA: ComponentA的缩写, 即这个变量名同时是用在模板中的自定义元素的名称 和 包含了这个组件选项的变量名
+        },
+        // ...
+      }
+      这样就可以在该组件中使用ComponentA模板了
+
+  基于组件的自动化全局注册
+    可能许多组件只是包裹了一个输入框或按钮之类的元素, 是相对通用的, 有时候会把它们称为基础组件, 会在各个组件中被频繁地使用
+    所以可能会导致很多组件里都会有一个包含基础组件的长列表
+      import BaseButton from './BaseButton.vue'
+      import BaseIcon from './BaseIcon.vue'
+      import BaseInput from './BaseInput.vue'
+
+      export default {
+        components: {
+          BaseButton,
+          BaseIcon,
+          BaseInput
+        }
+      }
+    而是只用于模板中的很小一部分:
+      <BaseInput
+        v-model="searchText"
+        @keydown.enter="search"
+      />
+      <BaseButton @click="search">
+        <BaseIcon name="search"/>
+      </BaseButton>
+
+    如果使用WebPack那么久可以使用require.context只全局注册这些非常通用的基础组件, 下为在应用入口文件(比如src/main.js)中全局导入基础组件的示例代码:
+      import Vue from 'vue'
+      import upperFirst from 'lodash/upperFirst'
+      import camelCase from 'lodash/camelCase'
+
+      const requireComponent = require.context(
+        // 其组件目录的相对路径
+        './components'
+        // 是否查询其子目录
+        false,
+        // 匹配基础组件文件名的正则表达式
+        /Base[A-Z]\w+\.(vue|js)$/
+      )
+
+      requireComponent.keys().forEach(fileName => {
+        // 获取组件配置
+        const componentConfig = requireComponent(fileName)
+
+        // 获取组件的PascalCase命名
+        const componentName = upperFirst(
+          camelCase(
+            // 获取和目录深度无关的文件名
+            fileName
+              .split('/')
+              .pop()
+              .replace(/\.\w+$/, '')
+          )
+        )
+      })
+
+      // 全局注册组件
+      Vue.component(
+        componentName,
+        // 如果这个组件是通过export default导出的
+        // 那么就会优先使用 .default
+        // 否则回退到使用模块的根
+        componentConfig.default || componentConfig
+      )
+
+      注: 全局注册的行为必须在根Vue实例(通过new Vue)创建之前发生
+-->
+</body>
+</html>
