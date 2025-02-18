@@ -116,6 +116,573 @@
       )
 
       注: 全局注册的行为必须在根Vue实例(通过new Vue)创建之前发生
+
+  Prop HTML中的属性名是大小写不敏感的, 所以使用DOM中的模板时, 驼峰命名法的prop名需要使用其等价的kebab-case法命名
+    Vue.component('blog-post', {
+      // 在JS中是驼峰法
+      props: ['postTitle'],
+      template: '<h3>{{ postTitle }}</h3>'
+    })
+    // HTML中是kebab-case的
+    <blog-post post-title="hello!"></blog-post>
+  如果使用字符串模板,那么这个限制就不存在了
+
+  Prop类型
+    以字符串数组形式列出的prop:
+      props:['title', 'likes', 'isPublished']
+    通常希望每个prop都有指定的值类型, 这时可以以对象形式列出prop, 这些property的名称和值分别是prop各自的名称和类型:
+      props: {
+        title: String,
+        likes: Number,
+        isPublished: Boolean
+      }
+    使用对象指定prop类型, 不仅为组件提供了文档, 还会在遇到错误类型时在浏览器控制台提示用户
+
+  传递静态或动态Prop
+    给prop传入一个静态的值:
+      <blog-post title="My journey with Vue"></blog-post>
+    通过v-bind动态赋值:
+      <blog-post
+        v-bind:title="post.title + ' by ' + post.author.name"
+      ></blog-post>
+    上述两个例子传入的值都是字符串类型的, 实际上任何类型的值都可以传给一个prop
+
+  单项数据流
+    所有的prop都使得其父子prop之间新城了一个单向下行绑定: 父级prop的更新会向下流动到子组件中, 但是反过来不行, 这样会防止从子组件意外变更
+  父级组件的状态, 从而导致应用的数据流向难以理解
+    额外的, 每次父级组件发生变更时, 子组件中的所有prop都将会刷新为最新的值, 这意味着你不应该在一个子组件内部改变prop, Vue会在浏览器的控制
+  台中发出警告
+    以下为两种常见的试图变更一个prop的情形:
+    1. 这个prop用来传递一个初始值, 这个子组件接下来希望将其作为一个本地的prop数据来使用, 在这种情况下, 最好定义一个本地的data property,
+  并将这个prop用作其初始值
+    prop: ['initialCounter'],
+    data: function() {
+      return {
+        counter: this.initialCounter
+      }
+    }
+    2. 这个prop以一种原始的值传入且需要进行转换, 在这种情况下, 最好使用这个prop的值来定义一个计算属性
+    prop: ['size'],
+    computed: {
+      normalizedSize: function() {
+       return this.size.trim().toLowerCase()
+      }
+    }
+    注意在JS中对象和数组是通过引用传入的, 所以对于一个数组或对象类型的prop来说, 在子组件中改变变更这个对象或数组本身将会影响到父组件的状态
+
+  Prop验证
+    可以为组件的prop指定验证要求, 例如这些类型如果有一个需求未被满足, 则Vue会在浏览器控制台中警告你, 这在开发一个开源组件时尤其有帮助
+    为了定制prop的验证方式, 可以未props中的一个值提供一个带有验证需求的对象, 而不是一个字符串数组, 例如:
+      Vue.component('my-component', {
+        props: {
+          // 基础的类型检查('null'和'undefined'会通过任何类型验证)
+          propANumber,
+          // 多个可能的类型
+          PropB: [String, Number],
+          // 必填的字符串
+          propC: {
+            type: String,
+            required: true
+          },
+          // 带有默认值的数字
+          propD: {
+            type: Number,
+            default: 100
+          },
+          // 带有默认值的对象
+          propE: {
+            type:Object,
+            // 对象或数组默认值必须从一个工厂函数获取
+            default: function() {
+              return { message: 'hello' }
+            }
+          },
+          propF: {
+            validator: function(value) {
+              // 这个值必须匹配下列字符串中的一个
+              return ['success', 'warning', 'danger'].includes(value)
+            }
+          }
+        }
+      })
+    当prop验证失败的时候, 开发环境构建版本的Vue将会产生一个控制台的警告
+    注意那些prop会在一个组件实例创建之前进行验证, 所以实例的property(如data, computed等)在default或validator函数中是不可用的
+
+  类型检查
+    type可以下列原生构造函数中的一个:
+      String, Number, Boolean, Array, Object, Date, Function, Symbol
+    额外的, type可以是一个自定义的构造函数, 并且通过instanceof来进行检查确认, 例如给定下列现成的构造函数
+      function Person(firstName, lastName) {
+        this.firstName = firstName
+        this.lastName = lastName
+      }
+      可以使用:
+        Vue.component('blog-post', {
+          props: {
+            author: Person
+          }
+        })
+      来验证author的prop的值是否是通过new Person创建的
+
+  非Prop的Attribute
+    一个非prop的attribute是指传向一个组件, 但是该组件并没有响应prop定义的attribute
+    因为显示定义的prop适用于向一个子组件传入信息, 然而组件库的作者并不总能预见组件会被用于怎样的场景, 这也是为什么组件可以接受任意的
+  attribute, 而这些attribute会被添加到这个组件的根元素上, 称为组件的透传: 透传attribute传递给一个组件, 却没有被该组件声明为props或emits的
+  attribute 或 v-on事件监听器, 最常见的例子就是class, style和id
+    例如: 想象一下你通过一个Bootstrap插件使用了一个第三方的<bootstrap-data-input>组件, 这个插件要在其<input>上用到一个data-date-picker attribute,
+  我们可以将这个attribute添加到你的组件实例上
+    <bootstrap-date-input data-data-picker="activated"></bootstrap-data-input>
+    然后这个data-data-picker="activated" attribute就会自动添加到<bootstrap-data-input>的根元素上
+
+  替换/合并已有的Attribute
+    如果<bootstrap-date-input>的模板是这样的:
+      <input type="data" class="from-control">
+    为了给我们的日期选择器插件定制一个主题, 我们可能需要像这样添加一个特殊的类名
+      <bootstrap-data-input
+        data-date-picker="activated"
+        class="date-pick-theme-dark"
+      ></bootstrap-date-input>
+    这种情况下, 定义了两个不同的class的值:
+      1. form-control, 这是在组件的模板内设置好的
+      2. date-picker-theme-dark, 这是从组件的父级传入的
+    对于绝大多数attribute来说, 从外部提供给组件的值会替换掉组件内部设置好的值, 如果传入type="text"就会替换掉组件内部设置好的值, 所以
+  如果传入type="text"就会替换掉type="date"并把它破坏, 不过class和style attribute会稍微只能一些, 即两边的值会被合并起来, 从而得到最终的值:
+    form-control date-picker-theme-dark
+
+  禁用attribute继承
+    如果不希望组件的根元素继承attribute, 可以在组件的选项中设置inheritAttrs: false, 例如
+    Vue.component('my-component', {
+      inheritAttrs: false,
+      // ...
+    })
+    这尤其适合配合实例的$attrs property使用, 该property包含了传递给一个组件的attribute名和attribute值, 例如:
+      {
+        required: true,
+        placeholder: 'Enter your username'
+      }
+    最常见的需要禁用attribute继承的场景就是attribute需要应用在根节点以外的其它元素上, 通过设置inheritAttrs选项为false, 可以完全控制透传的
+  attribute如何被使用, 透传进来的attribute可以在模板的表达式中直接用$attrs访问到
+    <span>Fallthrough attribute: {{ $attrs }}</span>, 例如class, style, v-on监听器等等
+    有几点需要注意:
+      1. 和props不同, 透传attributes在JS中保留了原始的大小写, 所以像foo-bar这样的attribute需要通过$attrs['foo-bar']来访问
+      2. 像@click这样一个v-on事件监听器将在此对象下被暴露为一个函数$attrs.onClick
+    例子: 有时可能为了样式, 需要在<button>元素外再包装一层<div>; 想要所有像class和v-on这样的透传attribute都应用在内部的<button>上而不是
+  外层的<div>上, 可以通过设定inheritAttrs: false和使用v-bind="$attrs"来实现
+      <div class="btn-wrapper">
+        <button class="btn" v-bind="$attrs">click me</button>
+      </div>
+      注: 没有参数的v-bind会将一个对象的所有属性都作为attribute应用到目标元素上
+    有了inheritAttrs: false和$attrs, 就可以手动决定这些attribute会被赋予哪个元素, 在撰写基础组件的时候是常会用到的:
+      Vue.component('base-input', {
+        inheritAttrs: false,
+        prop: ['label', 'value']
+        template: `
+          <label>
+            {{ label }}
+            <input
+              v-bind="$attrs"
+              v-bind:value="value"
+              v-on:input="$emit('input', $event.target.value)"
+          </label>
+        `
+      })
+
+  多根节点的Attribute继承
+    和单根节点组件有所不同, 有着多根节点的组件没有自动attribute透传行为, 如果$attrs没有被显示绑定, 将会抛出一个运行时警告
+    <CustomLayout id="custom.layout" @click="changeValue" />
+    如果<CustomLayout>有下面这样的多根节点模板, 由于Vue不知道要将attribute透传到哪里, 所以会抛出一个警告
+      <header>...</header>
+      <main>...</main>
+      <footer>...</footer>
+    而如果$attrs被显示绑定, 则不会有警告:
+      <header>...</header>
+      <main v-bind="$attrs">...</main>
+      <footer>...</footer>
+    如果需要, 可以通过$attrs这个实例属性来访问组件的所有透传attribute
+      export default {
+        created() {
+          console.log(this.$attrs)
+        }
+      }
+-->
+
+<!--
+自定义事件
+  事件名:
+    不同于组件和prop, 事件名不存在任何自动化的大小写转换, 而是触发的事件名需要完全匹配监听这个事件所用的名称
+    例: this.$emit('myEvent')
+      则监听这个名字的kebab-case版本是不会有任何效果的
+       <my-component v-on:my-event="doSomething"></my-component>
+    不同于组件和prop, 事件名不会被用作一个JS变量名或property名,所以就没有理由使用camelCase或PascalCase了, 并且v-on事件监听器在DOM模板中
+  会被自动转换为全小写, 因为HTML是对大小写不敏感的, 所以v-on:myEvent将会变成v-on:myevent, 导致myEvent不可能被监听到, 因此始终建议使用kebab-case的事件名
+
+  自定义组件的v-model
+  2.2.0+新增
+    一个组件上的v-model默认会利用名为value的prop和名为input的事件, 但是像单选框, 复选框等类型的输入控件可能会将value attribute用于不同的目的,
+  model选项可以用来避免这样的冲突
+    Vue.component('base-checkbox', {
+      model: {
+        prop: 'checked',
+        event: 'change'
+      },
+      props: {
+        checked: Boolean
+      },
+      template: `
+        <input
+          type="checkbox"
+          v-bind:checked="checked"
+          v-on:change="$emit('change', $event.target.checked)"
+        >
+      `
+    })
+    现在在这个组件上使用v-model的时候:
+      <base-checkbox v-model="studyingVue"></base-checkbox>
+    这里的studyingVue的值将会传入这个名为checked的prop, 同时当<base-checkbox>触发一个change事件并附带一个新的值的时候, 这个studying的property将会被更新
+    注: 仍然需要在组件的props选项里声明checked这个prop
+
+  背景: 在Vue中, v-model提供了一种便捷的方式来实现表单控件与Vue实例之间的双向数据绑定, 然而v-model默认仅适用于原生的HTML表单控件, <input>,<select>等,
+  对于自定义组件而言, 我们需要手动实现与v-model类似的功能, 以便能够在自定义组件中同样享受双向绑定带来的便利
+
+  v-model是Vue中的一种语法糖(语法的简写), 比如对于input元素, v-model等同于使用v-bind:value和v-on:input的组合, 这意味着当用户输入时, Vue会自动更新对应的Vue实例中的数据
+  <input v-model="value">相当于: <input v-bind:value="value" @input="value=$event.target.value">
+
+  自定义组件和v-model
+    在自定义组件中使用v-model时, 实际上是要模拟这种行为, 即当组件接受到外部传来的值时, 能够更新内部的状态, 同时, 当组件内部的状态发生变化时, 能够
+  通知外部的Vue实例进行相应的更新
+
+  (1)允许一个自定义自检在使用v-model时定制prop和event, 默认情况下, 一个组件上的v-model会把value用作prop且把input用作event;
+  但一些输入类型比如单选框和复选框按钮可能想使用value prop来达到不同的目的, 使用v-model可以回避这些情况产生的冲突
+  示例一: 基本的自定义组件v-model实现
+
+  (2)结合代码来说:
+    默认: 子接受到prop值=value
+          监听子组件触发的事件名event=input
+  (3)在自定义组件上用, 不使用默认的更加强大, 在vue2.2.0版本后使用model选项来允许这样:
+    子接受到的prop=想是啥就是啥
+    监听子组件触发的事件名event=想什么事件名就可以是什么
+    <template>
+      <div>
+        <input :value="value" @input="updateValue($event)">
+      </div>
+    </template>
+    <script>
+      export default {
+        props: ['value'],
+        methods: {
+          updateValue(event) {
+            this.$emit('input', event.target.value)
+          }
+        }
+      }
+    </script>
+  在这个例子中, 定义了一个接受value属性的组件, 并监听input事件, 当输入框的内筒发生变化时, 通过$emit发出一个名为input的事件, 并附带新的值
+  父组件中使用:
+    <template><custom-input v-model="message"></custom-input></template>
+    <script>
+      components: {CustomInput}
+    </script>
+  这个父组件中使用v-model绑定message数据, 并通过<custom-input>组件进行双向数据绑定
+
+  示例二: 使用v-model处理复杂组件
+    当处理更复杂的组件时, 如一个日期选择器或颜色选择器, 可能需要传递更多属性, 而不仅仅是值, 此时可以使用对象作为v-model的值
+    <input :value="value.date" @input="updateDate($event)">
+
+    props:{
+      value: {
+        type: Object,
+        required: true
+      }
+    }
+    父组件中:
+      <custom-date-picker v-model="date"></custom-date-picker>
+
+  将原生事件绑定到组件:
+    可能想要在一个组件的根元素上直接监听一个原生事件, 这时可以使用v-on的.native修饰符
+      <base-input v-on:focus.native="onFocus"></base-input>
+    在有的时候很有用, 不过在尝试监听一个类似<input>的非常特定的元素时, 这不是个好主意, 比如上述base-input如果实际上是个做了重构的
+    根元素为label的元素
+      <label>
+        {{label}}
+        <input
+          v-bind:"$attrs"
+          v-bind:value="value"
+          v-on:input="$emit('input', $event.target.value)"
+        >
+      </label>
+      此时父级的.native监听器将会静默失败, 且不会产生任何报错, 但onFocus处理函数不会如你预期地被调用
+
+      为了解决这个问题, Vue提供了一个$listeners property, 它是一个对象, 里面包含了作用在这个组件上的所有监听器, 例如:
+        {
+          focus: function(event) {...}
+          input: function(value) {...}
+        }
+      有了这个$listeners property, 就能配合v-on="$listeners"将所有的事件监听器指向这个组件的某个特定的子元素, 对于类似<input>的你希望它也配合
+    v-model工作的组件来说, 为这些监听器创建一个类似下述inputListeners的计算属性通常是非常有用的
+      Vue.component('base-input', {
+        inheritAttrs: false,
+        props: ['label', 'value'],
+        computed: {
+          inputListeners: function() {
+            var vm = this
+            // Object.assign将所有对象合并为一个新对象
+            return Object.assign({},
+              // 从父级添加所有的监听器
+              this.$listeners,
+              // 然后我们添加所有监听器或者覆写一些监听器的行为
+              {
+                // 这里确保组件配合'v-model'的工作
+                input: function(event) {
+                  vm.$emit('input', event.target.value)
+                }
+              }
+            )
+          }
+        },
+        template: `
+          <label>
+            {{ label }}
+            <input
+              v-bind="$attrs"
+              v-bind:value="value"
+              v-on="inputListeners"
+          </label>
+        `
+      })
+    注: v-on="$listeners"是一个特殊的语法, 用于将父组件传递下来的所有事件监听器绑定到子组件上, 这里的$listeners是一个对象, 包含了父组件传递给子组件的所有事件监听器
+       使用v-on="$listeners"的好处是, 允许子组件自动绑定所有从父组件传下来的事件监听器, 而不需要在子组件中显式地声明和绑定每一个事件, 这可以简化代买并使得组件之间的通信更加灵活
+     eg: 父组件: <child-component @click="handleClick" @dblclick="handleDoubleClick"></child-component>
+                methods: {
+                  handleClick() {
+                    console.log('Clicked!')
+                  },
+                  handleDoubleClick() {
+                    console.log('Double clicked!')
+                  }
+                }
+        子组件: <button v-on="$listeners">Click me</button> // 自动绑定所有事件监听器
+               export default {
+                 // 无需显式声明和绑定事件
+               }
+       这样自定义的组件成为一个完全透明的包裹器了, 也就是说它完全像一个普通的<button>或<input>元素一样使用了, 所有跟它相同的attribute和监听器都可以工作,
+     不必再使用.native监听器
+
+  .sync 修饰符
+    有些情况可能需要对一个prop进行双向绑定, 但真正的双向绑定经常带来维护问题, 因为子组件可以变更父组件, 且在父组件和子组件两侧都没有明显的变更来源,
+    白话来说: 一个组件只能定义一个v-model, 如果其他的prop也要实现双向绑定数据的效果, 简单的方法是给子组件绑定一个自定义事件, 父组件监听该事件, 然后更新prop. 但是这样麻烦,.sync用于简化操作
+  因此推荐以update: myPropName的模式触发事件并取代它
+    例: 原先的自定义事件方法
+        子组件 包含title prop, 用以下方法赋新值:
+        this.$emit('update:title', newTitle)
+        然后在父组件可以监听那个事件并根据需要更新一个本地的数据property, 例如:
+        <text-document
+          :title="doc.title"
+          @update:title="doc.title = $event"
+        ></text-document>
+          补充: Vue中通过v-on指令, 绑定事件处理函数, 并将$event对象作为参数传递给处理函数, 例如:
+          <button @click="handleClick($event)">点击</button>
+          <script>
+            export default {
+              methods: {
+                handleClick(event) {
+                  console.log(event) // 输出原生的DOM事件对象
+                  console.log(event.clientX, event.clientY) // 获取鼠标点击的位置
+                }
+              }
+            }
+          </script>
+    以上为了方便监听为上述模式提供一个缩写, 即.sync修饰符:
+      <text-document v-bind:title.sync="doc.title"></text-document>
+    注意带有.sync修饰符v-bind不能和表达式一起使用, 例如v-bind:title.sync="doc.title + '!'"是无效的
+  取而代之的是只能提供想要绑定的property名, 类似v-model
+    而用一个对象同时设置多个prop的时候, 也可以将这个.sync修饰符和v-bind配合使用: <text-document v-bind.sync="doc"></text-document>
+  这样会把doc对象中的每一个property都作为一个独立的prop传进去, 然后各自添加用于更新的v-on监听器
+    注意:将v-bind.sync用于一个字面量的对象上, 例如v-bind.sync="{title: doc.title}", 是无法正常工作的, Vue框架在解析一个像这样复杂表达式有很多边缘情况需要考虑
+-->
+
+<!--
+插槽
+  Vue中子组件的模板可以定义多个插槽(包括默认插槽和具名插槽等等)
+
+  2.6.0为具名插槽和作用域插槽引入了一个新的统一语法: v-slot指令. 取代了slot和slot-scope属性
+  Vue实现了一套内容分发的API, 将<slot>元素作为承载分发内容的出口, 允许父组件向子组件传递模板内容, 以便子组件可以在特定的位置渲染这些内容
+  允许像这样合成组件: 父组件调用时:
+    <navigation-link url="/profile">
+      Your Profile
+    </navigation-link>
+  然后在子组件<navigation-link>的模板中写为
+    <a
+      :href="url"
+      class="new-link"
+    >
+      <slot></slot>
+    </a>
+  当组件渲染的时候, <slot></slot>将会被替换为"Your Profile"插槽内可以包含任何模板代码, 包括HTML甚至其他的组件
+  <navigation-link url="/profile">
+    <font-awesome-icon name="user"></font-awesome-icon>
+    Your Profile
+  </navigator-link>
+
+  编译作用域:
+    在插槽中使用数据时:
+      <navigation-link url="/profile">
+        Logged in as {{ user.name }}
+      </navigation-link>
+    该插槽和模板的其它地方一样, 可以访问相同的实例property, 具有相同的作用域, 但是不能访问到子组件<navigation-link>的作用域, 因为该插槽的内容
+  是传递给<navigation-link>而不是在其内部定义的
+    注意:父级模板里的所有内容都是在父级作用域中编辑的, 子模板中的所有内容都是在子作用域中编辑的
+
+  后备(默认)内容:
+    为一个插槽设置具体的后备(默认)内容很有用, 会在没有提供内容的时候被渲染, 例如在一个组件中: <submit-button>组件中:
+      <button type="submit">
+        <slot>Submit</slot>
+      </button>
+
+  具名插槽
+    有时需要多个插槽, 对于一个带有如下模板的<base-layout>组件
+      <div class="container">
+        <header>
+          // 页头
+        </header>
+        <main>
+          // 主要内容
+        </main>
+        <footer>
+          // 页脚
+        </footer>
+      </div>
+    对于这样的情况, <slot>有个特殊的attribute: name, 用来定义额外的插槽:
+    <div class="container">
+        <header>
+          // 页头
+          <slot name="header"></slot>
+        </header>
+        <main>
+          // 主要内容
+          <slot></slot>
+        </main>
+        <footer>
+          // 页脚
+          <slot name="footer"></slot>
+        </footer>
+      </div>
+    一个不带name的<slot>出口会带有隐含的名字default
+    向具名插槽提供内容的时候, 我们可以在一个<template>元素中使用v-slot指令, 并以v-slot的参数的形式提供其名称
+      <base-layout>
+        <template v-slot:header>
+          <h1>Here might be a page title</h1>
+        </template>
+          <p>A paragraph for the main content.</p>
+          <p>And another one.</p>
+        <template v-slot:footer>
+          <h1>Here's some contact info</h1>
+        </template>
+      </base-layout>
+    现在<template>元素中的所有内容都会被传入响应的插槽, 任何没有被包裹在带有v-slot的<template>中的内容都会被视为默认插槽的内容
+  , 但通常为了统一和明确, 仍然在一个<template>中包裹默认插槽的内容
+    注意: 除非独占默认插槽的缩写语法, v-slot只能添加在<template>上
+
+  作用域插槽
+    有时让插槽内容能够访问子组件中才有的数据是很有用的
+      <span><slot>{{ user.lastName }}</slot></span>
+    此时可能想换掉备用内容, 用名而非姓来显示
+      <current-user>{{ user.firstName }}</current-user>
+    但是这样不会正常工作, 只有<current-user>组件可以访问到user, 而我们提供的内容是在父级渲染的, 为了让user在父级插槽内容中可用, 我们可以将user作为<slot>元素的一个attribute绑定上去
+      <span>
+        <slot v-bind:user="user">
+          {{ user.lastName }}
+        </slot>
+      </span>
+    绑定在<slot>元素上的attribute被称为插槽prop. 现在在父级作用域中, 可以使用带值的v-slot来定义提供的插槽prop名字
+      <current-user>
+        <template v-slot:default="slotProps">
+          {{ slotProps.user.firstName }}
+        </template>
+      </current-user>
+    在这个例子中, 我们选择将包含所有插槽prop的对象命名为slotProps
+    而上述情况下, 当被提供的内容只有默认插槽时, 组件的标签才可以被当做插槽的模板来使用, 这样就可以把v-slot直接用在组件上
+      <current-user v-slot:default="slotProps">
+        {{ slotProps.user.firstName }}
+      </current-user>
+    这种写法还可以更简单, 就像假定未指明的内容对应的默认插槽一样, 不到参数的v-slot被假定对应默认插槽
+      <current-user v-slot="slotProps">
+        {{ slotProps.user.firstName }}
+      </current-user>
+    默认插槽的缩写语法不能和具名插槽混用, 因为会导致作用域不明确
+      <current-user v-slot="slotProps">
+        {{ slotProps.user.firstName }}
+        <template v-slot:other="otherSlotProps">
+          slotProps is NOT available here
+        </template>
+      </current-user>
+    只要出现多个插槽, 始终为所有的插槽使用完整的基于<template>的语法
+
+  解构插槽Prop
+    作用域插槽的工作原理是将插槽内容包裹在一个拥有单个参数的函数里
+      function (slotProps) {
+        // 插槽内容
+      }
+    这意味着v-slot的值实际上可以是任何能够作为函数定义中的参数的JS表达式, 所以支持使用ES2015解构来传入具体的插槽prop
+      <current-user v-slot="{ user }">
+        {{ user.firstName }}
+      </current-user>
+    以及定义默认内容用于插槽prop是undefined的情形
+      <current-user v-slot="{ user = { firstName: 'Guest' } }">
+        {{ person.firstName }}
+      </current-user>
+
+  动态插槽名
+    动态指令参数也可以用在v-slot上来定义动态的插槽名
+      <base-layout>
+        <template v-slot: [dynamicSlotName]>
+          ...
+        <template>
+      </base-layout>
+
+  具名插槽缩写
+    把参数之前的所有内容{ v-slot: }替换为#, 例如v-slot:header -> #header, 但是该缩写同其他指令一样, 只有有参数的时候才可用
+      意味着 <current-user #="{ user }">{{ user.firstName }}</current-user>语法无效
+    使用缩写的话必须始终以明确插槽名取代它
+      <current-user #default="{ user }">
+        {{ user.firstName }}
+      </current-user>
+
+  其他示例
+    插槽prop允许将插槽转换为可复用的模板, 这些模板可以基于输入的prop渲染出不同的内容, 这在设计封装数据逻辑同时允许父级组件自定义部分布局的可复用组件时最有用
+    例: 实现一个todo-list组件, 它是一个列表并且包含布局和过滤逻辑
+      <ul>
+        <li
+          v-for="todo in filteredTodos"
+          v-bind:key="todo.id"
+        >
+          {{ todo.text }}
+        </li>
+      </ul>
+    可以将每个todo作为父级组件的插槽, 以此通过父级组件对其进行控制, 然后将todo作为一个插槽prop进行绑定
+    <ul>
+      <li
+        v-for="todo in filteredTodos"
+        v-bind:key="todo.id"
+      >
+        // 为每个todo准备一个插槽, 将todo对象作为一个插槽的prop传入
+        <slot name="todo" v-bind:todo="todo">
+          {{ todo.text }} // 默认内容
+        </slot>
+      </li>
+    </ul>
+
+    现在使用<todo-list>组件的时候, 可以选择为todo定义一个不一样的<template>作为替代方案, 并且可以从子组件获取数据
+    <todo-list v-bind:todos="todos">
+      <template v-slot:todo="{ todo }"
+        <span v-if="todo.isComplete">√</span>
+        {{ todo.text }}
+      </template>
+    </todo-list>
+-->
+
+<!--
+动态组件&异步组件
+  
 -->
 </body>
 </html>
