@@ -682,7 +682,131 @@
 
 <!--
 动态组件&异步组件
-  
+  在动态组件上使用keep-alive
+    上述在一个多标签的界面中使用v-bind:is attribute来切换不同的组件
+    当在这些组件之间切换的时候可能会希望保持这些组件的状态, 以避免反复重新渲染导致的性能问题
+    重新创建动态组件的行为通常是非常有用的, 但是在部分场景下, 更希望那些标签的组件实例能在他们第一次被创建的时候缓存, 为了解决这个问题, 可以
+  使用一个<keep-alive>元素将其动态组件包裹起来
+    注意: keep-alive要求被切换到的组件都有自己的名字, 不论是通过组件name的选项还是局部/全局注册
+
+  异步组件
+    在大型应用中, 可能需要将应用分割成小一些的代码块. 并且只在需要的时候才从服务器加载一个模块, 为了简化, Vue允许通过一个工厂函数的方式定义组件,
+  这个工厂函数会异步解析你的组件定义, Vue只有在这个组件需要被渲染的时候才会触发该工厂函数, 且会把结果缓存起来供未来重新渲染
+    例: Vue.component("async-example", function (resolve, reject) {
+          setTimeout(function () {
+            // 向`resolve`回调传递组件定义
+            resolve({
+              template: `<div>I am async!</div>`
+            })
+          }, 1000)
+        })
+    如上: 这个工厂函数会收到一个resolve回调, 这个回调函数会在我从服务器得到组件定义的时候被调用, 也可以调用reject(reason)来表示加载失败,
+    这里的setTimeout是为了演示用的, 如何获取组件取决于自己, 一个推荐的做法是将异步组件和webpack的code-splitting功能一起配合使用:
+      Vue.component('async-webpack-example', function (resolve, reject) {
+        // 这个特殊的`require`语法将会告诉webpack自动将你的构建代码切割成多个包, 这些包会通过Ajax请求加载
+        require(['./my-async-component'], resolve)
+      })
+    注: 代码分割是webpack最引入注目的功能之一, 此功能允许将代码分割成多个包, 然后按需或并行加载. 可以用于实现更小的包并控制资源加载优先级,
+    然后可以按需或并行加载, 它可以用于实现更小的包并控制资源加载优先级, 如果使用得当可以对加载产生重大影响
+    也可以在工厂函数中返回一个Promise, 所以把webpack2和ES2015语法加在一起, 可以这样使用动态导入:
+      Vue.component(
+        'async-webpack-example',
+        // 这个动态导入会返回一个Promise
+        () => import('./my-async-component')
+      )
+    当使用局部注册时也可以直接提供一个返回Promise的函数:
+      new Vue({
+        // ...
+        components: {
+          'my-component': () => import('./my-async-component')
+        }
+      })
+
+    处理加载状态:
+      2.3.0新增
+      这里的异步组件工厂函数也可以返回一个如下格式的对象:
+        const AsyncComponent = () => ({
+          // 需要加载的组件 (应该是一个Promise对象)
+          component: import('./MyComponent.vue')
+          // 异步组件加载时使用的组件
+          loading: LoadingComponent,
+          // 加载失败时使用的组件
+          error: ErrorComponent,
+          // 展示加载时组件的延时事件, 默认是200ms
+          delay: 200,
+          // 如果提供了超时事件且组件加载也超时了则使用加载失败时使用的组件, 默认值是Infinity
+          timeout: 3000
+        })
+      另外如果希望在Vue Router的路由组件中使用上述语法的话, 必须使用Vue Router2.4.0+版本
+-->
+
+<!--
+处理边界情况
+  绝大多数情况下, 我们最好不要触达另一个组件实例内部或手动操作DOM元素, 不过也确实在一些情况下做这些事情是合适的
+  访问根实例:
+    在每个new Vue实例的子组件中, 其根实例可以通过$root property进行访问, 例如在这个根实例中:
+      new Vue({
+        data: {
+          foo: 1
+        },
+        computed: {
+          bar: function () {...}
+        },
+        methods: {
+          baz: function () {...}
+        }
+      })
+  所有的子组件都可以将这个实例作为一个全局store来访问或使用
+  // 获取根组件的数据
+  this.$root.foo
+  // 写入根组件的数据
+  this.$root.foo = 2
+  // 访问根组件的计算属性
+  this.$root.bar
+  // 调用组件的方法
+  this.$root.baz()
+  注: 这对于demo或非常小型的有少量组件的应用来说是很方便的, 但在大型应用中绝大多数情况下推荐使用Vuex来管理应用的状态
+
+  访问父级组件实例
+  和$root类似, $parent property可以用来从一个子组件访问父组件的实例, 它提供了一种机会可以在后期随时触达父级组件, 以替代将数据以prop的方式传入子组件的方式
+  注: 在绝大多数情况下, 触达父级组件会使你的应用更难调试和理解, 尤其是当你变更了父级组件数据的时候, 当我们稍后会看那个组件的时候就很难找出那个变更是从哪里发起的
+  另外再一些可能适当的时候需要特别的共享一些组件库, 例如: 在和JS API进行交互而不渲染HTML的抽象组件内, 诸如这些假设性的Google地图组件一样:
+    <google-map>
+      <google-map-markers v-bind:places="iceCreamShops"></google-map-markers>
+    </google-map>
+    这个<google-map>组件可以定义一个map property, 所有的子组件都需要访问它, 在这种情况下<google-map-markers>可能想要通过类似this.$parent.getMap
+  的方式访问那个地图, 以便为其添加一组标记; 但是尽管如此, 通过这种模式构建出来的那个组件的内部仍然是容易出现问题的, 比如设想一下添加一个新的<google-map-region>
+  组件, 当<google-map-markers>在其内部出现的时候, 只会渲染那个区域的标记
+    <google-map>
+      <google-map-region v-bind:shape="cityBoundaries">
+        <google-map-markers v-bind:places="iceCreamShops"></google-map-markers>
+      </google-map-region>
+    </google-map>
+  那么在<google-map-markers>内部, 你可能发现自己需要一些类似这样的hack:
+    var map = this.$parent.map || this.$parent.$parent.map
+    这么下去一层一层很快就会失控, 因此针对需要向任意更深层级的组件提供上下文信息时推荐依赖注入的原因
+
+  访问子组件实例或子元素
+    尽管存在prop和事件, 有的时候仍可能需要在JS里直接访问一个子组件, 为了达到这个目的, 你可以通过ref这个attribute为子组件赋予一个ID引用, 例如:
+      <base-input ref="usernameInput"></base-input>
+    现在在定义了这个ref的组件里, 可以使用:
+      this.$refs.usernameInput
+    来访问这个<base-input>实例, 以便不时之需, 比如程序化地从一个父级组件聚焦这个输入框, 在刚才那个例子中,  该<base-input>组件也可以
+  使用一个类似的ref提供对内部这个指定元素的访问, 例如
+      <input ref="input">
+    甚至可以通过其父级组件定义方法:
+      methods: {
+        // 用来从父级组件聚焦输入框
+        focus: function () {
+          this.$refs.input.focus()
+        }
+      }
+    这样就允许父级组件通过下面的代码聚焦<base-input>里的输入框:
+      this.$refs.usernameInput.focus()
+    当ref和v-for一起使用的时候, 得到的ref将会是一个包含了对应数据源的这些子组件的数组
+    注: $refs只会在组件渲染完成之后生效, 并且他们不是响应式的, 这仅作为一个用于直接操作子组件的逃生舱, 你应该避免在模板或计算属性中访问$refs
+
+  依赖注入
 -->
 </body>
 </html>
