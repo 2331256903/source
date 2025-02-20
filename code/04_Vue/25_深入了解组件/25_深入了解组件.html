@@ -807,6 +807,189 @@
     注: $refs只会在组件渲染完成之后生效, 并且他们不是响应式的, 这仅作为一个用于直接操作子组件的逃生舱, 你应该避免在模板或计算属性中访问$refs
 
   依赖注入
+    在此之前, 访问父组件实例的时候, 展示过类似的例子:
+      <google-map>
+        <google-map-region v-bind:shape="cityBoundaries">
+          <google-map-makers v-bind:places="iceCreamShops"></google-map-makers>
+        </google-map-region>
+      </google-map>
+    在这个组件里, 所有的<google-map>的后代都需要访问一个getMap方法, 以便知道要跟那个地图进行交互, 然而使用$parent property无法很好地
+  扩展到更深层级的嵌套组件上, 这也是依赖注入的用武之地,它用到了两个新的实例选项, provide 和 inject
+    provide选项允许指定想要提供给后台组件的数据/方法, 这个例子就是<google-map>内部的getMap方法:
+      provide: function () {
+        return {
+          getMap: this.getMap
+        }
+      }
+    然后再任何后代组件里都可以使用inject选项来接受指定的想要添加在这个实例上的property:
+      inject: ['getMap']
+    相比$parent来说, 这个用法可以让我们在任意后代组件中访问getMap, 而不需要暴露整个<google-map>实例, 这样使得可以更高地持续研发该组件,
+  而不需要担心我们可能会改变/移除一些子组件依赖的东西, 同时这些组件之间的接口始终是明确定义的, 就和props一样
+    依赖注入实际上可以看做是一部分大范围有效的props, 除了:
+      1. 祖先组件不知道哪些后代组件使用它提供的property
+      2. 后代组件不需要知道被注入的property来自哪里
+    注意: 依赖注入的负面影响, 将应用程序中的组件和当前的组织方式耦合起来, 使得重构更加困难, 同时提供的property是非响应式的;
+    如果你想共享的这个property是你的应用特有的, 而不是通用化的, 或者如果你想在祖先组件中更新你所提供的数据, 那么这意味着可能需要换用一个像Vuex这样的真正的状态管理方案了
+
+  程序化的事件侦听器
+    $emit可以被v-on侦听, 但是Vue实例同时在其事件接口中提供了其它的方法, 可以:
+    1. 通过 $on(eventName, eventHandler) 侦听一个事件
+    2. 通过 $once(eventName, eventHandler) 一次性侦听一个事件
+    3. 通过 $off(eventName, eventHandler) 停止侦听一个事件
+    通常不会用到这些, 但是当需要再一个组件实例上手动侦听事件时, 它们会派得上用场, 也可以用于代码组织工具, 比如可以看到这种集成这个第三方库的模式:
+      // 一次性将这个日期选择器附加到一个输入框上, 它会被挂在到DOM上
+      mounted: function() {
+        // Pikaday 是一个第三方日期选择器的库
+        this.picker = new Pikaday({
+          field: this.$refs.input,
+          format: 'YYYY-MM-DD'
+        })
+      },
+      // 在组件被销毁之前也销毁这个日期选择器
+      beforeDestroy: function() {
+        this.picker.destroy()
+      }
+    这里有两个潜在的问题:
+      1. 它需要在这个组件实例中保存这个picker, 如果可以的话最好只有生命周期钩子可以访问到它, 这并不算严重的问题, 但是它可以被视为杂物
+      2. 我们的建立代码独立于我们的清理代码, 这使得比较难以程序化地清理我们所建立的所有东西
+    此时应当通过一个程序化的侦听器来解决这两个问题:
+      mounted: function() {
+        var picker = new Pikaday({
+          field: this.$refs.input,
+          format: 'YYYY-MM-DD'
+        })
+        this.$once('hook:beforeDestroy', function() {
+          picker.destroy()
+        })
+      }
+    使用了这个策略, 我甚至可以让多个输入框元素同时使用不同的Pikaday, 每个新的实例都程序化地在后期清理它自己:
+      mounted: function() {
+        this.attachDatepicker('startDateInput')
+        this.attachDatepicker('endDateInput')
+      },
+      methods: {
+        attachDatepicker: function (refName) {
+          var picker = new Pikaday({
+            field: this.$refs[refName],
+            format: 'YYYY-MM-DD'
+          })
+          // 在Vue中, 使用this.$once('hook:beforeDestroy', () => {}) 可以在任何方法中调用这个方法销毁像销毁的方法, 而不用刻意去生命周期函数beforeDestroy中销毁
+          this.$once('hook:beforeDestroy', function() {
+            picker.destroy()
+          })
+        }
+      }
+    注意: 即使如此, 如果发现自己不得不在单个组件中做很多建立和清理的工作, 最好的方式通常还是创建更多的模块化组件, 在这个例子中, 推荐创建一个可复用的<input-datepicker>组件
+    注意2: Vue的事件系统不同于浏览器的EventTarget API, 尽管他们工作起来相似, 但是$emit, $on和$off并不是dispatchEvent, addEventListener和removeEventListener的别名
+
+循环引用
+  递归组件: 组件是可以在它们的模板中调用自身的, 不过只能通过name来做这件事:
+    当你使用Vue.component全局注册一个组件时, 这个全局ID会自动设置为该组件的name选项
+      name: 'unique-name-of-my-component'
+      Vue.component('unique-of-ny-component', {
+        // ...
+      })
+    但要注意, 稍有不慎递归组件就可能导致无限循环, 然后栈溢出导致"max stack size exceeded"错误, 所以请确保递归调用有退出条件, 比如使用一个最终会得到false的v-if
+
+组件之间的循环引用
+  假设你需要构建一个文件目录树, 像访达或资源管理器那样的, 例如可能有个<tree-folder>组件
+    <p>
+      <span>{{ folder.name }}</span>
+      <tree-folder-contents :children="folder.children" />
+    </p>
+  还有一个<tree-folder-contents>组件, 模板是这样的:
+    <ul>
+      <li v-for="child in children">
+        <tree-folder v-if="child.children" :folder="child" />
+        <span v-else>{{ child.name }}</span>
+      </li>
+    </ul>
+  上述两个组件在渲染树中互为对方的后代和祖先, 这是一个悖论, 但是当Vue.component全局注册组件的时候这个悖论会被自动解开
+  然而如果使用一个模块系统依赖/导入组件, 例如通过webpack或Browserify, 会遇到错误: template or render not defined
+  这里解释下原因: 将两个组件称为A和B, 模块系统发现它需要A, 但是首先A依赖B, 但是B又依赖A, 然后A又依赖B, 如此往复形成一个循环, 不知道如何不经过其中一个组件而完全解析出另一个组件
+  为了解决这个问题, 需要先给模块系统一个点, 在那里A反正是需要B的, 但我们不需要先解析B, 在我们的例子中, 将<tree-folder>组件设为了那个点,
+所以我们会等到生命周期钩子beforeCreate时去注册它
+    beforeCreate: function() {
+      this.$options.components.TessFolderContents = require('./tree-folder-contents.vue').default
+    }
+  或者, 在本地注册组件爱你的时候可以使用webpack的异步import:
+    components: {
+      TreeFolderContents: () => import('./tree-folder-contents.vue')
+    }
+  这样问题就解决了
+
+模板定义的替代品
+  内联模板:
+    当inline-template这个特殊的attribute出现在一个子组件上时, 这个组件将会使用其里里面的内容作为模板, 而不是将其作为被分发的内容, 这使得模板的撰写工作更加灵活
+      <my-component inline-template>
+        <div>
+          <p>1</p>
+          <p>2</p>
+        </div>
+      </my-component>
+    人话就是内联模板就是my-component组件标签内本该是默认slot的部分, 整体替代了原有的my-component组件的template, 并且该区域可以自由访问
+  my-component组件内的data,method等(无需任何传参操作即可直接访问) 可以理解为整个替代了原本my-component的template部分
+    父组件:
+      <myCom inline-template>
+        <div class="myCom">
+          <p @click="myNum++">增加myNum</p>
+          <p>{{ myNum }}</p>
+          <p @click="jumpMess">弹出消息</p>
+        </div>
+      </myCom>
+    myCom组件:
+      <template>
+        <div class="myCom">
+          <div @click="myNum++">myCom的增加</div>
+          <input type="text" v-model="myNum">
+        </div>
+      </template>
+      <script>
+        export default {
+          name: 'myCom',
+          data() {
+            return {
+              myNum: 0
+            }
+          },
+          methods: {
+            jumpMess() {
+              alert(123)
+            }
+          }
+        }
+      </script>
+    结果页面为:  增加myNum
+                   5
+                弹出消息
+    最终可以发现, 内联模板inline-template就是替换了原有的组件文件template部分, 另外, style部分, 如果父组件和子组件有冲突, 会优先使用父组件的,
+  例如代码中在父子组件都有一个myCom的class, 父组件的class是:
+      .myCom{
+        border: 1px solid red;
+      }
+    子组件:
+      .myCom {
+        border: 1px solid green;
+        background: yellow;
+      }
+    此时最终border: 1px solid red和background: yellow生效了; 但是当css权重不同时还是优先权重
+    注意; inline-template 会让模板的作用域变得更加难以理解, 所以组件内优先选择template选项或.vue文件里的一个<template>元素来定义模板
+
+  控制更新:
+    强制更新: 先注意: 如果发现需要在Vue中使用强制更新, 那99.9%的情况是在某个其他地方做错了事
+    你可能还没有留意到数组或对象的变更检测注意事项, 或者你可能依赖了一个未被Vue响应式系统追踪的状态
+    如果已经做到了上述的事项仍然发现在极少数情况下需要手动强制更新, 可以通过$forceUpdate来做这件事
+
+  通过v-once创建低开销的组件
+    渲染普通HTML元素在Vue中非常快速, 但是有时候可能有一个组件, 这个组件包含了大量静态内容, 在这种情况下, 可以在根元素上添加v-once attribute
+  以确保这些内容只计算一次然后缓存起来, 类似:
+    Vue.component('term-of-service', {
+      template: `
+        <div v-once>
+          ......
+        </div>
+      `
+    })
 -->
 </body>
 </html>
