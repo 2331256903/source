@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+渲染函数&JSX
+  render函数是一种定义组件如何渲染输出的方式, 他是Vue组件的核心部分之一, 允许开发者用JS代码来描述组件的布局和解构
+  定义: render函数是Vue组件的一个方法, 用于返回一个虚拟节点(VNode)结构, 该结构将被Vue转换为真是的DOM元素
+  语法:
+      render(h) {
+        // 渲染逻辑
+      }
+      h: 这个参数是一个函数, 用来创建虚拟节点, 通常开发者会将它称为createElement, 但是在Vue.js的文档中通常用h来表示
+  组件渲染过程:
+    当Vue组件实例化时, render函数被调用, 其返回的虚拟节点描述了组件应该如何渲染, 在更新过程中, Vue只会比较新旧虚拟节点, 确认哪些部分需要变更, 从而高效地更新DOM
+  渲染函数的参数
+    除了常见的h函数, render函数还有一个可选的参数context, 它包含关于组件的上下文信息, 如props, slots, scopedSlots和listeners等
+    render(h, context) {
+      const {
+        props,
+        slots,
+        attrs,
+        listeners
+      } = context
+      // 使用 props, slots, attrs, listeners 进行渲染
+    }
+  使用方式:
+    1. 基本渲染
+      function render(h) {
+        return h('div', [
+          h('h1', 'Hello, world!'),
+          h('p', 'This is a paragraph!')
+        ])
+      }
+      本示例创建了一个div, 其中包含一个h1和一个p元素
+    2. 传递属性和事件
+      function render(h) {
+        return h('button', {
+          on: {
+            click: this.handleClick // 绑定事件
+          }
+        }, 'Click Me')
+      }
+      本示例创建了一个按钮, 点击时会触发handleClick方法
+    3. 条件渲染
+      function render(h) {
+        return h('div', [
+          this.isVisible ? h('p', 'Visible content' : null,
+            h('button', {
+              on: {
+                click: () => { this.isVisible = !this.isVisible }
+              }
+            }, 'Toggle Visibility')
+          )
+        ])
+      }
+    本示例按钮用于切换内容的显示和隐藏
+
+  综上, render方法的是实质就是生成template模板, render函数生成的内容相当于template的内容, 所以使用render函数时只保留逻辑层即可
+  在Vue中, 组件可分为普通组件和函数式组件, 函数式组件时Vue提供的一种轻量级组件, 他们没有内部的实例(this)和生命周期钩子, 因此开销相对较小,
+并且在渲染性能上通常更有优势, 函数式组件是通过设置functional: true选项来声明的, 同时需要定义一个render函数一起使用, 在后管项目中, 以系统导航菜单为例:
+  <script>
+    export default {
+      name: 'MenuItem',
+      functional: true,
+      props: {
+        icon: {
+          type: String,
+          default: ''
+        },
+        title: {
+          type: String,
+          default: ''
+        }
+      },
+      render(h, context) {
+        const { icon, title } = context.props
+        const vnodes = []
+
+        if (icon) {
+          vnodes.push(<svg-icon icon-class={icon}/>)
+        }
+
+        if(title) {
+          if(title.length > 5) {
+            vnodes.push(<span slot="title" title={(title)}>{(title)}</>span>)
+          } else {
+            vnodes.push(<span slot="title">{(title)}</span>)
+          }
+        }
+        return vnodes
+      }
+    }
+  </script>
+  由于没有实例开销和生命周期钩子, 函数式组件的渲染通常更高效, 适用于渲染性能要求加高的场景, 比如系统导航菜单就是一个例子
+  且函数式组件在使用上, 与普通组件一般无二:
+    <template>
+      <div>
+        <item icon='user' title='用户管理' />
+      </div>
+    </template>
+    <script>
+    import Item from './Item'
+      export default {
+        name: 'SidebarItem',
+        components: { Item }
+      }
+    </script>
+
+节点, 树和虚拟DOM
+  浏览器的工作原理: 以下面这段HTML为例:
+    <div>
+      <h1>My title</h1>
+      Some text content
+      // TODO: Add tagline
+    </div>
+  当浏览器读到这些代码时, 它会建立了一个DOM节点树来保持追踪所有内容, 如同你会画一张家谱树来追踪家庭成员的发展一样
+  上述HTML对应的DOM节点树如下图所示:
+                       div
+                        |
+         |--------------|---------------|
+        <h1>     Some text content   // TODO: Add tagline
+         |            #text             #comment
+         |
+      My title
+       #text
+  每个元素都是一个节点, 每段文字也是一个节点, 甚至注释也都是节点, 一个节点就是页面的一个部分, 就像家谱树一样, 内个节点都可以有孩子节点(也就是说每个部分可以包含其它的一些部分)
+  高效地更新所有这些节点会是比较困难的, 不过所幸你不必手动完成这个工作, 你只需要告诉Vue你希望页面上的HTML是什么, 这个可以是在一个模板里:
+    <h1>{{ blogTitle }}</h1>
+  或者一个渲染函数里
+    render: function (createElement) {
+      return createElement('h1', this.blogTitle)
+    }
+  在这两种情况下, Vue都会自动保持页面的更新, 即使blogTitle发生了改变
+-->
+</body>
+</html>
