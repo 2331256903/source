@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div id="aim">
+    <p>AI Writing is a writing tool developed based on LLM (Large Language Model) technology, <span
+      style="color:#f1c40f" trait-tag-color="#F1C40F">which</span>&nbsp;which can be used in various scenarios such as
+       work and academia. It possesses the follow characteristics:<br />
+       1. 智能润色：将<u>内容粘贴到AI写作中，点击AI按</u>钮或输入&ldquo; / &rdquo;，即可一<s>键唤起AI，</s>将内容润色得<s>更高级</s>。还可以进行扩写、续写、精简、去重等。<br />
+       2. 内容生成：在空文档中唤<u>起AI<span style="color:#f1c40f" trait-tag-color="#F1C40F">并输</span>入</u>要求，AI即可在几秒钟之内生<u>成<span
+        style="color:#f1c40f"
+        trait-tag-color="#F1C40F">一</span>封邮件、一份论文大纲等，还支</u>持中、英、日等100多种语言。<br />
+       3. 实时纠错：输入30字符以上的英文内容，AI即可对内容进行实时纠错。点击下方划线区域立即体验纠错能力。<br />
+       Throughout <span style="color:#f1c40f" trait-tag-color="#F1C40F">my</span> time in college, several memo<u>rable
+                                                                                                                  event
+                                                                                                                  left
+        <span style="color:#f1c40f" trait-tag-color="#F1C40F">a</span> significant impact on m</u>y life. &nbsp;<s>However,
+                                                                                                                   one
+                                                                                                                   in
+        <span style="color:#f1c40f" trait-tag-color="#F1C40F">particular</span> stands </s>out as the most
+       unforgettable: our annual university cultural festival. This vibrant, week-long celebration not only showcased
+       the diverse talents and creativity of <span style="color:#f1c40f" trait-tag-color="#F1C40F">the </span>student
+       body, but also provide a unique platform for students from various backgrounds and inte<span
+        style="color:#f1c40f" trait-tag-color="#F1C40F">rests to c<strong>onnec</strong>t</span>, collaborate, and learn
+       from the one another.</p>
+  </div>
+  <div id="result"></div>
+  <script>
+    // 生成全局唯一标识符(GUID)
+    function guid() {
+      // 生成一个随机的4位十六进制数
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1)
+      }
+      // 通过多次调用s4并拼接结果, 生成一个类似 550e8400-e29b-41d4-a716-446655440000 的GUID
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4()
+    }
+    
+    // 正则匹配中文字符和一些特殊符号
+    // 涵盖大部分汉字, 标点符号, 全角字符等
+    const zhReg = /([\u4e00-\u9fff\u3000-\u303F\uFF00-\uFFEF\uFE30-\uFE4F\u2E80-\u2EFF\u2F00-\u2FDF\u3000-\u303F\u31C0-\u31EF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE6F\uFE50-\uFE6F\uFF00-\uFF60])/g
+    
+    /**
+     * 这个函数递归遍历DOM节点的子节点
+     * 如果子节点是文本(nodeName==='#text')并且包含非空白字符(/^(?![\n\s]+)$/).test(dom.childNode[i].data), 则将其中的中文字符用<span>标签包裹, 并为每个span生成一个唯一的data-g属性
+     * 使用document.createDocumentFragment()创建一个文档片段, 将生成的<span>元素添加到片段中, 最后用片段替换原本的文本节点
+     * */
+    function f(dom) {
+      if (dom.childNodes.length) {
+        let i = 0
+        while (dom.childNodes[i]) {
+          if (dom.childNodes[i].getAttribute && dom.childNodes[i].getAttribute('data-g')) {
+            i++
+            continue
+          }
+          if (dom.childNodes[i].nodeName === '#text' && /^(?![\n\s]+$)/.test(dom.childNodes[i].data)) {
+            console.log('进入', dom.childNodes[i].nodeValue);
+            const fragment = document.createDocumentFragment()
+            console.log(dom.childNodes[i].nodeValue.replace(zhReg, '$1 ').split(' '));
+            dom.childNodes[i].nodeValue.replace(zhReg, '$1 ').split(' ').forEach((v, index, arr) => {
+              const _span = document.createElement('span')
+              // _span.setAttribute('i', index)
+              // _span.setAttribute('data-trait', dom.childNodes[i].nodeValue)
+              _span.setAttribute('data-g', guid())
+              _span.style.cursor = 'pointer'
+              if (index !== arr.length - 1) {
+                _span.innerText = `${v} `
+              } else {
+                _span.innerText = v
+              }
+              fragment.appendChild(_span)
+            })
+            dom.replaceChild(fragment, dom.childNodes[i])
+          } else {
+            f(dom.childNodes[i])
+          }
+          i++
+        }
+      }
+    }
+    
+    f(document.getElementById('aim'))
+    
+    /**
+     * 过滤和映射span元素
+     * 选择所有带有data-g的属性的span元素, 并且这些span元素的父元素带有trait-tag-color="#F1C40F"(橙黄色)属性
+     * 然后过滤掉内容给为空的span元素, 并将这些span元素的data-g属性值提取出来存储在数组r中
+     * */
+    let r = [].filter.call(document.querySelectorAll('span[trait-tag-color="#F1C40F"] span[data-g]'), (v, i) => {
+      return v.innerText.trim().length
+    })
+    console.log(r);
+    r = [].map.call(r, (v) => {
+      return v.getAttribute('data-g')
+    })
+    console.log(r);
+    
+    /**
+     * 点击事件处理
+     * 为body元素添加点击事件监听器
+     * 当用户点击某个带有data-g属性的span元素时, 切换其背景颜色(选中时为红色, 取消选中时为透明)
+     * 同时更新chooseArr数组, 记录当前选中的data-g值
+     * 如果chooseArr中的元素与r中完全一致, 则在id为result的元素中显示true, 否则返回false
+     * */
+    let chooseArr = []
+    document.body.addEventListener('click', function (e) {
+      console.log(e.target);
+      const target = e.target
+      const g = target.getAttribute('data-g')
+      if (g) {
+        if (chooseArr.includes(g)) {
+          target.style.backgroundColor = 'transparent'
+          chooseArr = chooseArr.filter(v => v !== g)
+        } else {
+          target.style.backgroundColor = 'red'
+          chooseArr.push(g)
+        }
+      }
+      if (chooseArr.length && chooseArr.length === r.length && r.every(v => chooseArr.includes(v))) {
+        document.getElementById('result').innerHTML = '正确'
+      } else {
+        document.getElementById('result').innerHTML = 'false'
+      }
+    })
+  </script>
+</body>
+</html>
